@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>注册-Bandari.Net</title>
+<link rel="stylesheet" href="/ts/assets/libs/uikit/css/uikit.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/notify.min.css">
+<link rel="stylesheet" href="/ts/assets/css/style.css">
+<!--[if lt IE 9]> <script src="/assets/js/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="/assets/js/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+</head>
+<body>
+	<div id="scroll"></div>
+	<div class="background-cover-img img-login"></div>
+	<div class="background-cover"></div>
+	<div class="login-wrapper">
+		<a href="/ts" class="login-logo"><i class="iconfont icon-minilogo"></i>
+			会员注册</a>
+		<form action="/user" method="POST" class="uk-form uc-form"
+			id="register-form">
+			<div class="uk-form-row">
+				<div class="uk-form-controls">
+				<span>年 龄：</span>
+					<div data-uk-button-radio>
+					    <select name="age">
+				            <option>1970-1975</option>
+				            <option>1976-1979</option>
+				            <option>1980-1985</option>
+				            <option selected="selected">1986-1989</option>
+				            <option>1990-1995</option>
+				            <option>1996-1999</option>
+				            <option>2000-2005</option>
+				            <option>2006-2009</option>
+				            <option>2010-2015</option>
+				            <option>2016-2019</option>
+				        </select>
+					</div>
+				</div>
+			</div>
+			<div class="uk-form-row">
+				<div class="uk-form-controls uk-form-stacked">
+					<span class="uk-form-label">性 别：</span>
+                    <input type="radio" id="form-s-r1" name="gender"> <label for="form-s-r1"> 男</label>
+                    <label><input type="radio" name="gender"> 女</label>
+                    <label><input type="radio" name="gender"> 其他</label>
+				</div>
+			</div>
+			<!-- <div class="uk-form-row">
+				<div class="uk-form-controls">
+					<input type="text" placeholder="请输入用户名" name="name" required=""
+						data-parsley-required-message="用户名不能为空"
+						data-parsley-pattern="[a-zA-Z]\w*\d*"
+						data-parsley-pattern-message="请使用英文或数字，必须英文开头" minlength="3"
+						data-parsley-minlength-message="用户名不能小于3位" data-parsley-remote
+						data-parsley-remote-validator='checkUsername'
+						data-parsley-remote-message="该用户名已经被注册" autocomplete="off">
+				</div>
+			</div>
+			<div class="uk-form-row">
+				<div class="uk-form-controls">
+					<input type="text" placeholder="请输入邮箱地址" name="realname" required=""
+						data-parsley-required-message="邮箱不能为空" data-parsley-type="email"
+						data-parsley-type-message="邮箱地址错误！请重新输入" data-parsley-remote
+						data-parsley-remote-validator='checkEmail'
+						data-parsley-remote-message="该邮箱已经被注册" autocomplete="off">
+				</div>
+			</div> -->
+			<div class="uk-form-row">
+				<div class="uk-form-controls">
+					<input type="password" placeholder="密码" name="password"
+						id="password" required="" data-parsley-required-message="密码不能为空"
+						minlength="6" data-parsley-minlength-message="密码不能小于6位"
+						autocomplete="off">
+				</div>
+			</div>
+			<div class="uk-form-row">
+				<div class="uk-form-controls">
+					<input type="password" placeholder="重复密码"
+						name="password_confirmation" required=""
+						data-parsley-required-message="确认密码不能为空"
+						data-parsley-equalto="#password"
+						data-parsley-equalto-message="两次密码不一致" autocomplete="off">
+				</div>
+			</div>
+			<div class="uk-form-row">
+				<input type="hidden" name="_token"
+					value="aHdDJsiiJgikdT80ZKkQ5K4X7ot8ypRBoqgWHrqM">
+				<button type="submit" class="uk-button button-signup">注 册</button>
+			</div>
+			<div class="uk-form-row">
+				<div class="findreg">
+					已经拥有本站帐号? <a href="/ts/signin.html">立即登录</a>
+				</div>
+			</div>
+			<div class="uk-form-row">
+				<div class="login-socal">
+					<span>合作登录：</span> <a href="/sina_redirect" class="uk-button"><i
+						class="uk-icon-weibo"></i></a> <a href="/qq_redirect"
+						class="uk-button"><i class="uk-icon-qq"></i></a> <a
+						href="/douban_redirect" class="uk-button"><i
+						class="iconfont icon-douban"></i></a>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
+	<script src="/ts/all/all.js"></script>
+	<script
+		src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+	$(function() {
+		$("#register-form").parsley({
+			successClass : "",
+			errorClass : "",
+			errorsWrapper : "<p class='uk-form-help-block'></p>",
+			errorTemplate : "<span></span>"
+		});
+		$("#register-form").on(
+				'submit',
+				function() {
+					$.ajax('/ts/user/signup', {
+						type : "POST",
+						dataType : "JSON",
+						data : $('#register-form').serialize(),
+						success : function(res) {
+							if (res.status == 1000) {
+								location.href = '/ts';
+							} else {
+								UIkit.notify('系统或参数错误，请稍后再试', {
+									status : "danger"
+								});
+							}
+						}
+					});
+					return false;
+				});
+	});
+</script>

@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token"
+	content="aHdDJsiiJgikdT80ZKkQ5K4X7ot8ypRBoqgWHrqM">
+<title>欢迎莅临 班得瑞全球网 聆听大自然赐于我们的天籁之音 Bandari.Net -</title>
+<meta name="description"
+	content="聆听自然赐于我们的天籁之音，来自瑞士一尘不染的音符,空灵飘渺的音乐世界--班得瑞乐团,全球唯一信息量最全的班得瑞音乐网站!班得瑞音乐爱好者最佳选择点!">
+<meta name="Keywords"
+	content="班得瑞,轻音乐,bandari,banderui,班德瑞,newage,lightmusic,钢琴曲,钢琴音乐" />
+<link type="application/opensearchdescription+xml" href="opensearch.xml"
+	title="搜索班得瑞网站" rel="search" />
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/uikit.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slider.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slidenav.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slideshow.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/tooltip.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/notify.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/animate.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/introjs.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/style.css">
+<link href="/ts/vendor/pace/pace-flash.css" rel="stylesheet" />
+<meta property="qc:admins" content="42042567776216412166547" />
+<script type="text/javascript">
+	var user_id = 0;
+	var play_token = '590d6db7bfbf9lLddn';
+</script>
+<script type="text/javascript">
+	paceOptions = {
+		restartOnRequestAfter : false
+	}
+</script>
+<script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/ts/all/all.js"></script>
+<script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
+<script src='//cdn.bootcss.com/socket.io/1.7.3/socket.io.min.js'></script>
+<link rel="icon" href="/ts/favicon.ico"
+	type="image/x-icon" />
+<link rel="shortcut icon" href="/ts/favicon.ico"
+	type="image/x-icon" />
+<!--[if lt IE 9]> <script src="/ts/assets/js/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="/ts/assets/js/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+</head>
+<body>
+	<div id="scroll"></div>
+	<div id="h5music" class="jp-jplayer"></div>
+	<div class="background-cover-img"
+		style="background: url(/uploads/Skin/2016-05/57276e996ed01.jpeg) no-repeat fixed center top/cover;"></div>
+	<div class="background-cover"></div>
+	<aside id="sidebar" class=" uk-width-medium-2-6  uk-hidden-small">
+		<nav class="nav-top">
+			<a href="https://www.bandari.net" title="班得瑞全球网"><i class="logo"></i></a>
+			<a href="javascript:;" class="nav-leftbar-open animated tada"
+				data-uk-toggle="{target:'.dynamic-sidebar'}"> <span></span> <span></span>
+				<span></span>
+			</a>
+		</nav>
+		<div class="nano">
+			<div class="nano-content">
+				<nav id="nav">
+					<ul class="uk-nav" data-uk-nav>
+						<li class="uk-active"><a href="https://www.bandari.net">主页</a></li>
+						<li><a href="/ts/bandari">乐团介绍</a></li>
+						<li class="uk-parent"><a href="#">音乐 &amp; 商城</a>
+						<ul class="uk-nav-sub">
+								<li><a href="/ts/albums">专辑</a></li>
+								<li><a href="/ts/playlists">歌单</a></li>
+							</ul></li>
+						<script type="text/javascript">
+							$(function() {
+								$('.uk-nav-sub li.uk-active').parents(
+										'.uk-parent').addClass('uk-active');
+							});
+						</script>
+						<li><a href="/ts/photo">爱壁纸</a></li>
+						<li><a href="/ts/about">关于</a></li>
+						<li><a href="/ts/blog">日志</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</aside>
+	<section id="mplaying"
+		class="content  uk-push-2-6 uk-width-medium-2-3  ">
+		<nav class="nav-header">
+			<ul class="quick-menu">
+				<li><a href="#" class="jp-play equaliser"><i></i> <i></i>
+						<i></i> <i></i></a> <a href="#" class="jp-pause equaliser active"
+					id="jp-play"><i></i> <i></i> <i></i> <i></i></a></li>
+				<li><a href="javascript:;" data-uk-toggle="{target:'#i-skin'}"><i
+						class="iconfont icon-skin"></i></a></li>
+				<li data-uk-dropdown><a href="/ts/cart"><i
+						class="iconfont icon-gouwuche-copy"></i></a>
+				<div class="uk-dropdown-blank dropdown-nothing">购物车中还没有商品，赶紧选购吧！</div></li>
+				<li><a href="#i-search"
+					data-uk-modal="{center:true,bgclose:false}"><i
+						class="iconfont icon-search"></i></a></li>
+				<li data-uk-dropdown><a href="/ts/signin.html"><i
+						class="iconfont icon-user"></i>登录</a></li>
+				<li class="uk-visible-small"><a href="javascript:;"
+					class="nav-menu-xs" data-uk-toggle="{target:'.menu-xs'}"> <span></span>
+						<span></span> <span></span>
+				</a></li>
+			</ul>
+		</nav>
+		<div class="meta-header">
+			<div class="kt-table">
+				<div class="kt-col">
+					<h1 class="uk-h1">
+						欢迎莅临
+						<nobr>班得瑞全球网</nobr>
+					</h1>
+					<div class="uk-text-small">地球上最新鲜的绿色音乐 瑞士一尘不染的音符</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-content">
+			<div class="album-info">
+				<p>
+					<nobr>
+						专辑推荐：
+						<wbr>
+						Emotive Drama
+					</nobr>
+				</p>
+				<p class="play-title-now">
+					<i class="jp-play equaliser">已停止播放：</i><i class="jp-pause">当前正在播放：</i>
+					<a href="/ts/album/1690"
+						class="jp-title equaliser">Music Name</a>
+				</p>
+			</div>
+			<div class="features uk-width-large-9-10">
+				<ul class="uk-grid uk-grid-width-1-2 uk-grid-width-medium-1-5">
+					<li><a href="javascript:;" onclick="playFm()"><i
+							class="iconfont icon-music"></i>随机听听</a></li>
+					<li><a href="/ts/vip"><i
+							class="iconfont icon-zuanshi"></i>VIP会员 <span
+							class="uk-badge uk-badge-danger uk-badge-notification">促销！</span></a></li>
+					<li><a href=" /ts/playlists "><i
+							class="iconfont icon-didiqiuge"></i>发现音乐</a></li>
+					<li><a href="/ts/albums"><i
+							class="iconfont icon-new"></i>专辑上新</a></li>
+					<li><a href="#"><i class="iconfont icon-shangpin"></i>正版CD</a></li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<div id="i-search" class="uk-modal">
+		<a class="uk-modal-close closebar"><i class="iconfont icon-close"></i></a>
+		<div class="uk-modal-dialog">
+			<ul class="uk-subnav uk-push-1-6">
+				<li class="uk-active search-type"><a href="javascript:;">单曲</a></li>
+				<li class="search-type"><a href="javascript:;">专辑</a></li>
+				<li class="search-type"><a href="javascript:;">歌单</a></li>
+				<li class="search-type"><a href="javascript:;">商品</a></li>
+				<li class="search-type"><a href="javascript:;">壁纸</a></li>
+				<li class="search-type"><a href="javascript:;">电影</a></li>
+			</ul>
+			<form action="/search" method="GET"
+				class="uk-search uk-flex uk-flex-space-between" data-uk-search
+				id="website-search-form">
+				<input class="uk-search-field" type="search" name="q"
+					id="web-search-content" placeholder="输入关键字搜索" autofocus="autofocus"
+					autocomplete="off"> <input type="hidden" name="type"
+					id="search-type" value="单曲">
+				<button class="uk-button button-signin">
+					<i class="iconfont icon-search"></i>
+				</button>
+			</form>
+		</div>
+	</div>
+	<script>
+		$(function() {
+			$('.search-type').on(
+					'click',
+					function() {
+						$(this).addClass('uk-active').siblings().removeClass(
+								'uk-active');
+						$('#search-type').val($(this).text());
+						$('#web-search-content').val('');
+					});
+			$('#website-search-form').on('submit', function() {
+				if ($('#web-search-content').val() == '') {
+					return false;
+				}
+			});
+		});
+	</script>
+	<div class="menu-xs animated slideInRight uk-hidden">
+		<a href="#" title="关闭" class="iconfont closebar"
+			data-uk-toggle="{target:'.menu-xs'}">&#xe61e;</a>
+		<div class="nano">
+			<div class="nano-content">
+				<nav id="nav">
+					<ul class="uk-nav" data-uk-nav>
+						<li class="uk-active"><a href="https://www.bandari.net">主页</a></li>
+						<li><a href="/ts/bandari">乐团介绍</a></li>
+						<li class="uk-parent"><a href="#">音乐 &amp; 商城</a>
+						<ul class="uk-nav-sub">
+								<li><a href="/ts/albums">专辑</a></li>
+								<li><a href="/ts/playlists">歌单</a></li>
+							</ul></li>
+						<script type="text/javascript">
+							$(function() {
+								$('.uk-nav-sub li.uk-active').parents(
+										'.uk-parent').addClass('uk-active');
+							});
+						</script>
+						<li><a href="/ts/photo">爱壁纸</a></li>
+						<li><a href="/ts/about">关于</a></li>
+						<li><a href="/ts/blog">日志</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<div id="loginwapper" class="uk-modal">
+		<div class="uk-modal-dialog uk-grid uk-grid-collapse">
+			<div class="background-cover"></div>
+			<div class="signin uk-width-5-10 animated flipInY">
+				<div class="uk-panel uk-panel-box uk-panel-box-secondary">
+					<form class="uk-form" id="signin">
+						<fieldset>
+							<legend>
+								登录 <small>SIGN IN</small>
+							</legend>
+							<div class="uk-form-row" style="min-height: 60px">
+								<div class="uk-form-icon uk-form-icon-flip">
+									<i class="iconfont icon-mail"></i> <input type="text"
+										placeholder="邮箱地址" name="email" required=""
+										data-parsley-required-message="邮箱不能为空"
+										data-parsley-type="email"
+										data-parsley-type-message="邮箱地址错误！请重新输入">
+								</div>
+							</div>
+							<div class="uk-form-row">
+								<div class="uk-form-icon uk-form-icon-flip">
+									<i class="iconfont icon-lock"></i> <input type="password"
+										placeholder="密码" name="password" required=""
+										data-parsley-required-message="密码不能为空" minlength="3"
+										data-parsley-minlength-message="密码不能小于3位">
+								</div>
+							</div>
+							<div class="uk-form-row uk-text-medium">
+								<label> <input type="checkbox" name="remember" value="1">
+									记住我
+								</label> <a href="" class="uk-float-right">忘记密码？</a>
+							</div>
+							<div class="uk-form-row uk-text-right">
+								<button type="submit" class="uk-button button-signin"
+									id="signin-btn">登录</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+			<div class="sgin-checked uk-width-4-10 uk-hidden">
+				<div class="uk-panel">
+					<div class="signup-inner">
+						<p>已经拥有本站帐号?</p>
+						<a href="javascript:;" class="uk-button button-signin">直接登录</a>
+						<div class="corp">
+							<h5>或使用第三方帐号登录</h5>
+							<ul class="uk-list uk-flex uk-flex-middle uk-flex-space-between">
+								<li><a href="/sina_redirect" class="weibo"><i
+										class="uk-icon-weibo"></i></a></li>
+								<li><a href="/qq_redirect" class="qq"> <i
+										class="uk-icon-qq"></i></a></li>
+								<li><a href="/doban_redirect" class="douban"><i
+										class="iconfont icon-douban"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="signup uk-width-4-10">
+				<div class="uk-panel">
+					<div class="signup-inner">
+						<p>没有账号？立即注册</p>
+						<a href="javascript:;" class="uk-button button-signup">立即注册</a>
+						<div class="corp">
+							<h5>使用第三方帐号登录</h5>
+							<ul class="uk-list uk-flex uk-flex-middle uk-flex-space-between">
+								<li><a href="/sina_redirect" class="weibo"><i
+										class="uk-icon-weibo"></i></a></li>
+								<li><a href="/qq_redirect" class="qq"> <i
+										class="uk-icon-qq"></i></a></li>
+								<li><a href="/douban_redirect" class="douban"><i
+										class="iconfont icon-douban"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="sgup-checked uk-width-5-10 uk-hidden animated flipInY">
+				<div class="uk-panel uk-panel-box uk-panel-box-secondary">
+					<form class="uk-form" id="signup">
+						<fieldset>
+							<legend>
+								注册 <small>SIGN UP</small>
+							</legend>
+							<div class="uk-form-row">
+								<div class="uk-form-icon uk-form-icon-flip">
+									<i class="iconfont icon-mail"></i> <input type="text"
+										placeholder="用户名" name="name" required=""
+										data-parsley-required-message="用户名不能为空"
+										data-parsley-pattern="[a-zA-Z]\w*\d*"
+										data-parsley-pattern-message="请使用英文或数字，必须英文开头" minlength="3"
+										data-parsley-minlength-message="用户名不能小于3位" data-parsley-remote
+										data-parsley-remote-validator='checkUsername'
+										data-parsley-remote-message="该用户名已经被注册" autocomplete="off">
+								</div>
+							</div>
+							<div class="uk-form-row">
+								<div class="uk-form-icon uk-form-icon-flip">
+									<i class="iconfont icon-mail"></i> <input type="text"
+										placeholder="常用邮箱" name="email" required=""
+										data-parsley-required-message="邮箱不能为空"
+										data-parsley-type="email"
+										data-parsley-type-message="邮箱地址错误！请重新输入" data-parsley-remote
+										data-parsley-remote-validator='checkEmail'
+										data-parsley-remote-message="该邮箱已经被注册" autocomplete="off">
+								</div>
+							</div>
+							<div class="uk-form-row">
+								<div class="uk-form-icon uk-form-icon-flip">
+									<i class="iconfont icon-lock"></i> <input type="password"
+										placeholder="设置密码" name="password" id="password" required=""
+										data-parsley-required-message="密码不能为空" minlength="6"
+										data-parsley-minlength-message="密码不能小于6位" autocomplete="off">
+								</div>
+							</div>
+							<div class="uk-form-row">
+								<div class="uk-form-icon uk-form-icon-flip">
+									<i class="iconfont icon-lock"></i> <input type="password"
+										placeholder="确认密码" name="password_confirmation" required=""
+										data-parsley-required-message="确认密码不能为空"
+										data-parsley-equalto="#password"
+										data-parsley-equalto-message="两次密码不一致" autocomplete="off">
+								</div>
+							</div>
+							<div class="uk-form-row uk-text-right">
+								<button type="submit" class="uk-button button-signup"
+									id="signup-btn">立即注册</button>
+							</div>
+						</fieldset>
+					</form>
+					<div class="sgup-info uk-hidden">
+						<div class="sgup-tips">
+							<i class="iconfont icon-messageokicon"></i>
+							<p>注册成功</p>
+							<p>SIGN UP SUCCESS</p>
+						</div>
+						<div class="tips-text">
+							只需登录邮箱 <span id="reg-email">coo***@qq.com</span>
+							点击链接激活即可。验证后成为本站通行证。
+						</div>
+						<a href="javascript:;" id="email-login"
+							class="uk-button button-signup" target="_blank">立即登录邮箱验证</a>
+						<div class="tips-c">
+							收不到邮件？请 <a href="javascript:;" target="_blank">联系我们</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="i-skin" class="animated uk-hidden">
+		<div class="uk-container uk-container-center uk-position-relative">
+			<a href="javascript:;" title="关闭"
+				class="iconfont icon-close closebar"
+				data-uk-toggle="{target:'#i-skin'}"></a>
+			<ul class="uk-subnav" data-uk-switcher="{connect:'#skin-chose'}">
+				<li class="uk-active"><a href="">推荐</a></li>
+				<li><a href="javascript:;">景物</a></li>
+				<li><a href="javascript:;">动物</a></li>
+				<li><a href="javascript:;">女神</a></li>
+				<li><a href="javascript:;">艺术</a></li>
+				<li><a href="javascript:;">电影</a></li>
+				<li><a href="javascript:;">游戏</a></li>
+			</ul>
+			<ul id="skin-chose" class="uk-switcher">
+				<li><div
+						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small">
+						<a href="javascript:;" class="skin-image " val="13"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728b476323b9_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728b47631c62.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="12"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728b3f1226a7_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728b3f121dc1.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="5"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/57276f25d44b6_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/57276f25d3b8b.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="4"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/57276efece828_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/57276efecdd1e.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="3"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/57276edc4cfc3_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/57276edc4c72a.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="2"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/57276eb3cd514_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/57276eb3ccd1a.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image  uk-active " val="1">
+							<img class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/57276e996f62f_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/57276e996ed01.jpeg"
+							alt="">
+						</a>
+					</div></li>
+				<li><div
+						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small">
+						<a href="javascript:;" class="skin-image " val="8"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728acedd4111_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728acedd35c2.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="7"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728acc217888_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728acc216fd2.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="6"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728ac8bdcd30_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728ac8bcc19b.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="4"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/57276efece828_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/57276efecdd1e.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="3"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/57276edc4cfc3_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/57276edc4c72a.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="2"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/57276eb3cd514_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/57276eb3ccd1a.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image  uk-active " val="1">
+							<img class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/57276e996f62f_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/57276e996ed01.jpeg"
+							alt="">
+						</a>
+					</div></li>
+				<li><div
+						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small">
+						<a href="javascript:;" class="skin-image " val="9"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728adff99f17_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728adff997c4.jpeg"
+							alt="">
+						</a>
+					</div></li>
+				<li><div
+						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small">
+						<a href="javascript:;" class="skin-image " val="16"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728ba806a4c0_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728ba8069d7b.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="15"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728b6cf804a9_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728b6cf7ed35.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="14"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728b6106335b_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728b61062ae5.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="13"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728b476323b9_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728b47631c62.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="12"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728b3f1226a7_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728b3f121dc1.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="11"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728b373d84e0_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728b373d5d09.jpeg"
+							alt="">
+						</a> <a href="javascript:;" class="skin-image " val="10"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/5728b2ece3f68_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/5728b2ece3461.jpeg"
+							alt="">
+						</a>
+					</div></li>
+				<li><div
+						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small">
+						<a href="javascript:;" class="skin-image " val="5"> <img
+							class="lazy1"
+							data-original="/ts/uploads/Skin/2016-05/57276f25d44b6_thumb.jpeg"
+							data-src="/ts/uploads/Skin/2016-05/57276f25d3b8b.jpeg"
+							alt="">
+						</a>
+					</div></li>
+				<li><div
+						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small"></div></li>
+				<li><div
+						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small"></div></li>
+			</ul>
+		</div>
+	</div>
+	<div
+		class="dynamic-sidebar animated slideInLeft uk-hidden  uk-width-medium-2-6 ">
+		<a href="#" title="关闭" class="iconfont closebar"
+			data-uk-toggle="{target:'.dynamic-sidebar'}">&#xe61e;</a>
+		<div class="nano">
+			<div class="nano-content">
+				<div class="home-dynamic" id="posts-list">
+					<article class="uk-comment" id="post88">
+						<header class="uk-comment-header">
+							<img class="uk-comment-avatar"
+								src="//q.qlogo.cn/qqapp/101310352/A3BE19F8FFD8E4A423C5CE2B677A2B61/100"
+								width="60" height="60" alt="">
+							<h4 class="uk-comment-title">
+								<a href="/ts/user/4464">灵海&middot;朗玥&middot;霡霂</a>
+								<span class="tag-fxsigle">分享单曲</span>
+							</h4>
+							<div class="uk-comment-meta">04月30日 20:58</div>
+						</header>
+						<div class="uk-comment-body">
+							建议你们听听
+							<div class="uk-panel uk-panel-box uk-margin-top">
+								<header class="uk-comment-header">
+									<img class="uk-float-left uk-margin-right"
+										src="/ts/uploads/2015/06/2015-06-015.jpg"
+										width="50" height="50" alt="">
+									<h4 class="uk-comment-title">
+										<span class="tag-album">单曲</span><a target="_blank"
+											href="/play?id=1653&type=2">汪汪快乐颂 bark, bark, song of
+											happiness</a>
+									</h4>
+									<div class="uk-comment-meta">
+										<a href="/ts/album/1651">林慧玲</a>
+									</div>
+								</header>
+							</div>
+							<p class="doper">
+								<a href="javascript:;" val="88" class="like"><i
+									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
+								<a href="javascript:;" val="88" class="turn">转发(0)</a> | <a
+									href="javascript:;" class="comments" data-res-type="post"
+									data-res-id="88"><i class="uk-icon-comments-o"></i> 评论(0)</a>
+							</p>
+						</div>
+					</article>
+					<article class="uk-comment" id="post87">
+						<header class="uk-comment-header">
+							<img class="uk-comment-avatar"
+								src="https://q.qlogo.cn/qqapp/101310352/7A18BA4505A61B64B5B6F440BF138F29/100"
+								width="60" height="60" alt="">
+							<h4 class="uk-comment-title">
+								<a href="/ts/user/3828">憨豆狗先生</a> <span
+									class="tag-fxsigle">分享歌单</span>
+							</h4>
+							<div class="uk-comment-meta">04月30日 15:04</div>
+						</header>
+						<div class="uk-comment-body">
+							不错哦
+							<div class="uk-panel uk-panel-box uk-margin-top">
+								<header class="uk-comment-header">
+									<img class="uk-float-left uk-margin-right"
+										src="/ts/uploads/2014/08/14.collection.jpg"
+										width="50" height="50" alt="">
+									<h4 class="uk-comment-title">
+										<span class="tag-album">歌单</span><a
+											href="/ts/playlist/195">20周年纪念</a>
+									</h4>
+									<div class="uk-comment-meta">
+										<a href="/ts/user/4356">Felicity</a>
+									</div>
+								</header>
+							</div>
+							<p class="doper">
+								<a href="javascript:;" val="87" class="like"><i
+									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
+								<a href="javascript:;" val="87" class="turn">转发 (0)</a> | <a
+									href="javascript:;" class="comments" data-res-id="87"><i
+									class="uk-icon-comments-o"></i> 评论(0)</a>
+							</p>
+						</div>
+					</article>
+					<article class="uk-comment" id="post86">
+						<header class="uk-comment-header">
+							<img class="uk-comment-avatar"
+								src="https://q.qlogo.cn/qqapp/101310352/1562810E74244D7DB8540661417D6B95/100"
+								width="60" height="60" alt="">
+							<h4 class="uk-comment-title">
+								<a href="/ts/user/2318">葛迪斯</a> <span
+									class="tag-fxsigle">分享单曲</span>
+							</h4>
+							<div class="uk-comment-meta">04月25日 09:34</div>
+						</header>
+						<div class="uk-comment-body">
+							好喜欢1：35秒时，激昂混杂回忆的情感，突然戛然而止的那种震撼！
+							<div class="uk-panel uk-panel-box uk-margin-top">
+								<header class="uk-comment-header">
+									<img class="uk-float-left uk-margin-right"
+										src="/ts/uploads/Album/2017-01/5874538438169.jpeg"
+										width="50" height="50" alt="">
+									<h4 class="uk-comment-title">
+										<span class="tag-album">单曲</span><a target="_blank"
+											href="/play?id=1879&type=2">Against the World</a>
+									</h4>
+									<div class="uk-comment-meta">
+										<a href="/ts/album/1690">Various
+											Artists</a>
+									</div>
+								</header>
+							</div>
+							<p class="doper">
+								<a href="javascript:;" val="86" class="like"><i
+									class="uk-icon-thumbs-o-up"></i> (<span class="zan">1</span>)</a> |
+								<a href="javascript:;" val="86" class="turn">转发(0)</a> | <a
+									href="javascript:;" class="comments" data-res-type="post"
+									data-res-id="86"><i class="uk-icon-comments-o"></i> 评论(0)</a>
+							</p>
+						</div>
+					</article>
+					<article class="uk-comment" id="post85">
+						<header class="uk-comment-header">
+							<img class="uk-comment-avatar"
+								src="https://q.qlogo.cn/qqapp/101310352/1562810E74244D7DB8540661417D6B95/100"
+								width="60" height="60" alt="">
+							<h4 class="uk-comment-title">
+								<a href="/ts/user/2318">葛迪斯</a> <span
+									class="tag-fxsigle">分享单曲</span>
+							</h4>
+							<div class="uk-comment-meta">04月25日 09:29</div>
+						</header>
+						<div class="uk-comment-body">
+							Things end. But memories last forever.事情结束，但记忆永存。就是这种感觉！
+							<div class="uk-panel uk-panel-box uk-margin-top">
+								<header class="uk-comment-header">
+									<img class="uk-float-left uk-margin-right"
+										src="/ts/uploads/Album/2017-01/5874538438169.jpeg"
+										width="50" height="50" alt="">
+									<h4 class="uk-comment-title">
+										<span class="tag-album">单曲</span><a target="_blank"
+											href="/play?id=1879&type=2">Against the World</a>
+									</h4>
+									<div class="uk-comment-meta">
+										<a href="/ts/album/1690">Various
+											Artists</a>
+									</div>
+								</header>
+							</div>
+							<p class="doper">
+								<a href="javascript:;" val="85" class="like"><i
+									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
+								<a href="javascript:;" val="85" class="turn">转发(0)</a> | <a
+									href="javascript:;" class="comments" data-res-type="post"
+									data-res-id="85"><i class="uk-icon-comments-o"></i> 评论(0)</a>
+							</p>
+						</div>
+					</article>
+					<article class="uk-comment" id="post84">
+						<header class="uk-comment-header">
+							<img class="uk-comment-avatar"
+								src="https://q.qlogo.cn/qqapp/101310352/39F3ECF595F2FF877C3145800CAC3F16/100"
+								width="60" height="60" alt="">
+							<h4 class="uk-comment-title">
+								<a href="/ts/user/3599">太子长琴（ASF）</a> <span
+									class="tag-fxsigle">分享单曲</span>
+							</h4>
+							<div class="uk-comment-meta">04月17日 22:58</div>
+						</header>
+						<div class="uk-comment-body">
+							<img data-text="大笑"
+								data-url="https://s1.music.126.net/style/web2/emt/emoji_86.png"
+								class="f-alpha"
+								src="https://s1.music.126.net/style/web2/emt/emoji_86.png">
+							<div class="uk-panel uk-panel-box uk-margin-top">
+								<header class="uk-comment-header">
+									<img class="uk-float-left uk-margin-right"
+										src="/ts/uploads/Album/2016-08/57a4af49101bc.jpeg"
+										width="50" height="50" alt="">
+									<h4 class="uk-comment-title">
+										<span class="tag-album">单曲</span><a target="_blank"
+											href="/play?id=1822&type=2">야화</a>
+									</h4>
+									<div class="uk-comment-meta">
+										<a href="/ts/album/1686">Various
+											Artists</a>
+									</div>
+								</header>
+							</div>
+							<p class="doper">
+								<a href="javascript:;" val="84" class="like"><i
+									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
+								<a href="javascript:;" val="84" class="turn">转发(0)</a> | <a
+									href="javascript:;" class="comments" data-res-type="post"
+									data-res-id="84"><i class="uk-icon-comments-o"></i> 评论(0)</a>
+							</p>
+						</div>
+					</article>
+					<article class="uk-comment" id="post83">
+						<header class="uk-comment-header">
+							<img class="uk-comment-avatar"
+								src="http://tva3.sinaimg.cn/crop.109.25.308.308.1024/dbc50c3ejw8f23hfa7cr2j20fg0a6jre.jpg"
+								width="60" height="60" alt="">
+							<h4 class="uk-comment-title">
+								<a href="/ts/user/4354">IMeet_</a> <span
+									class="tag-fxsigle">分享单曲</span>
+							</h4>
+							<div class="uk-comment-meta">04月09日 23:15</div>
+						</header>
+						<div class="uk-comment-body">
+							[心]
+							<div class="uk-panel uk-panel-box uk-margin-top">
+								<header class="uk-comment-header">
+									<img class="uk-float-left uk-margin-right"
+										src="/ts/uploads/2014/08/happning.jpg"
+										width="50" height="50" alt="">
+									<h4 class="uk-comment-title">
+										<span class="tag-album">单曲</span><a target="_blank"
+											href="/play?id=550&type=2">My Dear 我的爱人</a>
+									</h4>
+									<div class="uk-comment-meta">
+										<a href="/ts/album/541">林隆璇</a>
+									</div>
+								</header>
+							</div>
+							<p class="doper">
+								<a href="javascript:;" val="83" class="like"><i
+									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
+								<a href="javascript:;" val="83" class="turn">转发(0)</a> | <a
+									href="javascript:;" class="comments" data-res-type="post"
+									data-res-id="83"><i class="uk-icon-comments-o"></i> 评论(0)</a>
+							</p>
+						</div>
+					</article>
+					<article class="uk-comment" id="post82">
+						<header class="uk-comment-header">
+							<img class="uk-comment-avatar"
+								src="http://tva3.sinaimg.cn/crop.109.25.308.308.1024/dbc50c3ejw8f23hfa7cr2j20fg0a6jre.jpg"
+								width="60" height="60" alt="">
+							<h4 class="uk-comment-title">
+								<a href="/ts/user/4354">IMeet_</a> <span
+									class="tag-fxsigle">分享单曲</span>
+							</h4>
+							<div class="uk-comment-meta">04月09日 23:12</div>
+						</header>
+						<div class="uk-comment-body">
+							[心]
+							<div class="uk-panel uk-panel-box uk-margin-top">
+								<header class="uk-comment-header">
+									<img class="uk-float-left uk-margin-right"
+										src="/ts/uploads/2014/08/happning.jpg"
+										width="50" height="50" alt="">
+									<h4 class="uk-comment-title">
+										<span class="tag-album">单曲</span><a target="_blank"
+											href="/play?id=550&type=2">My Dear 我的爱人</a>
+									</h4>
+									<div class="uk-comment-meta">
+										<a href="/ts/album/541">林隆璇</a>
+									</div>
+								</header>
+							</div>
+							<p class="doper">
+								<a href="javascript:;" val="82" class="like"><i
+									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
+								<a href="javascript:;" val="82" class="turn">转发(0)</a> | <a
+									href="javascript:;" class="comments" data-res-type="post"
+									data-res-id="82"><i class="uk-icon-comments-o"></i> 评论(0)</a>
+							</p>
+						</div>
+					</article>
+					<article class="uk-comment" id="post81">
+						<header class="uk-comment-header">
+							<img class="uk-comment-avatar"
+								src="https://q.qlogo.cn/qqapp/101310352/4A34315B17959444858C2F4523731AFB/100"
+								width="60" height="60" alt="">
+							<h4 class="uk-comment-title">
+								<a href="/ts/user/3669">此情可待</a> <span
+									class="tag-fxsigle">分享单曲</span>
+							</h4>
+							<div class="uk-comment-meta">03月30日 09:39</div>
+						</header>
+						<div class="uk-comment-body">
+							退潮
+							<div class="uk-panel uk-panel-box uk-margin-top">
+								<header class="uk-comment-header">
+									<img class="uk-float-left uk-margin-right"
+										src="/ts/uploads/2014/08/loversromance.jpg"
+										width="50" height="50" alt="">
+									<h4 class="uk-comment-title">
+										<span class="tag-album">单曲</span><a target="_blank"
+											href="/play?id=590&type=2">Ebb Tide 退潮</a>
+									</h4>
+									<div class="uk-comment-meta">
+										<a href="/ts/album/580">Various
+											Artists</a>
+									</div>
+								</header>
+							</div>
+							<p class="doper">
+								<a href="javascript:;" val="81" class="like"><i
+									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
+								<a href="javascript:;" val="81" class="turn">转发(0)</a> | <a
+									href="javascript:;" class="comments" data-res-type="post"
+									data-res-id="81"><i class="uk-icon-comments-o"></i> 评论(0)</a>
+							</p>
+						</div>
+					</article>
+					<article class="uk-comment" id="post80">
+						<header class="uk-comment-header">
+							<img class="uk-comment-avatar" src="/img/avatar.jpg" width="60"
+								height="60" alt="">
+							<h4 class="uk-comment-title">
+								<a href="/ts/user/4253">zjtwxws</a> <span
+									class="tag-fxsigle">分享单曲</span>
+							</h4>
+							<div class="uk-comment-meta">03月26日 12:14</div>
+						</header>
+						<div class="uk-comment-body">
+							因为这首，喜欢上她！
+							<div class="uk-panel uk-panel-box uk-margin-top">
+								<header class="uk-comment-header">
+									<img class="uk-float-left uk-margin-right"
+										src="/ts/uploads/2014/10/2014-10-148.png"
+										width="50" height="50" alt="">
+									<h4 class="uk-comment-title">
+										<span class="tag-album">单曲</span><a target="_blank"
+											href="/play?id=1300&type=2">风居住的街道</a>
+									</h4>
+									<div class="uk-comment-meta">
+										<a href="/ts/album/1297">矶村由纪子</a>
+									</div>
+								</header>
+							</div>
+							<p class="doper">
+								<a href="javascript:;" val="80" class="like"><i
+									class="uk-icon-thumbs-o-up"></i> (<span class="zan">1</span>)</a> |
+								<a href="javascript:;" val="80" class="turn">转发(0)</a> | <a
+									href="javascript:;" class="comments" data-res-type="post"
+									data-res-id="80"><i class="uk-icon-comments-o"></i> 评论(0)</a>
+							</p>
+						</div>
+					</article>
+					<article class="uk-comment" id="post79">
+						<header class="uk-comment-header">
+							<img class="uk-comment-avatar" src="/img/avatar.jpg" width="60"
+								height="60" alt="">
+							<h4 class="uk-comment-title">
+								<a href="/ts/user/4253">zjtwxws</a> <span
+									class="tag-fxsigle">分享单曲</span>
+							</h4>
+							<div class="uk-comment-meta">03月26日 09:50</div>
+						</header>
+						<div class="uk-comment-body">
+							好听！
+							<div class="uk-panel uk-panel-box uk-margin-top">
+								<header class="uk-comment-header">
+									<img class="uk-float-left uk-margin-right"
+										src="/ts/uploads/2014/08/Serenade.jpg"
+										width="50" height="50" alt="">
+									<h4 class="uk-comment-title">
+										<span class="tag-album">单曲</span><a target="_blank"
+											href="/play?id=1115&type=2">Serenade 3</a>
+									</h4>
+									<div class="uk-comment-meta">
+										<a href="/ts/album/1112">Flaresoft</a>
+									</div>
+								</header>
+							</div>
+							<p class="doper">
+								<a href="javascript:;" val="79" class="like"><i
+									class="uk-icon-thumbs-o-up"></i> (<span class="zan">1</span>)</a> |
+								<a href="javascript:;" val="79" class="turn">转发(0)</a> | <a
+									href="javascript:;" class="comments" data-res-type="post"
+									data-res-id="79"><i class="uk-icon-comments-o"></i> 评论(0)</a>
+							</p>
+						</div>
+					</article>
+					<script type="text/javascript">
+						$(function() {
+							$('#public-share .at').click(
+									function() {
+										$('#share-content').insertContent(
+												'@' + $(this).text() + ' ');
+									});
+							$('#public-share .emtitm').click(
+									function() {
+										$('#share-content').insertContent(
+												'[[' + $(this).attr('title')
+														+ ']]');
+									});
+						});
+					</script>
+					<script type="text/javascript">
+						$(function() {
+							$('#posts-list')
+									.on(
+											'click',
+											'.like',
+											function() {
+												if (user_id <= 0) {
+													UIkit.modal('#loginwapper',
+															{
+																center : true
+															}).show();
+													return false;
+												}
+												var _this = $(this);
+												var id = _this.attr('val');
+												_this.unbind('click');
+												var zan = parseInt(_this.find(
+														'.zan').text());
+												$
+														.ajax({
+															type : "POST",
+															url : '/post/like',
+															data : {
+																id : id
+															},
+															success : function(
+																	res) {
+																if (res.error == 0) {
+																	if (res.type == 1) {
+																		_this
+																				.html('<i class="uk-icon-thumbs-o-up"></i> (<span class="zan">'
+																						+ (zan + 1)
+																						+ '</span>)');
+																	} else {
+																		_this
+																				.html('<i class="uk-icon-thumbs-o-up"></i> (<span class="zan">'
+																						+ (zan - 1)
+																						+ '</span>)');
+																	}
+																	_this
+																			.bind('click');
+																} else {
+																	UIkit
+																			.notify(
+																					'服务器错误，请稍后再试',
+																					{
+																						status : "danger"
+																					});
+																}
+															}
+														});
+											});
+							var share_id = null;
+							var share_type = 0;
+							$('#posts-list').on('click', '.turn', function() {
+								if (user_id <= 0) {
+									UIkit.modal('#loginwapper', {
+										center : true
+									}).show();
+									return false;
+								}
+								share_id = $(this).attr('val');
+								share_type = 0;
+								UIkit.modal('#mshare-post').show();
+							});
+							$('#posts-list')
+									.on(
+											'click',
+											'.turn-post',
+											function() {
+												if (user_id <= 0) {
+													UIkit.modal('#loginwapper',
+															{
+																center : true
+															}).show();
+													return false;
+												}
+												share_id = $(this).attr('val');
+												share_type = 1;
+												$('#public-share')
+														.find('textarea')
+														.val(
+																$(this)
+																		.attr(
+																				'data-res-value')
+																		+ $(
+																				this)
+																				.parents(
+																						'.uk-comment-body')
+																				.find(
+																						'.post-content')
+																				.text());
+												UIkit.modal('#mshare-post')
+														.show();
+											});
+							$('#public-share').on('submit', function() {
+								if (user_id <= 0) {
+									UIkit.modal('#loginwapper', {
+										center : true
+									}).show();
+									return false;
+								}
+								var content = $(this).find('textarea').val();
+								if (content == '') {
+									UIkit.notify('转发内容不能为空', {
+										status : "warning"
+									});
+									return false;
+								}
+								var loading = null;
+								$.ajax('/post/share', {
+									type : 'POST',
+									dataType : 'JSON',
+									data : {
+										id : share_id,
+										content : content,
+										share_type : share_type
+									},
+									beforeSend : function() {
+										loading = layer.load(2, {
+											shade : 0.3
+										});
+									},
+									success : function(res) {
+										layer.close(loading);
+										if (res.error == 0) {
+											$('#public-share')[0].reset();
+											share_id = null;
+											UIkit.modal('#mshare-post').hide();
+											layer.msg('转发成功', function() {
+												location.reload();
+											});
+										} else if (res.error == 1) {
+											UIkit.notify('系统或参数错误，请稍后再试', {
+												status : "danger"
+											});
+										} else if (res.error == -1) {
+											UIkit.notify('请不要重复转发哦', {
+												status : "warning"
+											});
+										}
+									}
+								});
+								return false;
+							});
+							$('#posts-list').on(
+									'click',
+									'.comments',
+									function() {
+										if (user_id <= 0) {
+											UIkit.modal('#loginwapper', {
+												center : true
+											}).show();
+											return false;
+										}
+										var _this = $(this);
+										if (_this.attr('opened') == '1') {
+											if (_this.parent().next('div').is(
+													':hidden')) {
+												_this.parent().next('div')
+														.show();
+											} else {
+												_this.parent().next('div')
+														.hide();
+											}
+										} else {
+											var post_id = _this
+													.attr('data-res-id');
+											$.ajax('/post/comments', {
+												type : 'post',
+												dataType : 'json',
+												data : {
+													id : post_id,
+													type : 'post'
+												},
+												success : function(res) {
+													_this.attr('opened', 1);
+													_this.parent().after(
+															res.html);
+												}
+											});
+										}
+									});
+							$('#posts-list').on(
+									'click',
+									'.at',
+									function() {
+										$(this).parents('form')
+												.find('textarea')
+												.insertContent(
+														'@' + $(this).text()
+																+ ' ');
+									});
+							$('#posts-list')
+									.on(
+											'click',
+											'.emtitm',
+											function() {
+												$(this)
+														.parents('form')
+														.find('textarea')
+														.insertContent(
+																'[['
+																		+ $(
+																				this)
+																				.attr(
+																						'title')
+																		+ ']]');
+											});
+							var parent_id = 0;
+							$('#posts-list')
+									.on(
+											'click',
+											'.post-comment-confirm',
+											function() {
+												if (user_id <= 0) {
+													UIkit.modal('#loginwapper',
+															{
+																center : true
+															}).show();
+													return false;
+												}
+												var _this = $(this);
+												var content = _this.parents(
+														'form')
+														.find('textarea').val();
+												if (content == '')
+													layer.msg('请输入回复内容');
+												var id = _this.attr('val');
+												$
+														.ajax(
+																'/post/comment',
+																{
+																	type : "POST",
+																	dataType : "json",
+																	data : {
+																		id : id,
+																		content : content,
+																		pid : parent_id
+																	},
+																	success : function(
+																			res) {
+																		if (res.error == 0) {
+																			_this
+																					.parents(
+																							'form')
+																					.find(
+																							'textarea')
+																					.val(
+																							'');
+																			parent_id = 0;
+																			var html = '<article class="uk-comment"><header class="uk-comment-header"><img class="uk-comment-avatar" src="'+res.comment.user.head_pic+'" alt=""><h4 class="uk-comment-title"><a href="/user/'+res.comment.user.id+'">'
+																					+ res.comment.user.name
+																					+ '</a></h4><div class="uk-comment-meta">刚刚</div></header><div class="uk-comment-body">'
+																					+ res.content
+																					+ '<p class="doper"><a href="#"><i class="uk-icon-thumbs-o-up"></i> (0)</a> | <a href="#"><i class="uk-icon-comments-o"></i> 回复</a></p></div></article>';
+																			_this
+																					.parents(
+																							'form')
+																					.next()
+																					.after(
+																							html);
+																		}
+																	}
+																});
+											});
+							$('#posts-list')
+									.on(
+											'click',
+											'.reply',
+											function() {
+												if (user_id <= 0) {
+													UIkit.modal('#loginwapper',
+															{
+																center : true
+															}).show();
+													return false;
+												}
+												var _this = $(this);
+												_this
+														.parents(
+																'.panel-subcomment')
+														.find('textarea')
+														.val(
+																'@'
+																		+ _this
+																				.attr('data-res-user')
+																		+ ' ');
+												parent_id = _this.attr('val');
+												_this.parents(
+														'.panel-subcomment')
+														.find('textarea')
+														.focus();
+											});
+							$('#posts-list')
+									.on(
+											'click',
+											'.zan',
+											function() {
+												if (user_id <= 0) {
+													UIkit.modal('#loginwapper',
+															{
+																center : true
+															}).show();
+													return false;
+												}
+												_this = $(this);
+												comment_id = _this.attr('val');
+												$
+														.ajax({
+															type : "POST",
+															dataType : "json",
+															url : "/comment/zan",
+															timeout : 5000,
+															data : {
+																id : comment_id
+															},
+															success : function(
+																	res) {
+																if (res.error == 0) {
+																	if (res.type == 1) {
+																		var num = parseInt(_this
+																				.find(
+																						'.num')
+																				.text()) + 1;
+																	} else if (res.type == 2) {
+																		var num = parseInt(_this
+																				.find(
+																						'.num')
+																				.text()) - 1;
+																	}
+																	_this
+																			.html('<i class="uk-icon-thumbs-o-up"></i> (<span class="num">'
+																					+ num
+																					+ '</span>))');
+																} else {
+																	UIkit
+																			.notify(
+																					'服务器错误，请稍后再试',
+																					{
+																						status : "danger"
+																					});
+																}
+															},
+															error : function() {
+																UIkit
+																		.notify(
+																				'服务器错误，请稍后再试',
+																				{
+																					status : "danger"
+																				});
+															}
+														});
+											});
+							$('#posts-list')
+									.on(
+											'click',
+											'.loadmore',
+											function() {
+												if (user_id <= 0) {
+													UIkit.modal('#loginwapper',
+															{
+																center : true
+															}).show();
+													return false;
+												}
+												var _this = $(this);
+												var href = _this.attr('action');
+												if (href == '')
+													return false;
+												$
+														.ajax(
+																href,
+																{
+																	type : 'GET',
+																	dataType : 'json',
+																	beforeSend : function() {
+																		_this
+																				.html('<i class="uk-icon-spinner uk-icon-spin"></i>');
+																	},
+																	success : function(
+																			res) {
+																		if (res.error == 0) {
+																			_this
+																					.parent()
+																					.before(
+																							res.html);
+																			if (res.end == 1) {
+																				_this
+																						.attr(
+																								'action',
+																								'')
+																				_this
+																						.html('没有更多了');
+																			} else if (res.end == 0) {
+																				_this
+																						.attr(
+																								'action',
+																								res.next_page_url);
+																				_this
+																						.bind('click');
+																				_this
+																						.html('加载更多...');
+																			}
+																		}
+																	}
+																});
+												return false;
+											});
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="mshare-post" class="uk-modal gray-modal msg-sends">
+		<div class="uk-modal-dialog">
+			<a href="javascript:;" title="关闭"
+				class="uk-modal-close iconfont icon-close closebar"></a>
+			<ul class="uk-subnav" data-uk-switcher="{connect:'#sendshare'}">
+				<li class="uk-active"><a href="">转发</a></li>
+			</ul>
+			<ul id="sendshare" class="uk-switcher">
+				<li><form action="" method="POST" id="public-share">
+						<textarea name="content" id="share-content" rows="4"
+							class="uk-button-borderd uk-width-1-1" placeholder="说点什么吧"></textarea>
+						<ul class="uk-subnav uk-margin-small-bottom">
+							<li class="j-flag" data-uk-dropdown="{mode:'click'}"><a
+								href="#" class="uk-icon-smile-o uk-text-large"></a>
+							<div class="uk-dropdown dropdown-arrow-up">
+									<span title="大笑" class="emtitm"><img data-text="大笑"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_86.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_86.png"></span><span
+										title="可爱" class="emtitm"><img data-text="可爱"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_85.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_85.png"></span> <span
+										title="憨笑" class="emtitm"><img data-text="憨笑"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_359.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_359.png"></span><span
+										title="色" class="emtitm"><img data-text="色"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_95.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_95.png"></span>
+								</div></li>
+							<li data-uk-dropdown="{mode:'click'}"><a href="#"
+								class="uk-icon-at uk-text-large"></a>
+							<div class="uk-dropdown dropdown-arrow-up">
+									<ul class="uk-nav uk-nav-dropdown">
+										<li class="uk-nav-header">选择最近@的人或直接输入</li>
+									</ul>
+								</div></li>
+						</ul>
+						<div class="uk-flex uk-flex-space-between">
+							<div>
+								<button type="submit"
+									class="uk-button button-signin uk-button-small">分享</button>
+								<button type="button"
+									class="uk-button button-cancel uk-button-small uk-modal-close">取消</button>
+							</div>
+							<ul class="uk-subnav">
+								<li class="uk-text-medium">同时分享到：</li>
+								<li class="uk-active"><a href=""><i
+										class="uk-icon-weibo uk-text-large"></i></a></li>
+								<li><a href="#"><i
+										class="uk-icon-tencent-weibo uk-text-large"></i></a></li>
+								<li><a href="#"><i
+										class="iconfont icon-douban uk-text-large"></i></a></li>
+							</ul>
+						</div>
+					</form></li>
+			</ul>
+		</div>
+	</div>
+	<script
+		src="/ts/assets/libs/jPlayer/dist/jplayer/jquery.jplayer.min.js"></script>
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$("#h5music")
+									.jPlayer(
+											{
+												ready : function(event) {
+													$(this)
+															.jPlayer(
+																	"setMedia",
+																	{
+																		title : "Against the World",
+																		mp3 : "//mfile.bandari.net/mc-EaDFeWeT/EmotiveDrama/06Against.mp3"
+																	}).jPlayer(
+																	"play");
+												},
+												ended : function() {
+													$(this).jPlayer("play");
+												},
+												swfPath : "/assets/libs/jPlayer/dist/jplayer",
+												supplied : "mp3",
+												cssSelectorAncestor : '#mplaying',
+												wmode : "window",
+												keyEnabled : true
+											});
+						});
+	</script>
+	<script
+		src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("img.lazy1").lazyload({
+				event : "sporty"
+			});
+			$('#i-skin')
+					.on(
+							'click',
+							'.skin-image',
+							function() {
+								var skin_id = $(this).attr('val');
+								if ($(this).hasClass('uk-active')) {
+									$(this).removeClass('uk-active');
+									if (user_id > 0) {
+										updateSkin(0);
+									} else {
+										$.cookie('skin_id', 0);
+									}
+									$('.background-cover-img').css(
+											'background', '').addClass(
+											'img-index');
+								} else {
+									$('#i-skin').find('.skin-image')
+											.removeClass('uk-active');
+									$(this).addClass('uk-active');
+									$('.background-cover-img')
+											.css(
+													'background',
+													'url('
+															+ $(this)
+																	.find('img')
+																	.attr(
+																			'data-src')
+															+ ') no-repeat fixed center top / cover');
+									if (user_id > 0) {
+										updateSkin(skin_id);
+									} else {
+										$.cookie('skin_id', skin_id, {
+											expires : 7
+										});
+									}
+								}
+							});
+			$('.icon-skin').on('click', function() {
+				$("img.lazy1").trigger("sporty");
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		$.ajaxSetup({
+			headers : {
+				'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+	</script>
+</body>
+</html>

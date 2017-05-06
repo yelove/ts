@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="30" status="warn">
+	<Appenders>
+		<RollingFile name="FILE" fileName="logs/webim.log"
+			filePattern="logs/$${date:yyyyMM}/TS-%d{yyyyMMdd}-%i.log.gz">
+			<PatternLayout
+				pattern="%-5p|%t|%d{yyyy-MM-dd HH:mm:ss,SSS}|%class{36} %L %M - %msg%xEx%n" />
+			<SizeBasedTriggeringPolicy size="200MB" />
+		</RollingFile>
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%-5p|%t|%d{yyyy-MM-dd HH:mm:ss,SSS}|%class{36} %L %M - %msg%xEx%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Root level="debug">
+			<AppenderRef ref="CONSOLE" level="debug" />
+			<AppenderRef ref="FILE" level="info" />
+		</Root>
+	</Loggers>
+</Configuration>

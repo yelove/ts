@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>找回密码-Bandari.Net</title>
+<link rel="stylesheet" href="/ts/assets/libs/uikit/css/uikit.min.css">
+<link rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slider.min.css">
+<link rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slidenav.min.css">
+<link rel="stylesheet" href="/ts/assets/libs/select2/css/select2.css">
+<link rel="stylesheet" href="/ts/assets/css/skins/square/square.css">
+<link rel="stylesheet" href="/ts/assets/css/animate.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/notify.min.css">
+<link rel="stylesheet" href="/ts/assets/css/style.css">
+<script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/ts/all/all.js"></script>
+<script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
+<!--[if lt IE 9]> <script src="/assets/js/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="/assets/js/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+</head>
+<body>
+	<div id="scroll"></div>
+	<div class="background-cover-img img-login"></div>
+	<div class="background-cover"></div>
+	<div class="login-wrapper">
+		<a href="/ts" class="login-logo"><i class="iconfont icon-minilogo"></i>
+			找回密码</a>
+		<form class="uk-form uc-form" method="POST" action="/password/email">
+			<input type="hidden" name="_token"
+				value="aHdDJsiiJgikdT80ZKkQ5K4X7ot8ypRBoqgWHrqM">
+			<div class="uk-form-row">
+				<div class="uk-form-controls">
+					<input placeholder="请输入您注册时留的邮箱地址" type="text" name="email"
+						value="" required="" data-parsley-required-message="邮箱不能为空"
+						data-parsley-type="email" data-parsley-type-message="邮箱地址错误！请重新输入"
+						data-parsley-remote
+						data-parsley-remote-validator='checkEmailIfExist'
+						data-parsley-remote-message="该邮箱不存在" autocomplete="off">
+				</div>
+			</div>
+			<div class="uk-form-row">
+				<button type="submit" class="uk-button button-signup">提 交</button>
+			</div>
+		</form>
+	</div>
+	<div class="go-up">
+		<a href=""><i class="uk-icon-chevron-up"></i></a>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function() {
+		$("form").parsley({
+			successClass : "",
+			errorClass : "",
+			errorsWrapper : "<p class='uk-form-help-block'></p>",
+			errorTemplate : "<span></span>"
+		});
+	});
+</script>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>登录-Bandari.Net</title>
+<link rel="stylesheet" href="/ts/assets/libs/uikit/css/uikit.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/notify.min.css">
+<link rel="stylesheet" href="/ts/assets/css/skins/square/square.css">
+<link rel="stylesheet" href="/ts/assets/css/style.css">
+<!--[if lt IE 9]> <script src="/ts/assets/js/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="/ts/assets/js/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+</head>
+<body>
+	<div id="scroll"></div>
+	<div class="background-cover-img img-login"></div>
+	<div class="background-cover"></div>
+	<div class="login-wrapper">
+		<a href="/ts" class="login-logo"><i class="iconfont icon-minilogo"></i>
+			会员登录</a>
+		<form class="uk-form uc-form" id="login-form">
+			<div class="uk-form-row">
+				<div class="uk-form-controls">
+					<input type="text" placeholder="邮箱地址" name="name" required=""
+						data-parsley-required-message="邮箱不能为空"  autocomplete="off">
+						<!-- data-parsley-type="email"
+						data-parsley-type-message="邮箱地址错误！请重新输入" -->
+				</div>
+			</div>
+			<div class="uk-form-row">
+				<div class="uk-form-controls">
+					<input type="password" placeholder="密码" name="password" required=""
+						data-parsley-required-message="密码不能为空" minlength="3"
+						data-parsley-minlength-message="密码不能小于3位" autocomplete="off">
+				</div>
+			</div>
+			<!-- <div class="uk-form-row">
+				<label for=""> <input type="checkbox" class="ichecks"
+					name="remember" value="1"> 记住密码
+				</label>
+			</div> -->
+			<div class="uk-form-row">
+				<input type="hidden" name="_token"
+					value="aHdDJsiiJgikdT80ZKkQ5K4X7ot8ypRBoqgWHrqM">
+				<button type="submit" name="button" class="uk-button button-signup">登
+					录</button>
+			</div>
+			<div class="uk-form-row">
+				<div class="findreg">
+					<a href="/ts/findpw.html">找回密码？</a>或 <a href="/ts/signup.html">立即注册</a>
+				</div>
+			</div>
+			<div class="uk-form-row">
+				<div class="login-socal">
+					<span>合作登录：</span> <a href="/sina_redirect" class="uk-button"><i
+						class="uk-icon-weibo"></i></a> <a href="/qq_redirect"
+						class="uk-button"><i class="uk-icon-qq"></i></a> <a
+						href="/douban_redirect" class="uk-button"><i
+						class="iconfont icon-douban"></i></a>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
+	<script src="/ts/all/all.js"></script>
+	<script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
+	<script src="/ts/assets/js/icheck.min.js"></script>
+</body>
+<script type="text/javascript">
+	$(function() {
+		$("#login-form").parsley({
+			successClass : "",
+			errorClass : "",
+			errorsWrapper : "<p class='uk-form-help-block'></p>",
+			errorTemplate : "<span></span>"
+		});
+		$(document).ready(function() {
+			$('.ichecks').iCheck({
+				checkboxClass : 'icheckbox_square',
+				radioClass : 'iradio_square',
+				increaseArea : '20%'
+			});
+		});
+		$("#login-form").on('submit', function() {
+			$.ajax('user/login', {
+				type : "POST",
+				dataType : "JSON",
+				data : $('#login-form').serialize(),
+				success : function(res) {
+					if (res.status == 1000) {
+						location.href = "/ts";
+					} else {
+						UIkit.notify('用户名或密码错误', {
+							status : "danger"
+						});
+					}
+				}
+			});
+			return false;
+		});
+	});
+</script>
+</html>
