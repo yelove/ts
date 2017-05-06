@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -29,16 +30,17 @@ public class UserDao {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(
-						"INSERT into `user` (name,password,namemd5,departmentid,department,realname,state,createtime,updatetime) VALUES (?,md5(?),md5(?),?,?,?,?,?,?);");
+						"INSERT into `user` (name,password,departmentid,department,realname,state,createtime,updatetime,email,tsno) VALUES (?,md5(?),?,?,?,?,?,?,?,?);");
 				ps.setString(1, user.getName());
 				ps.setString(2, user.getPassword());
-				ps.setString(3,  user.getName());
-				ps.setLong(4, user.getDepartmentid());
-				ps.setString(5, user.getDepartment());
-				ps.setString(6, user.getRealname());
-				ps.setInt(7, user.getState());
-				ps.setLong(8, user.getCreatetime());
-				ps.setLong(9, user.getUpdatetime());
+				ps.setLong(3, user.getDepartmentid());
+				ps.setString(4, user.getDepartment());
+				ps.setString(5, user.getRealname());
+				ps.setInt(6, user.getState());
+				ps.setLong(7, user.getCreatetime());
+				ps.setLong(8, user.getUpdatetime());
+				ps.setString(9, user.getEmail());
+				ps.setLong(10, user.getTsno());
 				return ps;
 			}
 		}, kh);
@@ -50,19 +52,39 @@ public class UserDao {
 	}
 	
 	public User getUser(String name){
-		List<Map<String,Object>> rlm = template.queryForList("select * from `user` where namemd5 = ?", MD5Tools.MD5(name));
+		List<Map<String,Object>> rlm = template.queryForList("select * from `user` where email = ?", name);
 		if(null==rlm||rlm.size()==0){
 			return null;
 		}
 		User user = new User();
 		try {
-			org.apache.commons.beanutils.BeanUtils.populate(user, rlm.get(0));
+			BeanUtils.populate(user, rlm.get(0));
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
 		return user;
+	}
+	
+	public User getUser(long tsno){
+		List<Map<String,Object>> rlm = template.queryForList("select * from `user` where tsno = ?", tsno);
+		if(null==rlm||rlm.size()==0){
+			return null;
+		}
+		User user = new User();
+		try {
+			BeanUtils.populate(user, rlm.get(0));
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
+	public Long getMaxNoUser(){
+		return template.queryForObject("select max(tsno) from `user`", Long.class);
 	}
 	
 	

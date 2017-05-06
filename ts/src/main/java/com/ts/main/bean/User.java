@@ -13,6 +13,10 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -8931334137732090447L;
 
 	private long id;
+	
+	private long tsno;
+	
+	private String email;
 
 	private String name;
 	
@@ -34,6 +38,23 @@ public class User implements Serializable {
 	
 	private String upstr;
 	
+	
+	public long getTsno() {
+		return tsno;
+	}
+
+	public void setTsno(long tsno) {
+		this.tsno = tsno;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public long getId() {
 		return id;
 	}
