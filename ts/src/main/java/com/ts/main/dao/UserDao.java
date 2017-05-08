@@ -16,7 +16,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
 import com.ts.main.bean.User;
-import com.ts.main.util.MD5Tools;
 
 @Service
 public class UserDao {
