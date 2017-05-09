@@ -79,10 +79,6 @@ public class LogInAction {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logOut(ModelMap mdmap, HttpServletRequest request) {
 		request.getSession(true).removeAttribute(CommonStr.USERNAME);
-		User user = (User) request.getSession(true).getAttribute(CommonStr.TKUSER);
-//		if (null != user) {
-//			uService.logout(user);
-//		}
 		request.getSession(true).removeAttribute(CommonStr.TKUSER);
 		return "redirect:/";
 	}
