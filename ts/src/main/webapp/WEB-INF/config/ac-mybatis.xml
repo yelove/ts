@@ -61,10 +61,15 @@
 	<!-- Mybatis Configuration -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage" value="com.ts.main" />
+		<property name="typeAliasesPackage" value="com.ts.main.bean" />
+		<property name="mapperLocations" value="/WEB-INF/mapper/*.xml"/>
 		<!-- <property name="configLocation" value="/WEB-INF/config/mybatis-setting.xml" 
 			/> -->
 	</bean>
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+        <property name="basePackage" value="com.ts.main.mapper" />  
+    </bean>
 
 	<!-- JDBC Template -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token"
+	content="WLiEfeSJaRU4DCNQDumn1Ji5znkHotmL6lTYW18f">
+<title>个人主页-TS.COM</title>
+<link type="application/opensearchdescription+xml" href="opensearch.xml"
+	title="TS.COM" rel="search" />
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/uikit.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slider.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slidenav.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slideshow.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/tooltip.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/notify.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/animate.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/introjs.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/style.css">
+<link href="/vendor/pace/pace-flash.css" rel="stylesheet" />
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/select2/css/select2.css">
+<script type="text/javascript">
+	var user_id = 4501;
+	var play_token = '5912554fdec6cZDUDF';
+	var username = 'Doom4J';
+	var head_pic = '/img/avatar.jpg';
+	paceOptions = {
+		restartOnRequestAfter : false
+	}
+</script>
+<script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/ts/all/all.js"></script>
+<script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
+<script src='//cdn.bootcss.com/socket.io/1.7.3/socket.io.min.js'></script>
+<link rel="icon" href="/ts/favicon.ico"
+	type="image/x-icon" />
+<!--[if lt IE 9]> <script src="/ts/assets/js/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="/ts/assets/js/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+</head>
+<body>
+	<div id="scroll"></div>
+	<div id="h5music" class="jp-jplayer"></div>
+	<div class="background-cover-img img-ucenter"></div>
+	<div class="background-cover"></div>
+	<a href="/ts" title="TS.COM" class="s-logo"><i
+		class="logo"></i></a>
+	<nav class="nav-header">
+		<ul class="quick-menu">
+			<li data-uk-dropdown><a href="javascript:;"><i
+					class="iconfont icon-user"></i> <span class="i uk-icon-angle-down"></span>
+			</a>
+			<div class="lomenu uk-dropdown uk-dropdown-flip dropdown-arrow-up">
+					<ul class="uk-nav uk-nav-dropdown">
+						<li><a href="#"><i
+								class="iconfont icon-user"></i> 我的主页</a></li>
+						<li><a href="/ts/at"><i
+								class="iconfont icon-mail"></i> 我的消息</a></li>
+						<li class="uk-nav-divider"></li>
+						<li><a href="/ts/logout"><i
+								class="iconfont icon-iconexit"></i> 退出</a></li>
+					</ul>
+				</div></li>
+			<li class="uk-visible-small"><a href="javascript:;"
+				class="nav-menu-xs" data-uk-toggle="{target:'.menu-xs'}"> <span></span>
+					<span></span> <span></span>
+			</a></li>
+		</ul>
+	</nav>
+	<div class="header">
+		<div class="h-title">
+			<div class="uk-container uk-container-center">
+				<h2 class="uk-h2">
+					<span class="h2-icon"></span> Doom4J <span class="h2-icon">
+					</span> <a href="#"
+						class="uk-button uk-button-small uk-button-borderd"><i
+						class="uk-icon-pencil"></i> 编辑</a> <small class="my-intro">个人介绍：暂无介绍</small>
+				</h2>
+				<div class="header-socal">
+					<a href="#" class="uk-button"><i class="uk-icon-weibo"></i></a> <a
+						href="#" class="uk-button"><i class="uk-icon-qq"></i></a> <a
+						href="#" class="uk-button"><i class="iconfont icon-douban"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(function() {
+			var oldStatus = '';
+			$('.h-title').on(
+							'mouseover',
+							'.cancel',
+							function() {
+								oldStatus = $(this).html();
+								$(this).html('<i class="iconfont icon-quxiaoguanzu"></i> 取消关注');
+							});
+			$('.h-title').on('mouseout', '.cancel', function() {
+				if (oldStatus != '')
+					$(this).html(oldStatus);
+			});
+			$('.attention').click(function() {
+								var _this = $(this);
+								var uid = _this.attr('uid');
+								$('.cancel').unbind('mouseover').unbind('mouseout');
+								$.ajax('/attention/guanzhu',
+										{
+											type : "post",
+											dataType : "json",
+											data : {
+												id : uid
+											},
+											success : function(res) {
+												if (res.error == 0) {
+													if (res.type == 1) {
+														_this.addClass('cancel').html('<i class="iconfont icon-yiguanzhu fans"></i> 已关注');
+													} else if (res.type == 2) {
+														_this.removeClass('cancel').html('<i class="iconfont icon-jiaguanzhu"></i> 关注');
+													}
+												}
+											}
+										});
+							});
+		});
+	</script>
+	<div class="home-layer">
+		<div class="uk-container uk-container-center">
+			<div class="big-avatar">
+				<img src="/ts/uploads/avatar.jpg" alt=""
+					class="animated rotateIn">
+			</div>
+			<div class="uk-width-4-10 uk-push-3-10 proifo wow fadeInUp"
+				data-wow-delay="0.4s">
+				<div class="uk-grid">
+					<div class="uk-width-1-3">
+						<a href="#"> <strong>0</strong>
+							<span>动态</span>
+						</a>
+					</div>
+					<div class="uk-width-1-3">
+						<a href="#"> <strong>0</strong>
+							<span>关注</span>
+						</a>
+					</div>
+					<div class="uk-width-1-3">
+						<a href="#"> <strong>0</strong>
+							<span>粉丝</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			<ul class="uk-list localifo wow fadeInUp" data-wow-delay="1s">
+				<li><i class="iconfont icon-local"></i> 暂未设置 <i
+					class="iconfont icon-xingzuo"></i> 设置生日有惊喜哦</li>
+				<li><i class="iconfont icon-flag"></i> 2017-05-07 加入</li>
+				<li><i class="iconfont icon-nianling"></i> 年龄： -</li>
+			</ul>
+			<ul class="uk-list home-nav">
+				<li class="uk-active"><a
+					href="#">动态</a></li>
+				<li><a href="#">消息</a></li>
+				<li><a href="#">喜欢</a></li>
+				<li><a href="#">收藏</a></li>
+			</ul>
+			<div class="uk-panel uk-panel-box home-dynamic"
+				data-uk-scrollspy="{cls:'animated', target:'.uk-comment', delay:550}"
+				id="posts-list">
+				<article class="uk-comment">
+					<p style="color: white;">暂无动态</p>
+				</article>
+			</div>
+		</div>
+	</div>
+	<div id="mshare-post" class="uk-modal gray-modal msg-sends">
+		<div class="uk-modal-dialog">
+			<a href="javascript:;" title="关闭"
+				class="uk-modal-close iconfont icon-close closebar"></a>
+			<ul class="uk-subnav" data-uk-switcher="{connect:'#sendshare'}">
+				<li class="uk-active"><a href="">转发</a></li>
+			</ul>
+			<ul id="sendshare" class="uk-switcher">
+				<li><form action="" method="POST" id="public-share">
+						<textarea name="content" id="share-content" rows="4"
+							class="uk-button-borderd uk-width-1-1" placeholder="说点什么吧"></textarea>
+						<ul class="uk-subnav uk-margin-small-bottom">
+							<li class="j-flag" data-uk-dropdown="{mode:'click'}"><a
+								href="#" class="uk-icon-smile-o uk-text-large"></a>
+							<div class="uk-dropdown dropdown-arrow-up">
+									<span title="大笑" class="emtitm"><img data-text="大笑"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_86.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_86.png"></span><span
+										title="可爱" class="emtitm"><img data-text="可爱"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_85.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_85.png"></span> <span
+										title="憨笑" class="emtitm"><img data-text="憨笑"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_359.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_359.png"></span><span
+										title="色" class="emtitm"><img data-text="色"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_95.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_95.png"></span>
+								</div></li>
+							<li data-uk-dropdown="{mode:'click'}"><a href="#"
+								class="uk-icon-at uk-text-large"></a>
+							<div class="uk-dropdown dropdown-arrow-up">
+									<ul class="uk-nav uk-nav-dropdown">
+										<li class="uk-nav-header">选择最近@的人或直接输入</li>
+									</ul>
+								</div></li>
+						</ul>
+						<div class="uk-flex uk-flex-space-between">
+							<div>
+								<button type="submit"
+									class="uk-button button-signin uk-button-small">分享</button>
+								<button type="button"
+									class="uk-button button-cancel uk-button-small uk-modal-close">取消</button>
+							</div>
+							<ul class="uk-subnav">
+								<li class="uk-text-medium">同时分享到：</li>
+								<li class="uk-active"><a href=""><i
+										class="uk-icon-weibo uk-text-large"></i></a></li>
+								<li><a href="#"><i
+										class="uk-icon-tencent-weibo uk-text-large"></i></a></li>
+								<li><a href="#"><i
+										class="iconfont icon-douban uk-text-large"></i></a></li>
+							</ul>
+						</div>
+					</form></li>
+			</ul>
+		</div>
+	</div>
+	<div id="private" class="uk-modal gray-modal msg-sends">
+		<div class="uk-modal-dialog">
+			<a href="javascript:;" title="关闭"
+				class="uk-modal-close iconfont icon-close closebar"></a>
+			<ul class="uk-subnav">
+				<li>发送私信</li>
+			</ul>
+			<form action="post" id="private-form">
+				<div class="uk-form-row">
+					<select class="slec-single" multiple="true" name="to_users[]"
+						id="to_users"><option value="4501" selected="selected">Doom4J</option>
+					</select>
+				</div>
+				<div class="uk-form-row">
+					<textarea name="content" id="private-content" rows="4"
+						class="uk-button-borderd uk-width-1-1" placeholder="说点什么吧"></textarea>
+				</div>
+				<div class="uk-flex uk-flex-space-between">
+					<div class="j-flag uk-position-relative"
+						data-uk-dropdown="{mode:'click'}">
+						<a href="#" class="uk-icon-smile-o uk-text-large"></a>
+						<div class="uk-dropdown dropdown-arrow-up">
+							<span title="大笑" class="emtitm"><img data-text="大笑"
+								data-url="//s1.music.126.net/style/web2/emt/emoji_86.png"
+								class="f-alpha"
+								src="//s1.music.126.net/style/web2/emt/emoji_86.png"></span><span
+								title="可爱" class="emtitm"><img data-text="可爱"
+								data-url="//s1.music.126.net/style/web2/emt/emoji_85.png"
+								class="f-alpha"
+								src="//s1.music.126.net/style/web2/emt/emoji_85.png"></span> <span
+								title="憨笑" class="emtitm"><img data-text="憨笑"
+								data-url="//s1.music.126.net/style/web2/emt/emoji_359.png"
+								class="f-alpha"
+								src="//s1.music.126.net/style/web2/emt/emoji_359.png"></span><span
+								title="色" class="emtitm"><img data-text="色"
+								data-url="//s1.music.126.net/style/web2/emt/emoji_95.png"
+								class="f-alpha"
+								src="//s1.music.126.net/style/web2/emt/emoji_95.png"></span>
+						</div>
+					</div>
+					<div>
+						<span>200</span>
+						<button type="submit"
+							class="uk-button button-signin uk-button-small">发送</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script src="/ts/assets/libs/select2/js/select2.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$(document).ready(function() {
+				$(".slec-single").select2({
+					placeholder : "请选择",
+					allowClear : true,
+					minimumResultsForSearch : Infinity,
+					width : '88%'
+				});
+			});
+			$('#private-form .at').click(
+					function() {
+						$('#private-content').insertContent(
+								'@' + $(this).text() + ' ');
+					});
+			$('#private-form .emtitm').click(
+					function() {
+						$('#private-content').insertContent(
+								'[[' + $(this).attr('title') + ']]');
+					});
+			$('#private-form').on('submit', function() {
+				var users = $('select[name^=to_users').val();
+				if (!users) {
+					layer.msg('请选择消息接收者');
+				}
+				var content = $('#private-content').val();
+				if (!content) {
+					layer.msg('请输入内容');
+				}
+				$.ajax('/message/send', {
+					type : "POST",
+					dataType : "json",
+					data : $('#private-form').serialize(),
+					success : function(res) {
+						if (res.error == 0) {
+							$('#private-form')[0].reset();
+							layer.msg('消息发送成功');
+						} else {
+							UIkit.notify('系统或参数错误，请稍后再试', {
+								status : 'danger'
+							});
+						}
+					}
+				});
+				return false;
+			});
+		});
+	</script>
+	<div class="go-up">
+		<a href=""><i class="uk-icon-chevron-up"></i></a>
+	</div>
+	<script>
+		$(function() {
+			$('.search-type').on(
+					'click',
+					function() {
+						$(this).addClass('uk-active').siblings().removeClass(
+								'uk-active');
+						$('#search-type').val($(this).text());
+						$('#web-search-content').val('');
+					});
+			$('#website-search-form').on('submit', function() {
+				if ($('#web-search-content').val() == '') {
+					return false;
+				}
+			});
+		});
+	</script>
+	<div class="menu-xs animated slideInRight uk-hidden">
+		<a href="#" title="关闭" class="iconfont closebar"
+			data-uk-toggle="{target:'.menu-xs'}">&#xe61e;</a>
+		<div class="nano">
+			<div class="nano-content">
+				<nav id="nav">
+					<ul class="uk-nav" data-uk-nav>
+						<li><a href="/ts">主页</a></li>
+						<li><a href="/ts/bandari">乐团介绍</a></li>
+						<li class="uk-parent"><a href="#">音乐 &amp; 商城</a>
+						<ul class="uk-nav-sub">
+								<li><a href="/ts/albums">专辑</a></li>
+								<li><a href="/ts/discover">发现</a></li>
+								<li><a href="/ts/playlists">歌单</a></li>
+							</ul></li>
+						<script type="text/javascript">
+							$(function() {
+								$('.uk-nav-sub li.uk-active').parents(
+										'.uk-parent').addClass('uk-active');
+							});
+						</script>
+						<li><a href="/ts/photo">爱壁纸</a></li>
+						<li><a href="/ts/movie">电影</a></li>
+						<li><a href="/ts/about">关于</a></li>
+						<li><a href="/ts/blog">日志</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var next_page_url = "";
+		var end = 0;
+		var loading = null;
+		function show() {
+			if ($(window).scrollTop() + $(window).height() >= $(document)
+					.height()) {
+				if (end == 1) {
+					return false;
+				}
+				if (next_page_url != '') {
+					ajaxRead(next_page_url, 'posts-list');
+				} else {
+					end = 1;
+					$('#posts-list')
+							.append(
+									'<p class="uk-text-center" style="color:white;">没有更多了<p>');
+				}
+			}
+		}
+		function ajaxRead(url, id) {
+			$
+					.ajax({
+						dataType : 'json',
+						url : url,
+						data : {},
+						beforeSend : function() {
+							loading = layer.load(2, {
+								shade : 0
+							});
+						},
+						success : function(res) {
+							layer.close(loading);
+							if (res.error == 0) {
+								$('#' + id).append(res.html);
+								if (res.end == 0) {
+									next_page_url = res.next_page_url;
+								} else {
+									end = 1;
+									$('#' + id)
+											.append(
+													'<p class="uk-text-center" style="color:white;">没有更多了<p>');
+								}
+							}
+						}
+					});
+		}
+		$(window).bind('scroll', function() {
+			show()
+		});
+	</script>
+	<script
+		src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("img.lazy1").lazyload({
+				event : "sporty"
+			});
+			$('#i-skin')
+					.on(
+							'click',
+							'.skin-image',
+							function() {
+								var skin_id = $(this).attr('val');
+								if ($(this).hasClass('uk-active')) {
+									$(this).removeClass('uk-active');
+									if (user_id > 0) {
+										updateSkin(0);
+									} else {
+										$.cookie('skin_id', 0);
+									}
+									$('.background-cover-img').css(
+											'background', '').addClass(
+											'img-index');
+								} else {
+									$('#i-skin').find('.skin-image')
+											.removeClass('uk-active');
+									$(this).addClass('uk-active');
+									$('.background-cover-img')
+											.css(
+													'background',
+													'url('
+															+ $(this)
+																	.find('img')
+																	.attr(
+																			'data-src')
+															+ ') no-repeat fixed center top / cover');
+									if (user_id > 0) {
+										updateSkin(skin_id);
+									} else {
+										$.cookie('skin_id', skin_id, {
+											expires : 7
+										});
+									}
+								}
+							});
+			$('.icon-skin').on('click', function() {
+				$("img.lazy1").trigger("sporty");
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		$.ajaxSetup({
+			headers : {
+				'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+	</script>
+</body>
+</html>
