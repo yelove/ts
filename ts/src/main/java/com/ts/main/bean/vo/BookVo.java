@@ -3,6 +3,8 @@
  */
 package com.ts.main.bean.vo;
 
+import java.util.List;
+
 import com.ts.main.bean.Book;
 
 /**
@@ -21,6 +23,8 @@ public class BookVo extends Book{
 	private String creatdate;
 	
 	private String updatedate;
+	
+	private List<BookVo> nearlist;
 
 	public String getMarkdate() {
 		return markdate;
@@ -44,6 +48,14 @@ public class BookVo extends Book{
 
 	public void setUpdatedate(String updatedate) {
 		this.updatedate = updatedate;
+	}
+
+	public List<BookVo> getNearlist() {
+		return nearlist;
+	}
+
+	public void setNearlist(List<BookVo> nearlist) {
+		this.nearlist = nearlist;
 	}
 	
 }

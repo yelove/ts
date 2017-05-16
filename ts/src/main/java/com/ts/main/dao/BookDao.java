@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
 import com.ts.main.bean.Book;
+import com.ts.main.bean.vo.Page;
 
 /**
  * @author hasee
@@ -54,6 +55,76 @@ public class BookDao {
 		String sql = "select * from `book` where isdel=0 and userid = ? order by createtime desc limit ?,?";
 		List<Map<String, Object>> rsm = template.queryForList(sql,
 				new Object[] { userid, size *page , size });
+		List<Book> rsod = new ArrayList<Book>();
+		for (Map<String, Object> rs : rsm) {
+			Book book = new Book();
+			try {
+				BeanUtils.populate(book, rs);
+			}
+			catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			rsod.add(book);
+		}
+		return rsod;
+	}
+
+	public List<Book> getHotBooks(Page page) {
+		String sql = "select * from `book` where isdel=0 order by createtime,praisenum desc limit ?,?";
+		List<Map<String, Object>> rsm = template.queryForList(sql,
+				new Object[] { page.getLimit()*page.getPage() , page.getLimit() });
+		List<Book> rsod = new ArrayList<Book>();
+		for (Map<String, Object> rs : rsm) {
+			Book book = new Book();
+			try {
+				BeanUtils.populate(book, rs);
+			}
+			catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			rsod.add(book);
+		}
+		return rsod;
+	}
+	
+	public List<Book> getBookListByUserIdAndBookId(Long userid,Long bookid){
+		String sql = "select * from `book` where isdel=0 and userid = ? and id<=? order by createtime desc limit 3";
+		List<Map<String, Object>> rsm = template.queryForList(sql,
+				new Object[] { userid,bookid});
+		List<Book> rsod = new ArrayList<Book>();
+		for (Map<String, Object> rs : rsm) {
+			Book book = new Book();
+			try {
+				BeanUtils.populate(book, rs);
+			}
+			catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			rsod.add(book);
+		}
+		return rsod;
+	}
+
+	public Long getMineTotal(long id) {
+		String sql = "select count(1) as total from `book` where isdel=0 and userid = ?";
+		Map<String, Object> map = template.queryForMap(sql,id);
+		Long x = (Long) map.get("total");
+		return x;
+	}
+
+	public List<Book> getMine(long id, Page page) {
+		String sql = "select * from `book` where isdel=0 and userid = ? order by createtime desc limit ?,?";
+		List<Map<String, Object>> rsm = template.queryForList(sql,
+				new Object[] { id,page.getLimit()*page.getPage() , page.getLimit()});
 		List<Book> rsod = new ArrayList<Book>();
 		for (Map<String, Object> rs : rsm) {
 			Book book = new Book();

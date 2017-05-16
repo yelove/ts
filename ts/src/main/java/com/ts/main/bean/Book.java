@@ -22,13 +22,42 @@ public class Book implements Serializable{
 	
 	private Long updatetime;
 	
+	/**
+	 * 是否公开
+	 */
 	private int isopen;
 	
+	/**
+	 * 文章内容
+	 */
 	private String text;
 	
 	private Long userid;
 	
+	/**
+	 * 时间点
+	 */
 	private Long marktime;
+	
+	/**
+	 * 阅读量
+	 */
+	private Long readnum;
+	
+	/**
+	 * 点赞数量
+	 */
+	private Long praisenum;
+	
+	/**
+	 * 吐槽数量
+	 */
+	private Long spitnum;
+	
+	/**
+	 * 评论数量
+	 */
+	private Long commentnum;
 
 	public Long getId() {
 		return id;
@@ -84,6 +113,38 @@ public class Book implements Serializable{
 
 	public void setMarktime(Long marktime) {
 		this.marktime = marktime;
+	}
+
+	public Long getReadnum() {
+		return readnum;
+	}
+
+	public void setReadnum(Long readnum) {
+		this.readnum = readnum;
+	}
+
+	public Long getPraisenum() {
+		return praisenum;
+	}
+
+	public void setPraisenum(Long praisenum) {
+		this.praisenum = praisenum;
+	}
+
+	public Long getSpitnum() {
+		return spitnum;
+	}
+
+	public void setSpitnum(Long spitnum) {
+		this.spitnum = spitnum;
+	}
+
+	public Long getCommentnum() {
+		return commentnum;
+	}
+
+	public void setCommentnum(Long commentnum) {
+		this.commentnum = commentnum;
 	}
 	
 }

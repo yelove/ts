@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.ts.main.bean.Book;
 import com.ts.main.bean.vo.BookVo;
+import com.ts.main.bean.vo.Page;
 import com.ts.main.dao.BookDao;
 
 /**
@@ -46,23 +47,52 @@ public class BookService {
 	private List<BookVo> covent(List<Book> bl){
 		List<BookVo> bvl = new ArrayList<BookVo>();
 		for(Book book : bl){
-			BookVo bkv = new BookVo();
-			try {
-				BeanUtils.copyProperties(bkv, book);
-			}
-			catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-			bkv.setMarkdate(df.format(new Date(bkv.getMarktime())));
-			bkv.setCreatdate(df.format(new Date(bkv.getCreatetime())));
-			bkv.setUpdatedate(df.format(new Date(bkv.getUpdatetime())));
-			bvl.add(bkv);
+			bvl.add(covent(book));
 		}
 		return bvl;
+	}
+	
+	private BookVo covent(Book book){
+		BookVo bkv = new BookVo();
+		try {
+			BeanUtils.copyProperties(bkv, book);
+		}
+		catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		bkv.setMarkdate(df.format(new Date(bkv.getMarktime())));
+		bkv.setCreatdate(df.format(new Date(bkv.getCreatetime())));
+		bkv.setUpdatedate(df.format(new Date(bkv.getUpdatetime())));
+		return bkv;
+	}
+
+	/**
+	 * @param page
+	 * @return 热评查询 原始版 直接查数据库30条
+	 */
+	public List<BookVo> getHotBooks(Page page) {
+		List<BookVo> bvl = new ArrayList<BookVo>();
+		List<Book> booklis = bookDao.getHotBooks(page);
+		for(Book book : booklis){
+			BookVo e = covent(book);
+			e.setNearlist(covent(bookDao.getBookListByUserIdAndBookId(book.getUserid(), book.getId())));
+			bvl.add(e);
+		}
+		return bvl;
+	}
+
+	public Long getMineTotal(long id) {
+		Long total = bookDao.getMineTotal(id);
+		return total;
+	}
+
+	public List<BookVo> getMine(long id, Page page) {
+		List<Book> booklis = bookDao.getMine(id,page);
+		return covent(booklis);
 	}
 
 }
