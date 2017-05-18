@@ -13,6 +13,9 @@
 		</Console>
 	</Appenders>
 	<Loggers>
+		<logger name="org.springframework" level="INFO"></logger>
+		<logger name="org.apache.commons.beanutils" level="error"></logger>
+		<logger name="com.zaxxer.hikari" level="error"></logger>
 		<Root level="debug">
 			<AppenderRef ref="CONSOLE" level="debug" />
 			<AppenderRef ref="FILE" level="info" />

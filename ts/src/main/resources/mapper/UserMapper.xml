@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ts.main.mapper.UserMapper">
+	<resultMap id="BaseResultMap" type="com.ts.main.bean.model.User">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="namemd5" property="namemd5" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="departmentid" property="departmentid" jdbcType="BIGINT" />
+		<result column="department" property="department" jdbcType="VARCHAR" />
+		<result column="realname" property="realname" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="BIT" />
+		<result column="createtime" property="createtime" jdbcType="BIGINT" />
+		<result column="updatetime" property="updatetime" jdbcType="BIGINT" />
+		<result column="tsno" property="tsno" jdbcType="BIGINT" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, namemd5, password, departmentid, department, realname, state,
+		createtime,
+		updatetime, tsno, email
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from user
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.ts.main.bean.model.User"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into user (id, name, namemd5,
+		password, departmentid, department,
+		realname, state, createtime,
+		updatetime, tsno, email
+		)
+		values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+		#{namemd5,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{departmentid,jdbcType=BIGINT}, #{department,jdbcType=VARCHAR},
+		#{realname,jdbcType=VARCHAR}, #{state,jdbcType=BIT},
+		#{createtime,jdbcType=BIGINT},
+		#{updatetime,jdbcType=BIGINT}, #{tsno,jdbcType=BIGINT}, #{email,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.ts.main.bean.model.User"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="namemd5 != null">
+				namemd5,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="departmentid != null">
+				departmentid,
+			</if>
+			<if test="department != null">
+				department,
+			</if>
+			<if test="realname != null">
+				realname,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+			<if test="tsno != null">
+				tsno,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="namemd5 != null">
+				#{namemd5,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentid != null">
+				#{departmentid,jdbcType=BIGINT},
+			</if>
+			<if test="department != null">
+				#{department,jdbcType=VARCHAR},
+			</if>
+			<if test="realname != null">
+				#{realname,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=BIT},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=BIGINT},
+			</if>
+			<if test="tsno != null">
+				#{tsno,jdbcType=BIGINT},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ts.main.bean.model.User">
+		update user
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="namemd5 != null">
+				namemd5 = #{namemd5,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentid != null">
+				departmentid = #{departmentid,jdbcType=BIGINT},
+			</if>
+			<if test="department != null">
+				department = #{department,jdbcType=VARCHAR},
+			</if>
+			<if test="realname != null">
+				realname = #{realname,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=BIT},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="updatetime != null">
+				updatetime = #{updatetime,jdbcType=BIGINT},
+			</if>
+			<if test="tsno != null">
+				tsno = #{tsno,jdbcType=BIGINT},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ts.main.bean.model.User">
+		update user
+		set name = #{name,jdbcType=VARCHAR},
+		namemd5 = #{namemd5,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		departmentid = #{departmentid,jdbcType=BIGINT},
+		department = #{department,jdbcType=VARCHAR},
+		realname = #{realname,jdbcType=VARCHAR},
+		state = #{state,jdbcType=BIT},
+		createtime = #{createtime,jdbcType=BIGINT},
+		updatetime = #{updatetime,jdbcType=BIGINT},
+		tsno = #{tsno,jdbcType=BIGINT},
+		email = #{email,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="getUserByNo" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from user where tsno = #{tsno,jdbcType=BIGINT}
+	</select>
+	
+	<select id="getUserByName" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from user where name = #{name,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateUserForLastLog" parameterType="java.lang.Long">
+		update user
+		<set>
+			updatetime = #{updatetime,jdbcType=BIGINT},
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<select id="getMaxNoUser" resultType="java.lang.Long">
+		select max(tsno) from user
+	</select>
+</mapper>

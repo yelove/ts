@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ts.main.bean.Book;
-import com.ts.main.bean.User;
+import com.ts.main.bean.model.Book;
+import com.ts.main.bean.model.User;
 import com.ts.main.bean.vo.BookVo;
 import com.ts.main.bean.vo.Page;
 import com.ts.main.common.CommonStr;
@@ -118,7 +118,7 @@ public class BookAction {
 			rm.put(CommonStr.STATUS, 1004);
 			return rm;
 		}
-		Long total = bookService.getMineTotal(((User)obj).getId());
+		int total = bookService.getMineTotal(((User)obj).getId());
 		List<BookVo> bvl = bookService.getMine(((User)obj).getId(),page);
 		if(null!=bvl){
 			rm.put(CommonStr.STATUS, 1000);

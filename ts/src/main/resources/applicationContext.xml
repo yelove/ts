@@ -13,14 +13,13 @@
 	<context:annotation-config />
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations" value="/WEB-INF/config/sys_config.properties" />
+		<property name="locations" value="classpath:sys_config.properties" />
 	</bean>
-	<!-- 数据源配置 -->
+	<!-- 数据源配置
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="poolName" value="springHikariCP" />
 		<property name="minimumIdle" value="5" />
 		<property name="maximumPoolSize" value="5" />
-		<!-- <property name="validationTimeout" value="15000" /> -->
 		<property name="connectionTimeout" value="150000" />
 
 		<property name="connectionTestQuery" value="SELECT 1" />
@@ -36,27 +35,31 @@
 				<prop key="prepStmtCacheSqlLimit">2048</prop>
 			</props>
 		</property>
-	</bean>
+	</bean> 
 
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
 		destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
-	</bean>
-	<!-- jdbctemple 配置 -->
+	</bean>-->
+	<!-- jdbctemple 配置 
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
 		abstract="false" lazy-init="false" autowire="default">
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
-	</bean>
+	</bean>-->
 
-	<!-- Mybatis配置 <import resource="ac-mybatis.xml" /> -->
+	<!-- Mybatis配置 -->
+	<import resource="ac-mybatis.xml" /> 
 
-	<!-- Redis配置 <import resource="ac-redis.xml" /> -->
+	<!-- Redis配置  -->
+	<import resource="ac-redis.xml" />
 
 	<!-- 装载Service,DAO,Aspect实例 -->
-	<context:component-scan base-package="cn.zsy.webim" />
+	<context:component-scan base-package="com.ts.main">   
+ 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />   
+ 	</context:component-scan>  
 
 	<!-- 配置线程池 -->
 	<bean id="loginTaskExecutor"
@@ -66,9 +69,9 @@
 		<!-- 线程池维护线程所允许的空闲时间 -->
 		<property name="keepAliveSeconds" value="30000" />
 		<!-- 线程池维护线程的最大数量 -->
-		<property name="maxPoolSize" value="1000" />
+		<property name="maxPoolSize" value="500" />
 		<!-- 线程池所使用的缓冲队列 -->
-		<property name="queueCapacity" value="200" />
+		<property name="queueCapacity" value="500" />
 	</bean>
 
 

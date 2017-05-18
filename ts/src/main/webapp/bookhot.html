@@ -236,23 +236,6 @@
 	<div class="go-up">
 		<a href=""><i class="uk-icon-chevron-up"></i></a>
 	</div>
-	<script>
-		$(function() {
-			$('.search-type').on(
-					'click',
-					function() {
-						$(this).addClass('uk-active').siblings().removeClass(
-								'uk-active');
-						$('#search-type').val($(this).text());
-						$('#web-search-content').val('');
-					});
-			$('#website-search-form').on('submit', function() {
-				if ($('#web-search-content').val() == '') {
-					return false;
-				}
-			});
-		});
-	</script>
 	<div class="menu-xs animated slideInRight uk-hidden">
 		<a href="#" title="关闭" class="iconfont closebar"
 			data-uk-toggle="{target:'.menu-xs'}">&#xe61e;</a>
@@ -268,12 +251,6 @@
 								<li><a href="/ts/discover">发现</a></li>
 								<li><a href="/ts/playlists">歌单</a></li>
 							</ul></li>
-						<script type="text/javascript">
-							$(function() {
-								$('.uk-nav-sub li.uk-active').parents(
-										'.uk-parent').addClass('uk-active');
-							});
-						</script>
 						<li><a href="/ts/photo">爱壁纸</a></li>
 						<li><a href="/ts/movie">电影</a></li>
 						<li><a href="/ts/about">关于</a></li>
@@ -284,7 +261,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		var next_page_url = "";
+		var next_page_url = "/ts/book/gethot";
 		var end = 0;
 		var loading = null;
 		function show() {
@@ -302,39 +279,38 @@
 		};
 		function ajaxRead(url, id) {
 			$.ajax({
-						dataType : 'json',
-						url : url,
-						data : {},
-						beforeSend : function() {
-							loading = layer.load(2, {
-								shade : 0
-							});
-						},
-						success : function(res) {
-							layer.close(loading);
-							if (res.error == 0) {
-								$('#' + id).append(res.html);
-								if (res.end == 0) {
-									next_page_url = res.next_page_url;
-								} else {
-									end = 1;
-									$('#' + id).append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
-								}
+					dataType : 'json',
+					url : url,
+					data : {},
+					beforeSend : function() {
+						loading = layer.load(2, {
+							shade : 0
+						});
+					},
+					success : function(res) {
+						layer.close(loading);
+						if (res.error == 0) {
+							$('#' + id).append(res.html);
+							if (res.end == 0) {
+								next_page_url = res.next_page_url;
+							} else {
+								end = 1;
+								$('#' + id).append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
 							}
 						}
+					}
 					});
 		};
-		function getMine(page){
+		function getHot(page){
 			$.ajax({
 				dataType : 'json',
-				url : '/ts/book/getmine',
+				url : '/ts/book/gethot',
 				data : {'page':page},
 				success : function(res) {
 					if (res.status == 1000) {
-						$('#booktotal').html(res.total);
-						var bookmine = eval(res.bookmine);
+						var bookhot = eval(res.bookhot);
 						var booklis = "<dl class='uk-description-list-line'>";
-						$.each(bookmine,function(n,value){
+						$.each(bookhot,function(n,value){
 							booklis += "<dt class='uk-text-success'>"+value.markdate+"</dt>";
 							booklis += "<dd>"+value.text+"</dd>";
 						});
@@ -348,17 +324,29 @@
 			show()
 		});
 	</script>
-	<script
-		src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
+	<script src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
+			$('.search-type').on('click',
+					function() {
+						$(this).addClass('uk-active').siblings().removeClass('uk-active');
+						$('#search-type').val($(this).text());
+						$('#web-search-content').val('');
+					});
+			$('#website-search-form').on('submit', function() {
+				if ($('#web-search-content').val() == '') {
+					return false;
+				}
+			});
 			$("img.lazy1").lazyload({
 				event : "sporty"
 			});
-			getMine(0);
-			$('#i-skin').on(
-							'click',
-							'.skin-image',
+			$('.icon-skin').on('click', function() {
+				$("img.lazy1").trigger("sporty");
+			});
+			$('.uk-nav-sub li.uk-active').parents('.uk-parent').addClass('uk-active');
+			getHot(0);
+			$('#i-skin').on('click','.skin-image',
 							function() {
 								var skin_id = $(this).attr('val');
 								if ($(this).hasClass('uk-active')) {
@@ -368,16 +356,12 @@
 									} else {
 										$.cookie('skin_id', 0);
 									}
-									$('.background-cover-img').css(
-											'background', '').addClass(
-											'img-index');
+									$('.background-cover-img').css('background', '').addClass('img-index');
 								} else {
-									$('#i-skin').find('.skin-image')
-											.removeClass('uk-active');
+									$('#i-skin').find('.skin-image').removeClass('uk-active');
 									$(this).addClass('uk-active');
-									$('.background-cover-img').css(
-													'background',
-													'url('+ $(this).find('img').attr('data-src')+ ') no-repeat fixed center top / cover');
+									$('.background-cover-img').css('background',
+										'url('+ $(this).find('img').attr('data-src')+ ') no-repeat fixed center top / cover');
 									if (user_id > 0) {
 										updateSkin(skin_id);
 									} else {
@@ -387,9 +371,6 @@
 									}
 								}
 							});
-			$('.icon-skin').on('click', function() {
-				$("img.lazy1").trigger("sporty");
-			});
 		});
 	</script>
 	<script type="text/javascript">

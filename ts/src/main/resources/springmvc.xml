@@ -15,7 +15,7 @@
 
 
 	<!-- 装载Service,DAO,Aspect实例 -->
-	<context:component-scan base-package="com.ts.main" />
+	<context:component-scan base-package="com.ts.main.action" />
 
 
 	<!-- <bean id="JSPViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 

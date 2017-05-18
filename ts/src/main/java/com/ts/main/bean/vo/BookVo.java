@@ -5,7 +5,7 @@ package com.ts.main.bean.vo;
 
 import java.util.List;
 
-import com.ts.main.bean.Book;
+import com.ts.main.bean.model.Book;
 
 /**
  * @author hasee

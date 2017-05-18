@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ts.main.mapper.BookMapper">
+	<resultMap id="BaseResultMap" type="com.ts.main.bean.model.Book">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="createtime" property="createtime" jdbcType="BIGINT" />
+		<result column="updatetime" property="updatetime" jdbcType="BIGINT" />
+		<result column="isopen" property="isopen" jdbcType="INTEGER" />
+		<result column="text" property="text" jdbcType="VARCHAR" />
+		<result column="userid" property="userid" jdbcType="BIGINT" />
+		<result column="isdel" property="isdel" jdbcType="INTEGER" />
+		<result column="marktime" property="marktime" jdbcType="BIGINT" />
+		<result column="readnum" property="readnum" jdbcType="BIGINT" />
+		<result column="praisenum" property="praisenum" jdbcType="BIGINT" />
+		<result column="spitnum" property="spitnum" jdbcType="BIGINT" />
+		<result column="commentnum" property="commentnum" jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, createtime, updatetime, isopen, text, userid, isdel, marktime,
+		readnum, praisenum,
+		spitnum, commentnum
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from book
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from book
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.ts.main.bean.model.Book"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into book (id, createtime, updatetime,
+		isopen, text, userid,
+		isdel, marktime, readnum,
+		praisenum, spitnum, commentnum
+		)
+		values (#{id,jdbcType=BIGINT}, #{createtime,jdbcType=BIGINT},
+		#{updatetime,jdbcType=BIGINT},
+		#{isopen,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR}, #{userid,jdbcType=BIGINT},
+		#{isdel,jdbcType=INTEGER}, #{marktime,jdbcType=BIGINT},
+		#{readnum,jdbcType=BIGINT},
+		#{praisenum,jdbcType=BIGINT}, #{spitnum,jdbcType=BIGINT}, #{commentnum,jdbcType=BIGINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.ts.main.bean.model.Book"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into book
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+			<if test="isopen != null">
+				isopen,
+			</if>
+			<if test="text != null">
+				text,
+			</if>
+			<if test="userid != null">
+				userid,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="marktime != null">
+				marktime,
+			</if>
+			<if test="readnum != null">
+				readnum,
+			</if>
+			<if test="praisenum != null">
+				praisenum,
+			</if>
+			<if test="spitnum != null">
+				spitnum,
+			</if>
+			<if test="commentnum != null">
+				commentnum,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=BIGINT},
+			</if>
+			<if test="isopen != null">
+				#{isopen,jdbcType=INTEGER},
+			</if>
+			<if test="text != null">
+				#{text,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=BIGINT},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=INTEGER},
+			</if>
+			<if test="marktime != null">
+				#{marktime,jdbcType=BIGINT},
+			</if>
+			<if test="readnum != null">
+				#{readnum,jdbcType=BIGINT},
+			</if>
+			<if test="praisenum != null">
+				#{praisenum,jdbcType=BIGINT},
+			</if>
+			<if test="spitnum != null">
+				#{spitnum,jdbcType=BIGINT},
+			</if>
+			<if test="commentnum != null">
+				#{commentnum,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ts.main.bean.model.Book">
+		update book
+		<set>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="updatetime != null">
+				updatetime = #{updatetime,jdbcType=BIGINT},
+			</if>
+			<if test="isopen != null">
+				isopen = #{isopen,jdbcType=INTEGER},
+			</if>
+			<if test="text != null">
+				text = #{text,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				userid = #{userid,jdbcType=BIGINT},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=INTEGER},
+			</if>
+			<if test="marktime != null">
+				marktime = #{marktime,jdbcType=BIGINT},
+			</if>
+			<if test="readnum != null">
+				readnum = #{readnum,jdbcType=BIGINT},
+			</if>
+			<if test="praisenum != null">
+				praisenum = #{praisenum,jdbcType=BIGINT},
+			</if>
+			<if test="spitnum != null">
+				spitnum = #{spitnum,jdbcType=BIGINT},
+			</if>
+			<if test="commentnum != null">
+				commentnum = #{commentnum,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ts.main.bean.model.Book">
+		update book
+		set createtime = #{createtime,jdbcType=BIGINT},
+		updatetime = #{updatetime,jdbcType=BIGINT},
+		isopen = #{isopen,jdbcType=INTEGER},
+		text = #{text,jdbcType=VARCHAR},
+		userid = #{userid,jdbcType=BIGINT},
+		isdel = #{isdel,jdbcType=INTEGER},
+		marktime = #{marktime,jdbcType=BIGINT},
+		readnum = #{readnum,jdbcType=BIGINT},
+		praisenum = #{praisenum,jdbcType=BIGINT},
+		spitnum = #{spitnum,jdbcType=BIGINT},
+		commentnum = #{commentnum,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="getBookList" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from book where isdel=0
+		<if test="userid != null">
+			and userid = #{userid,jdbcType=BIGINT}
+		</if>
+
+		<if test="isopen != null">
+			and isopen = #{isopen,jdbcType=INTEGER}
+		</if>
+
+		<if test="createtime != null">
+			and createtime &gt; #{createtime,jdbcType=BIGINT}
+		</if>
+
+		<if test="orderbystr != null">
+			order by ${orderbystr}
+		</if>
+
+		<if test="page != null and limit != null">
+			limit #{page,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="getMineTotal" parameterType="java.lang.Long"
+		resultType="java.lang.Integer">
+		select count(id) from book where isdel=0 and userid =
+		#{userid,jdbcType=BIGINT}
+	</select>
+
+</mapper>

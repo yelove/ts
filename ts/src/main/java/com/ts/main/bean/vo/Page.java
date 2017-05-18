@@ -18,6 +18,8 @@ public class Page {
 	private Integer totalPage;
 	
 	private Long totalRows;
+	
+	private Integer term = 3;
 
 	public Integer getPage() {
 		return page;
@@ -49,6 +51,14 @@ public class Page {
 
 	public void setTotalRows(Long totalRows) {
 		this.totalRows = totalRows;
+	}
+
+	public Integer getTerm() {
+		return term;
+	}
+
+	public void setTerm(Integer term) {
+		this.term = term;
 	}
 	
 }
