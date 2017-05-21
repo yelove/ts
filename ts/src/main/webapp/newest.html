@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token"
+	content="WLiEfeSJaRU4DCNQDumn1Ji5znkHotmL6lTYW18f">
+<title>热评列表-TS.COM</title>
+<link type="application/opensearchdescription+xml" href="opensearch.xml"
+	title="TS.COM" rel="search" />
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/uikit.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slider.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slidenav.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slideshow.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/tooltip.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/notify.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/animate.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/introjs.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/style.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/select2/css/select2.css">
+<style type="text/css">
+.uk-comment-test1 {
+    border-color: rgba(45,112,145,.3);
+    background-color: #92a9b5;
+    color: #2d7091;
+    text-shadow: 0 1px 0 #fff;
+}
+</style>
+<script type="text/javascript">
+	var user_id = 4501;
+	var play_token = '5912554fdec6cZDUDF';
+	var username = 'Doom4J';
+	var head_pic = '/img/avatar.jpg';
+	paceOptions = {
+		restartOnRequestAfter : false
+	}
+</script>
+<script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/ts/all/all.js"></script>
+<script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
+<script src='//cdn.bootcss.com/socket.io/1.7.3/socket.io.min.js'></script>
+<link rel="icon" href="/ts/favicon.ico"
+	type="image/x-icon" />
+<!--[if lt IE 9]> <script src="/ts/assets/js/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="/ts/assets/js/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+</head>
+<body>
+	<div id="scroll"></div>
+	<div id="h5music" class="jp-jplayer"></div>
+	<div class="background-cover-img img-ucenter"></div>
+	<div class="background-cover"></div>
+	<a href="/ts" title="TS.COM" class="s-logo"><i
+		class="logo"></i></a>
+	<div class="header">
+		<div class="h-title">
+			<div class="uk-container uk-container-center">
+				<ul class="uk-tab">
+					<li class="uk-active"><a href="#">最新日记</a></li>
+				    <li><a href="/hottoday.html">24小时最热</a></li>
+				    <li><a href="/hotweek.html">本周热评</a></li>
+				    <li><a href="/hotmonth.html">本月热评</a></li>
+				    <li><a href="/hotyear.html">年度热评</a></li>
+				    <li class="uk-disabled"><a href="/">返回主页</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="home-layer">
+		<div class="uk-container uk-container-center">
+			<div class="uk-panel uk-panel-box home-dynamic"
+				data-uk-scrollspy="{cls:'animated', target:'.uk-comment', delay:550}"
+				id="posts-list">
+				<ul id="mine" class="uk-comment-list">
+				<article class="uk-comment">
+					<p style="color: white;">暂无动态</p>
+				</article>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="mshare-post" class="uk-modal gray-modal msg-sends">
+		<div class="uk-modal-dialog">
+			<a href="javascript:;" title="关闭"
+				class="uk-modal-close iconfont icon-close closebar"></a>
+			<ul class="uk-subnav" data-uk-switcher="{connect:'#sendshare'}">
+				<li class="uk-active"><a href="">转发</a></li>
+			</ul>
+			<ul id="sendshare" class="uk-switcher">
+				<li><form action="" method="POST" id="public-share">
+						<textarea name="content" id="share-content" rows="4"
+							class="uk-button-borderd uk-width-1-1" placeholder="说点什么吧"></textarea>
+						<ul class="uk-subnav uk-margin-small-bottom">
+							<li class="j-flag" data-uk-dropdown="{mode:'click'}"><a
+								href="#" class="uk-icon-smile-o uk-text-large"></a>
+							<div class="uk-dropdown dropdown-arrow-up">
+									<span title="大笑" class="emtitm"><img data-text="大笑"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_86.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_86.png"></span><span
+										title="可爱" class="emtitm"><img data-text="可爱"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_85.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_85.png"></span> <span
+										title="憨笑" class="emtitm"><img data-text="憨笑"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_359.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_359.png"></span><span
+										title="色" class="emtitm"><img data-text="色"
+										data-url="//s1.music.126.net/style/web2/emt/emoji_95.png"
+										class="f-alpha"
+										src="//s1.music.126.net/style/web2/emt/emoji_95.png"></span>
+								</div></li>
+							<li data-uk-dropdown="{mode:'click'}"><a href="#"
+								class="uk-icon-at uk-text-large"></a>
+							<div class="uk-dropdown dropdown-arrow-up">
+									<ul class="uk-nav uk-nav-dropdown">
+										<li class="uk-nav-header">选择最近@的人或直接输入</li>
+									</ul>
+								</div></li>
+						</ul>
+						<div class="uk-flex uk-flex-space-between">
+							<div>
+								<button type="submit"
+									class="uk-button button-signin uk-button-small">分享</button>
+								<button type="button"
+									class="uk-button button-cancel uk-button-small uk-modal-close">取消</button>
+							</div>
+							<ul class="uk-subnav">
+								<li class="uk-text-medium">同时分享到：</li>
+								<li class="uk-active"><a href=""><i
+										class="uk-icon-weibo uk-text-large"></i></a></li>
+								<li><a href="#"><i
+										class="uk-icon-tencent-weibo uk-text-large"></i></a></li>
+								<li><a href="#"><i
+										class="iconfont icon-douban uk-text-large"></i></a></li>
+							</ul>
+						</div>
+					</form></li>
+			</ul>
+		</div>
+	</div>
+	<div id="private" class="uk-modal gray-modal msg-sends">
+		<div class="uk-modal-dialog">
+			<a href="javascript:;" title="关闭"
+				class="uk-modal-close iconfont icon-close closebar"></a>
+			<ul class="uk-subnav">
+				<li>发送私信</li>
+			</ul>
+			<form action="post" id="private-form">
+				<div class="uk-form-row">
+					<select class="slec-single" multiple="true" name="to_users[]"
+						id="to_users"><option value="4501" selected="selected">Doom4J</option>
+					</select>
+				</div>
+				<div class="uk-form-row">
+					<textarea name="content" id="private-content" rows="4"
+						class="uk-button-borderd uk-width-1-1" placeholder="说点什么吧"></textarea>
+				</div>
+				<div class="uk-flex uk-flex-space-between">
+					<div class="j-flag uk-position-relative"
+						data-uk-dropdown="{mode:'click'}">
+						<a href="#" class="uk-icon-smile-o uk-text-large"></a>
+						<div class="uk-dropdown dropdown-arrow-up">
+							<span title="大笑" class="emtitm"><img data-text="大笑"
+								data-url="//s1.music.126.net/style/web2/emt/emoji_86.png"
+								class="f-alpha"
+								src="//s1.music.126.net/style/web2/emt/emoji_86.png"></span><span
+								title="可爱" class="emtitm"><img data-text="可爱"
+								data-url="//s1.music.126.net/style/web2/emt/emoji_85.png"
+								class="f-alpha"
+								src="//s1.music.126.net/style/web2/emt/emoji_85.png"></span> <span
+								title="憨笑" class="emtitm"><img data-text="憨笑"
+								data-url="//s1.music.126.net/style/web2/emt/emoji_359.png"
+								class="f-alpha"
+								src="//s1.music.126.net/style/web2/emt/emoji_359.png"></span><span
+								title="色" class="emtitm"><img data-text="色"
+								data-url="//s1.music.126.net/style/web2/emt/emoji_95.png"
+								class="f-alpha"
+								src="//s1.music.126.net/style/web2/emt/emoji_95.png"></span>
+						</div>
+					</div>
+					<div>
+						<span>200</span>
+						<button type="submit"
+							class="uk-button button-signin uk-button-small">发送</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script src="/ts/assets/libs/select2/js/select2.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$(document).ready(function() {
+				$(".slec-single").select2({
+					placeholder : "请选择",
+					allowClear : true,
+					minimumResultsForSearch : Infinity,
+					width : '88%'
+				});
+			});
+			$('#private-form .at').click(
+					function() {
+						$('#private-content').insertContent(
+								'@' + $(this).text() + ' ');
+					});
+			$('#private-form .emtitm').click(
+					function() {
+						$('#private-content').insertContent(
+								'[[' + $(this).attr('title') + ']]');
+					});
+			$('#private-form').on('submit', function() {
+				var users = $('select[name^=to_users').val();
+				if (!users) {
+					layer.msg('请选择消息接收者');
+				}
+				var content = $('#private-content').val();
+				if (!content) {
+					layer.msg('请输入内容');
+				}
+				$.ajax('/message/send', {
+					type : "POST",
+					dataType : "json",
+					data : $('#private-form').serialize(),
+					success : function(res) {
+						if (res.error == 0) {
+							$('#private-form')[0].reset();
+							layer.msg('消息发送成功');
+						} else {
+							UIkit.notify('系统或参数错误，请稍后再试', {
+								status : 'danger'
+							});
+						}
+					}
+				});
+				return false;
+			});
+		});
+	</script>
+	<div class="go-up">
+		<a href=""><i class="uk-icon-chevron-up"></i></a>
+	</div>
+	<div class="menu-xs animated slideInRight uk-hidden">
+		<a href="#" title="关闭" class="iconfont closebar"
+			data-uk-toggle="{target:'.menu-xs'}">&#xe61e;</a>
+		<div class="nano">
+			<div class="nano-content">
+				<nav id="nav">
+					<ul class="uk-nav" data-uk-nav>
+						<li><a href="/ts">主页</a></li>
+						<li><a href="/ts/bandari">乐团介绍</a></li>
+						<li class="uk-parent"><a href="#">音乐 &amp; 商城</a>
+						<ul class="uk-nav-sub">
+								<li><a href="/ts/albums">专辑</a></li>
+								<li><a href="/ts/discover">发现</a></li>
+								<li><a href="/ts/playlists">歌单</a></li>
+							</ul></li>
+						<li><a href="/ts/photo">爱壁纸</a></li>
+						<li><a href="/ts/movie">电影</a></li>
+						<li><a href="/ts/about">关于</a></li>
+						<li><a href="/ts/blog">日志</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var next_page_url = "/ts/book/newest";
+		var end = 0;
+		var loading = null;
+		var startnum = 1;
+		function show() {
+			if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+				if (end == 1) {
+					return false;
+				}
+				if (next_page_url != '') {
+					ajaxRead(next_page_url, 'mine');
+				} else {
+					end = 1;
+					$('#mine').append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
+				}
+			}
+		};
+		function ajaxRead(url, id) {
+			$.ajax({
+					dataType : 'json',
+					url : url,
+					data : {'start':startnum},
+					beforeSend : function() {
+						loading = layer.load(2, {
+							shade : 0
+						});
+					},
+					success : function(res) {
+						layer.close(loading);
+						if (res.status == 1000) {
+							if (res.bookhot != null&&res.bookhot.length>0) {
+								var bookhot = eval(res.bookhot);
+								var booklis = "";
+								$.each(bookhot,function(n,value){
+									booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"+
+									"<img class='uk-comment-avatar' style='border-radius:0%;' src='/ts/uploads/placeholder_avatar.svg' width='50' height='50'>"+
+									"<h4 class='uk-comment-title'>"+value.userid+"</h4><div class='uk-comment-meta'>"+
+									value.creatdate+" | <a href='javascript:;' val='90' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"+
+									value.praisenum+"</span>)</a> | #</div></header><div class='uk-comment-body'><p>"+value.text+"</p><hr style='border-top: 1px solid #635975;'/></div>"
+									var idx = 1;
+									$.each(value.nearlist,function(n,value){
+										if(null!=value){
+											booklis += "<div class='uk-comment-body' style='font-size: 13px;color: #999;'> "+value.creatdate+"| <a href='javascript:;' val='"+value.praisenum+"' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"+
+											value.praisenum+"</span>)</a> |  #</div><div class='uk-comment-body'><p>"+
+											value.text+"</p>";
+											if(idx==1){
+												booklis += "<hr style='border-top: 1px solid #635975;'/></div></div>";
+											}else{
+												booklis += "</div></div>";
+											}
+											idx += 1;
+										}
+									});
+									booklis += "</article></li><hr style='border-top: 1px solid #8a7777;'/>";
+								});
+								$('#' + id).append(booklis);
+								startnum = startnum+res.bookhot.length;
+							} else {
+								end = 1;
+								$('#' + id).append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
+							}
+						}
+					}
+					});
+		};
+		function getHot(page){
+			$.ajax({
+				dataType : 'json',
+				url : '/ts/book/newest',
+				data : {'start':startnum},
+				success : function(res) {
+					if (res.status == 1000) {
+						var bookhot = eval(res.bookhot);
+						var booklis = "";
+						$.each(bookhot,function(n,value){
+							booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"+
+							"<img class='uk-comment-avatar' style='border-radius:0%;' src='/ts/uploads/placeholder_avatar.svg' width='50' height='50'>"+
+							"<h4 class='uk-comment-title'>"+value.userid+"</h4><div class='uk-comment-meta'>"+
+							value.creatdate+" | <a href='javascript:;' val='90' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"+
+							value.praisenum+"</span>)</a> | #</div></header><div class='uk-comment-body'><p>"+value.text+"</p><hr style='border-top: 1px solid #635975;'/></div>"
+							var idx = 1;
+							$.each(value.nearlist,function(n,value){
+								if(null!=value){
+									booklis += "<div class='uk-comment-body' style='font-size: 13px;color: #999;'> "+value.creatdate+"| <a href='javascript:;' val='"+value.praisenum+"' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"+
+									value.praisenum+"</span>)</a> |  #</div><div class='uk-comment-body'><p>"+
+									value.text+"</p>";
+									if(idx==1){
+										booklis += "<hr style='border-top: 1px solid #635975;'/></div></div>";
+									}else{
+										booklis += "</div></div>";
+									}
+									idx += 1;
+								}
+							});
+							booklis += "</article></li><hr style='border-top: 1px solid #8a7777;'/>";
+						});
+						startnum = startnum+res.bookhot.length;
+						$('#mine').html(booklis);
+						if(res.bookhot.length<10){
+							$('#mine').append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
+						}
+					}
+				}
+			});
+		};
+		$(window).bind('scroll', function() {
+			show()
+		});
+	</script>
+	<script src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('.search-type').on('click',
+					function() {
+						$(this).addClass('uk-active').siblings().removeClass('uk-active');
+						$('#search-type').val($(this).text());
+						$('#web-search-content').val('');
+					});
+			$('#website-search-form').on('submit', function() {
+				if ($('#web-search-content').val() == '') {
+					return false;
+				}
+			});
+			$("img.lazy1").lazyload({
+				event : "sporty"
+			});
+			$('.icon-skin').on('click', function() {
+				$("img.lazy1").trigger("sporty");
+			});
+			$('.uk-nav-sub li.uk-active').parents('.uk-parent').addClass('uk-active');
+			getHot(1);
+			$('#i-skin').on('click','.skin-image',
+							function() {
+								var skin_id = $(this).attr('val');
+								if ($(this).hasClass('uk-active')) {
+									$(this).removeClass('uk-active');
+									if (user_id > 0) {
+										updateSkin(0);
+									} else {
+										$.cookie('skin_id', 0);
+									}
+									$('.background-cover-img').css('background', '').addClass('img-index');
+								} else {
+									$('#i-skin').find('.skin-image').removeClass('uk-active');
+									$(this).addClass('uk-active');
+									$('.background-cover-img').css('background',
+										'url('+ $(this).find('img').attr('data-src')+ ') no-repeat fixed center top / cover');
+									if (user_id > 0) {
+										updateSkin(skin_id);
+									} else {
+										$.cookie('skin_id', skin_id, {
+											expires : 7
+										});
+									}
+								}
+							});
+		});
+	</script>
+	<script type="text/javascript">
+		$.ajaxSetup({
+			headers : {
+				'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+	</script>
+</body>
+</html>

@@ -16,7 +16,8 @@
 		<result column="commentnum" property="commentnum" jdbcType="BIGINT" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, createtime, updatetime, isopen, text, userid, isdel, marktime,
+		id, createtime, updatetime, isopen, text, userid, isdel,
+		marktime,
 		readnum, praisenum,
 		spitnum, commentnum
 	</sql>
@@ -33,17 +34,23 @@
 	</delete>
 	<insert id="insert" parameterType="com.ts.main.bean.model.Book"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into book (id, createtime, updatetime,
+		insert into book (id, createtime,
+		updatetime,
 		isopen, text, userid,
 		isdel, marktime, readnum,
-		praisenum, spitnum, commentnum
+		praisenum,
+		spitnum, commentnum
 		)
-		values (#{id,jdbcType=BIGINT}, #{createtime,jdbcType=BIGINT},
+		values (#{id,jdbcType=BIGINT},
+		#{createtime,jdbcType=BIGINT},
 		#{updatetime,jdbcType=BIGINT},
-		#{isopen,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR}, #{userid,jdbcType=BIGINT},
-		#{isdel,jdbcType=INTEGER}, #{marktime,jdbcType=BIGINT},
+		#{isopen,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR},
+		#{userid,jdbcType=BIGINT},
+		#{isdel,jdbcType=INTEGER},
+		#{marktime,jdbcType=BIGINT},
 		#{readnum,jdbcType=BIGINT},
-		#{praisenum,jdbcType=BIGINT}, #{spitnum,jdbcType=BIGINT}, #{commentnum,jdbcType=BIGINT}
+		#{praisenum,jdbcType=BIGINT}, #{spitnum,jdbcType=BIGINT},
+		#{commentnum,jdbcType=BIGINT}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.ts.main.bean.model.Book"
@@ -167,16 +174,20 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.ts.main.bean.model.Book">
 		update book
-		set createtime = #{createtime,jdbcType=BIGINT},
-		updatetime = #{updatetime,jdbcType=BIGINT},
+		set
+		createtime = #{createtime,jdbcType=BIGINT},
+		updatetime =
+		#{updatetime,jdbcType=BIGINT},
 		isopen = #{isopen,jdbcType=INTEGER},
 		text = #{text,jdbcType=VARCHAR},
 		userid = #{userid,jdbcType=BIGINT},
 		isdel = #{isdel,jdbcType=INTEGER},
-		marktime = #{marktime,jdbcType=BIGINT},
+		marktime =
+		#{marktime,jdbcType=BIGINT},
 		readnum = #{readnum,jdbcType=BIGINT},
 		praisenum = #{praisenum,jdbcType=BIGINT},
-		spitnum = #{spitnum,jdbcType=BIGINT},
+		spitnum =
+		#{spitnum,jdbcType=BIGINT},
 		commentnum = #{commentnum,jdbcType=BIGINT}
 		where id = #{id,jdbcType=BIGINT}
 	</update>
@@ -209,6 +220,30 @@
 		resultType="java.lang.Integer">
 		select count(id) from book where isdel=0 and userid =
 		#{userid,jdbcType=BIGINT}
+	</select>
+
+	<select id="getAllBookIdAndUserId" resultMap="BaseResultMap">
+		select id,userid
+		from book where isdel=0 and isopen = 0 order by createtime desc
+	</select>
+
+	<select id="getMineBookId" parameterType="java.lang.Long"
+		resultType="java.lang.Long">
+		select id from book where isdel=0 and isopen = 0 and userid
+		= #{userid,jdbcType=BIGINT} order by createtime desc
+	</select>
+
+	<select id="getNewestBook" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select id,userid from book where isdel=0 and isopen=0 and id
+		&gt; #{bigid,jdbcType=BIGINT}  order by createtime desc
+	</select>
+
+	<select id="getHotBook" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select id,userid from book where isdel=0 and isopen=0 and
+		createtime &gt; #{before,jdbcType=BIGINT} order by praisenum
+		desc,createtime desc limit 200
 	</select>
 
 </mapper>
