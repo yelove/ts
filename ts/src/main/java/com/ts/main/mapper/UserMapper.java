@@ -22,6 +22,8 @@ public interface UserMapper {
 	int updateUserForLastLog(@Param("id")Long id, @Param("updatetime")Long currentTimeMillis);
 
 	User getUserByName(@Param("name")String name);
+	
+	User getUserByEmail(@Param("email")String email);
 
 	User getUserByNo(@Param("tsno")Long parseLong);
 }
