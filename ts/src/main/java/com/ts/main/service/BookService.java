@@ -30,7 +30,7 @@ import com.ts.main.bean.vo.BookVo;
 import com.ts.main.bean.vo.ID123;
 import com.ts.main.bean.vo.Page;
 import com.ts.main.mapper.BookMapper;
-import com.ts.main.util.TimeUtils;
+import com.ts.main.utils.TimeUtils4book;
 
 /**
  * @author hasee
@@ -126,7 +126,7 @@ public class BookService {
 	public void initHotBook(int day) {
 		if (redisService.setNx("Task_hotBook_" + day, 10)) {
 			List<Book> booklis = bookMapper
-					.getHotBook(day == 0 ? 0l : TimeUtils.getBefore(new Long(day), TimeUnit.DAYS));
+					.getHotBook(day == 0 ? 0l : TimeUtils4book.getBefore(new Long(day), TimeUnit.DAYS));
 			if (null == booklis || booklis.size() == 0) {
 				return;
 			}
@@ -385,13 +385,13 @@ public class BookService {
 	private Long getStartCreatetime(int term) {
 		switch (term) {
 		case 4:
-			return TimeUtils.getBefore(365l, TimeUnit.DAYS);
+			return TimeUtils4book.getBefore(365l, TimeUnit.DAYS);
 		case 3:
-			return TimeUtils.getBefore(30l, TimeUnit.DAYS);
+			return TimeUtils4book.getBefore(30l, TimeUnit.DAYS);
 		case 2:
-			return TimeUtils.getBefore(7l, TimeUnit.DAYS);
+			return TimeUtils4book.getBefore(7l, TimeUnit.DAYS);
 		default:
-			return TimeUtils.getBefore(1l, TimeUnit.DAYS);
+			return TimeUtils4book.getBefore(1l, TimeUnit.DAYS);
 		}
 	}
 
