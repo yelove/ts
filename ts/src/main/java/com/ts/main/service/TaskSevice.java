@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 /**
- * @author hasee 核心定时任务 用于不断刷新 各种日记 列表 从数据库拉取 放入缓存
+ * @author zsy 核心定时任务 用于不断刷新 各种日记 列表 从数据库拉取 放入缓存
  *
  */
 @Service
@@ -20,7 +20,7 @@ public class TaskSevice {
 	/**
 	 * 从数据库拉取最新日记ID列表
 	 */
-	@Scheduled(cron = "5 */1 * * * ?")
+	@Scheduled(cron = "5 */2 * * * ?")
 	public void newestBook() {
 		bookService.intiNewestBook();
 	}
@@ -31,12 +31,12 @@ public class TaskSevice {
 		bookService.initHotBook(7);
 	}
 
-	@Scheduled(cron = "1 1 */1 * * ?")
+	@Scheduled(cron = "1 */20 * * * ?")
 	public void hotBook30D() {
 		bookService.initHotBook(30);
 	}
 
-	@Scheduled(cron = "3 3 */2 * * ?")
+	@Scheduled(cron = "3 3 */3 * * ?")
 	public void hotBook1Y() {
 		bookService.initHotBook(365);
 	}

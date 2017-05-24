@@ -163,7 +163,7 @@ public class RedisService<T> {
 			}
 		});
 	}
-
+	
 	/**
 	 * @param key
 	 * @param rage
@@ -184,6 +184,28 @@ public class RedisService<T> {
 	 */
 	public List<T> getListRageFreedom(String key, Long start, Long end, Class<T> type) {
 		return getLisetinner(key, start, end, type);
+	}
+	
+	/**
+	 * @param newestbookList
+	 * @return 左弹出
+	 */
+	public T leftPop(String newestbookList) {
+		
+		return redisTemplate.opsForList().leftPop(newestbookList);
+	}
+	
+	/**
+	 * @param key
+	 * @param count
+	 * @param value
+	 * @return 从list中移除某个元素 
+	 * 	count > 0 : 从表头开始向表尾搜索，移除与 value 相等的元素，数量为 count 
+		count < 0 : 从表尾开始向表头搜索，移除与 value 相等的元素，数量为 count 的绝对值 
+		count = 0 : 移除表中所有与 value 相等的值 
+	 */
+	public long listRemoveValue(String key,long count,T value){
+		return redisTemplate.opsForList().remove(key, count, value);
 	}
 
 	/**
@@ -251,5 +273,6 @@ public class RedisService<T> {
 			}
 		});
 	}
+
 
 }

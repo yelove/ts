@@ -69,39 +69,47 @@ public class BookService {
 	@Autowired
 	RedisService<Long> longredisService;
 
-	private static Cache<String, List<ID123>> BOOKLISTCACHE = CacheBuilder.newBuilder()
-			.expireAfterWrite(1, TimeUnit.MINUTES).initialCapacity(2).build();
+	private static Cache<String, List<ID123>> BOOKLISTCACHE = CacheBuilder.newBuilder().softValues()
+			.expireAfterWrite(3, TimeUnit.MINUTES).initialCapacity(2).build();
 
-	private static Cache<String, List<ID123>> HOTBOOKLIST = CacheBuilder.newBuilder().initialCapacity(8).build();
+	private static Cache<String, List<ID123>> HOTBOOKLIST = CacheBuilder.newBuilder().softValues().initialCapacity(8)
+			.build();
 
-	private static Cache<String, Book> book4096 = CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES)
-			.initialCapacity(512).maximumSize(4096).build();
+	private static Cache<String, Book> book4096 = CacheBuilder.newBuilder().softValues()
+			.expireAfterAccess(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(4096).build();
 
 	public void intiNewestBook() {
 		if (redisService.setNx("Task_newestBook", 10)) {
 			List<Book> booklis = null;
+			boolean flag = false;
+			ID123 id123 = null;
 			if (redisService.exist(NewestBook_List)) {
-				ID123 id123 = redisService.getListFirst(NewestBook_List,ID123.class);
+				// redis中存在缓存则 已最后一个ID 为起始值查询
+				id123 = redisService.getListFirst(NewestBook_List, ID123.class);
 				booklis = bookMapper.getNewestBook(id123.getBkid());
 			} else {
 				// 初始化 最新 列表
 				booklis = bookMapper.getAllBookIdAndUserId();
+				flag = true;
 			}
 			if (null == booklis || booklis.size() == 0) {
 				return;
 			}
 			List<ID123> id123Lis = new ArrayList<ID123>(booklis.size());
-			Map<Long,Integer> filtermap = new HashMap<Long,Integer>(booklis.size());
+			// 过滤map1 主要从用户ID维度去过滤 相当于三条一展视
+			Map<Long, Integer> filtermap = new HashMap<Long, Integer>(booklis.size());
+			// 过滤map2 针对以被缓存的值过滤 记录次新条 然后再从缓存中删除 会损失第四条的展示机会
+			Map<Long, Integer> filtermap2 = new HashMap<Long, Integer>(booklis.size());
 			for (Book book : booklis) {
 				Long userid = book.getUserid();
-				if(filtermap.containsKey(userid)){
-					if(filtermap.get(userid)%3==0){
-						filtermap.put(userid, filtermap.get(userid)+1);
-					}else{
-						filtermap.put(userid, filtermap.get(userid)+1);
+				if (filtermap.containsKey(userid)) {
+					if (filtermap.get(userid) % 3 == 0) {
+						filtermap.put(userid, filtermap.get(userid) + 1);
+					} else {
+						filtermap.put(userid, filtermap.get(userid) + 1);
 						continue;
 					}
-				}else{
+				} else {
 					filtermap.put(userid, 1);
 				}
 				List<Long> minebooklis = getMineBookIds(userid);
@@ -110,16 +118,44 @@ public class BookService {
 				Long id3 = -1l;
 				if (minebooklis.size() > i + 1) {
 					id2 = minebooklis.get(i + 1);
+					filtermap2.put(id2, null);
 					if (minebooklis.size() > i + 2) {
 						id3 = minebooklis.get(i + 2);
 					}
 				}
 				id123Lis.add(new ID123(book.getId(), id2, id3));
 			}
-			if (id123Lis.size() <= 200) {
+			if (flag) {
+				redisService.addAll2List(NewestBook_List, id123Lis);
+				if (id123Lis.size() <= 200) {
+					BOOKLISTCACHE.put(NewestBook_List, id123Lis);
+				} else {
+					id123Lis.subList(200, id123Lis.size() - 1).clear();
+					BOOKLISTCACHE.put(NewestBook_List, id123Lis);
+				}
+			} else {
+				if (filtermap2.size() > 0 && null != id123) {
+					if (filtermap2.containsKey(id123.getBkid())) {
+						id123 = redisService.leftPop(NewestBook_List);
+						filtermap2.remove(id123.getBkid());
+					}
+					if (filtermap2.size() > 0) {
+						List<ID123> rediscacheid123Lis = redisService.getListRage(NewestBook_List, 200l, ID123.class);
+						for (ID123 cachedID123 : rediscacheid123Lis) {
+							if (filtermap2.containsKey(cachedID123.getBkid())) {
+								redisService.listRemoveValue(NewestBook_List, 1, cachedID123);
+								filtermap2.remove(cachedID123.getBkid());
+							}
+							if (filtermap2.size() == 0) {
+								break;
+							}
+						}
+					}
+				}
+				redisService.addAll2ListLeft(NewestBook_List, id123Lis);
+				id123Lis = redisService.getListRage(NewestBook_List, 200l, ID123.class);
 				BOOKLISTCACHE.put(NewestBook_List, id123Lis);
 			}
-			redisService.addAll2List(NewestBook_List, id123Lis);
 		}
 	}
 
@@ -136,7 +172,7 @@ public class BookService {
 				int i = minebooklis.indexOf(book.getId());
 				Long id2 = -1l;
 				Long id3 = -1l;
-				if (minebooklis.size() > i+1) {
+				if (minebooklis.size() > i + 1) {
 					id2 = minebooklis.get(i + 1);
 					if (minebooklis.size() > i + 2) {
 						id3 = minebooklis.get(i + 2);
@@ -146,15 +182,20 @@ public class BookService {
 			}
 			switch (day) {
 			case 1:
-				HOTBOOKLIST.put(HotBook24H, id123Lis);break;
+				HOTBOOKLIST.put(HotBook24H, id123Lis);
+				break;
 			case 7:
-				HOTBOOKLIST.put(HotBook7D, id123Lis);break;
+				HOTBOOKLIST.put(HotBook7D, id123Lis);
+				break;
 			case 30:
-				HOTBOOKLIST.put(HotBook30D, id123Lis);break;
+				HOTBOOKLIST.put(HotBook30D, id123Lis);
+				break;
 			case 365:
-				HOTBOOKLIST.put(HotBook1Y, id123Lis);break;
+				HOTBOOKLIST.put(HotBook1Y, id123Lis);
+				break;
 			case 0:
-				HOTBOOKLIST.put(HotBookAll, id123Lis);break;
+				HOTBOOKLIST.put(HotBookAll, id123Lis);
+				break;
 			}
 		}
 	}
@@ -168,15 +209,20 @@ public class BookService {
 		String fkey = "";
 		switch (day) {
 		case 1:
-			fkey = HotBook24H;break;
+			fkey = HotBook24H;
+			break;
 		case 7:
-			fkey = HotBook7D;break;
+			fkey = HotBook7D;
+			break;
 		case 30:
-			fkey = HotBook30D;break;
+			fkey = HotBook30D;
+			break;
 		case 365:
-			fkey = HotBook1Y;break;
+			fkey = HotBook1Y;
+			break;
 		case 0:
-			fkey = HotBookAll;break;
+			fkey = HotBookAll;
+			break;
 		}
 		List<ID123> list = HOTBOOKLIST.getIfPresent(fkey);
 		if (null == list) {
@@ -275,7 +321,7 @@ public class BookService {
 					e.printStackTrace();
 				}
 			}
-			bkv.setNearlist(Lists.newArrayList(null==bk1?null:covent(bk1), null==bk2?null:covent(bk2)));
+			bkv.setNearlist(Lists.newArrayList(null == bk1 ? null : covent(bk1), null == bk2 ? null : covent(bk2)));
 			relist.add(bkv);
 		}
 		return relist;
@@ -303,7 +349,7 @@ public class BookService {
 			bookredisService.hSet(RedisService.BOOK_KEY, book.getId().toString(), book);
 			longredisService.add2List(UserBook_List_ALL + book.getUserid(), book.getId());
 			if (book.getIsopen() == 0) {
-				longredisService.add2List(UserBook_List + book.getUserid(), book.getId());
+				longredisService.add2ListLeft(UserBook_List + book.getUserid(), book.getId());
 			}
 			return book.getId();
 		} else {
