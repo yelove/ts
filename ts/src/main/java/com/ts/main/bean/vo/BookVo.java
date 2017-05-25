@@ -18,6 +18,8 @@ public class BookVo extends Book{
 	 */
 	private static final long serialVersionUID = -6185161233549210168L;
 	
+	private Long tsno;
+	
 	private String markdate;
 	
 	private String creatdate;
@@ -56,6 +58,14 @@ public class BookVo extends Book{
 
 	public void setNearlist(List<BookVo> nearlist) {
 		this.nearlist = nearlist;
+	}
+
+	public Long getTsno() {
+		return tsno;
+	}
+
+	public void setTsno(Long tsno) {
+		this.tsno = tsno;
 	}
 	
 }

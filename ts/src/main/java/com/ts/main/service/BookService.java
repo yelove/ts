@@ -44,7 +44,7 @@ public class BookService {
 	 */
 	public static final String UserBook_List = "UserBook_List_";
 
-	public static final String UserBook_List_ALL = "UserBook_List_All_";
+	// public static final String UserBook_List_ALL = "UserBook_List_All_";
 	/**
 	 * 最新日记列表前缀
 	 */
@@ -59,6 +59,9 @@ public class BookService {
 
 	@Autowired
 	BookMapper bookMapper;
+	
+	@Autowired
+	UserService userService;
 
 	@Autowired
 	RedisService<ID123> redisService;
@@ -76,7 +79,7 @@ public class BookService {
 			.build();
 
 	private static Cache<String, Book> book4096 = CacheBuilder.newBuilder().softValues()
-			.expireAfterAccess(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(4096).build();
+			.expireAfterAccess(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
 
 	public void intiNewestBook() {
 		if (redisService.setNx("Task_newestBook", 10)) {
@@ -270,11 +273,11 @@ public class BookService {
 				rebooklist = list.subList(0, PAGE_SIZE);
 			}
 		} else {
-			if (start > size - 9) {
-				rebooklist = redisService.getListRageFreedom(NewestBook_List, -(start + PAGE_SIZE.longValue()),
-						-start.longValue(), ID123.class);
+			if (start > size) {
+				rebooklist = redisService.getListRageFreedom(NewestBook_List, start.longValue() - 1,
+						start.longValue() + PAGE_SIZE, ID123.class);
 			} else {
-				rebooklist = list.subList(start - 1, start + PAGE_SIZE - 1);
+				rebooklist = list.subList(start - 1, (start + PAGE_SIZE) >= size ? size - 1 : start + PAGE_SIZE - 1);
 			}
 		}
 		return getBookVoList(rebooklist);
@@ -347,7 +350,8 @@ public class BookService {
 		int i = bookMapper.insertSelective(book);
 		if (i > 0) {
 			bookredisService.hSet(RedisService.BOOK_KEY, book.getId().toString(), book);
-			longredisService.add2List(UserBook_List_ALL + book.getUserid(), book.getId());
+			// longredisService.add2List(UserBook_List_ALL + book.getUserid(),
+			// book.getId());
 			if (book.getIsopen() == 0) {
 				longredisService.add2ListLeft(UserBook_List + book.getUserid(), book.getId());
 			}
@@ -377,6 +381,34 @@ public class BookService {
 	public int getMineTotal(long userid) {
 		int total = bookMapper.getMineTotal(userid);
 		return total;
+	}
+
+	public Page getView(long userid, int start) {
+		List<Long> viewBookidlis = getMineBookIds(userid);
+		Page page = new Page();
+		page.setTotalRows(new Long(viewBookidlis.size()));
+		if(CollectionUtils.isEmpty(viewBookidlis)){
+			return page;
+		}
+		page.setTotalRows(new Long(viewBookidlis.size()));
+		List<Long> pageidlis = viewBookidlis.subList(start - 1,
+				start + PAGE_SIZE > viewBookidlis.size() ? viewBookidlis.size() - 1 : start + PAGE_SIZE - 1);
+		System.out.println(pageidlis.size());
+		List<BookVo> bvolis = Lists.newArrayList();
+		for (final Long id : pageidlis) {
+			try {
+				bvolis.add(covent(book4096.get(id.toString(), new Callable<Book>() {
+					@Override
+					public Book call() throws Exception {
+						return getBookById(id);
+					}
+				})));
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+		page.setList(bvolis);
+		return page;
 	}
 
 	public List<BookVo> getMine(long userid, Page page) {
@@ -412,6 +444,9 @@ public class BookService {
 	}
 
 	private BookVo covent(Book book) {
+		if(null==book){
+			return null;
+		}
 		BookVo bkv = new BookVo();
 		try {
 			BeanUtils.copyProperties(bkv, book);
@@ -424,6 +459,7 @@ public class BookService {
 		bkv.setMarkdate(df.format(new Date(bkv.getMarktime())));
 		bkv.setCreatdate(df.format(new Date(bkv.getCreatetime())));
 		bkv.setUpdatedate(df.format(new Date(bkv.getUpdatetime())));
+		bkv.setTsno(userService.getUserBiIdWithCache(book.getUserid()).getTsno());
 		return bkv;
 	}
 

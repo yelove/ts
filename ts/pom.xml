@@ -245,9 +245,45 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
+
+	<!--配置参数 -->
+	<profiles>
+		<profile>
+			<id>local</id>
+			<properties>
+				<package.environment>local</package.environment>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>prd</id>
+			<properties>
+				<package.environment>prd</package.environment>
+			</properties>
+		</profile>
+	</profiles>
 	<build>
 		<finalName>ts</finalName>
 		<plugins>
+			<!-- tomcat7插件 -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<!-- 自动发布到tomcat -->
+					<port>8080</port>
+					<url>http://localhost:80/manager/html</url>
+					<update>true</update>
+					<server>tomcat</server>
+					<username>admin</username>
+					<password>admin</password>
+					<uriEncoding>utf-8</uriEncoding>
+					<path>/${project.artifactId}</path>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>

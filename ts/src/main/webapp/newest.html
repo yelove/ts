@@ -351,8 +351,8 @@
 						var booklis = "";
 						$.each(bookhot,function(n,value){
 							booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"+
-							"<img class='uk-comment-avatar' style='border-radius:0%;' src='/ts/uploads/placeholder_avatar.svg' width='50' height='50'>"+
-							"<h4 class='uk-comment-title'>"+value.userid+"</h4><div class='uk-comment-meta'>"+
+							"<a href='view.html?uid="+value.userid+"'><img class='uk-comment-avatar' style='border-radius:0%;' src='/ts/uploads/placeholder_avatar.svg' width='50' height='50'>"+
+							"</a><h4 class='uk-comment-title uk-text-warning'>"+value.tsno+"</h4><div class='uk-comment-meta'>"+
 							value.creatdate+" | <a href='javascript:;' val='90' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"+
 							value.praisenum+"</span>)</a> | #</div></header><div class='uk-comment-body'><p>"+value.text+"</p><hr style='border-top: 1px solid #635975;'/></div>"
 							var idx = 1;

@@ -3,23 +3,27 @@
  */
 package com.ts.main.bean.vo;
 
+import java.util.List;
+
 /**
  * @author ZSY
  *
  */
 public class Page {
-	
+
 	public static final int LIMITNUM = 30;
-	
+
 	private Integer page = 0;
-	
+
 	private Integer limit = LIMITNUM;
-	
+
 	private Integer totalPage;
-	
+
 	private Long totalRows;
-	
+
 	private Integer term = 3;
+
+	private List<?> list;
 
 	public Integer getPage() {
 		return page;
@@ -60,5 +64,12 @@ public class Page {
 	public void setTerm(Integer term) {
 		this.term = term;
 	}
-	
+
+	public List<?> getList() {
+		return list;
+	}
+
+	public void setList(List<?> list) {
+		this.list = list;
+	}
 }
