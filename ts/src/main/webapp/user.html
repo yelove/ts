@@ -29,6 +29,14 @@
 	href="/ts/assets/css/style.css">
 <link media="all" type="text/css" rel="stylesheet"
 	href="/ts/assets/libs/select2/css/select2.css">
+	<link rel="stylesheet" type="text/css" href="/ts/assets/css/wangEditor.min.css">
+<style type="text/css">
+.plbtn{
+    float: right;
+    margin-right: 10%;
+}
+p{ word-wrap:break-word; word-break:normal;}
+</style>
 <script type="text/javascript">
 	var user_id = 4501;
 	var play_token = '5912554fdec6cZDUDF';
@@ -172,120 +180,12 @@
 			<div class="uk-panel uk-panel-box home-dynamic"
 				data-uk-scrollspy="{cls:'animated', target:'.uk-comment', delay:550}"
 				id="posts-list">
-				<article id="mine" class="uk-comment">
-					<p style="color: white;">暂无动态</p>
-				</article>
+				<ul id="mine" class="uk-comment-list">
+					<article class="uk-comment">
+						<p style="color: white;">暂无动态</p>
+					</article>
+				</ul>
 			</div>
-		</div>
-	</div>
-	<div id="mshare-post" class="uk-modal gray-modal msg-sends">
-		<div class="uk-modal-dialog">
-			<a href="javascript:;" title="关闭"
-				class="uk-modal-close iconfont icon-close closebar"></a>
-			<ul class="uk-subnav" data-uk-switcher="{connect:'#sendshare'}">
-				<li class="uk-active"><a href="">转发</a></li>
-			</ul>
-			<ul id="sendshare" class="uk-switcher">
-				<li><form action="" method="POST" id="public-share">
-						<textarea name="content" id="share-content" rows="4"
-							class="uk-button-borderd uk-width-1-1" placeholder="说点什么吧"></textarea>
-						<ul class="uk-subnav uk-margin-small-bottom">
-							<li class="j-flag" data-uk-dropdown="{mode:'click'}"><a
-								href="#" class="uk-icon-smile-o uk-text-large"></a>
-							<div class="uk-dropdown dropdown-arrow-up">
-									<span title="大笑" class="emtitm"><img data-text="大笑"
-										data-url="//s1.music.126.net/style/web2/emt/emoji_86.png"
-										class="f-alpha"
-										src="//s1.music.126.net/style/web2/emt/emoji_86.png"></span><span
-										title="可爱" class="emtitm"><img data-text="可爱"
-										data-url="//s1.music.126.net/style/web2/emt/emoji_85.png"
-										class="f-alpha"
-										src="//s1.music.126.net/style/web2/emt/emoji_85.png"></span> <span
-										title="憨笑" class="emtitm"><img data-text="憨笑"
-										data-url="//s1.music.126.net/style/web2/emt/emoji_359.png"
-										class="f-alpha"
-										src="//s1.music.126.net/style/web2/emt/emoji_359.png"></span><span
-										title="色" class="emtitm"><img data-text="色"
-										data-url="//s1.music.126.net/style/web2/emt/emoji_95.png"
-										class="f-alpha"
-										src="//s1.music.126.net/style/web2/emt/emoji_95.png"></span>
-								</div></li>
-							<li data-uk-dropdown="{mode:'click'}"><a href="#"
-								class="uk-icon-at uk-text-large"></a>
-							<div class="uk-dropdown dropdown-arrow-up">
-									<ul class="uk-nav uk-nav-dropdown">
-										<li class="uk-nav-header">选择最近@的人或直接输入</li>
-									</ul>
-								</div></li>
-						</ul>
-						<div class="uk-flex uk-flex-space-between">
-							<div>
-								<button type="submit"
-									class="uk-button button-signin uk-button-small">分享</button>
-								<button type="button"
-									class="uk-button button-cancel uk-button-small uk-modal-close">取消</button>
-							</div>
-							<ul class="uk-subnav">
-								<li class="uk-text-medium">同时分享到：</li>
-								<li class="uk-active"><a href=""><i
-										class="uk-icon-weibo uk-text-large"></i></a></li>
-								<li><a href="#"><i
-										class="uk-icon-tencent-weibo uk-text-large"></i></a></li>
-								<li><a href="#"><i
-										class="iconfont icon-douban uk-text-large"></i></a></li>
-							</ul>
-						</div>
-					</form></li>
-			</ul>
-		</div>
-	</div>
-	<div id="private" class="uk-modal gray-modal msg-sends">
-		<div class="uk-modal-dialog">
-			<a href="javascript:;" title="关闭"
-				class="uk-modal-close iconfont icon-close closebar"></a>
-			<ul class="uk-subnav">
-				<li>发送私信</li>
-			</ul>
-			<form action="post" id="private-form">
-				<div class="uk-form-row">
-					<select class="slec-single" multiple="true" name="to_users[]"
-						id="to_users"><option value="4501" selected="selected">Doom4J</option>
-					</select>
-				</div>
-				<div class="uk-form-row">
-					<textarea name="content" id="private-content" rows="4"
-						class="uk-button-borderd uk-width-1-1" placeholder="说点什么吧"></textarea>
-				</div>
-				<div class="uk-flex uk-flex-space-between">
-					<div class="j-flag uk-position-relative"
-						data-uk-dropdown="{mode:'click'}">
-						<a href="#" class="uk-icon-smile-o uk-text-large"></a>
-						<div class="uk-dropdown dropdown-arrow-up">
-							<span title="大笑" class="emtitm"><img data-text="大笑"
-								data-url="//s1.music.126.net/style/web2/emt/emoji_86.png"
-								class="f-alpha"
-								src="//s1.music.126.net/style/web2/emt/emoji_86.png"></span><span
-								title="可爱" class="emtitm"><img data-text="可爱"
-								data-url="//s1.music.126.net/style/web2/emt/emoji_85.png"
-								class="f-alpha"
-								src="//s1.music.126.net/style/web2/emt/emoji_85.png"></span> <span
-								title="憨笑" class="emtitm"><img data-text="憨笑"
-								data-url="//s1.music.126.net/style/web2/emt/emoji_359.png"
-								class="f-alpha"
-								src="//s1.music.126.net/style/web2/emt/emoji_359.png"></span><span
-								title="色" class="emtitm"><img data-text="色"
-								data-url="//s1.music.126.net/style/web2/emt/emoji_95.png"
-								class="f-alpha"
-								src="//s1.music.126.net/style/web2/emt/emoji_95.png"></span>
-						</div>
-					</div>
-					<div>
-						<span>200</span>
-						<button type="submit"
-							class="uk-button button-signin uk-button-small">发送</button>
-					</div>
-				</div>
-			</form>
 		</div>
 	</div>
 	<script src="/ts/assets/libs/select2/js/select2.min.js"></script>
@@ -357,36 +257,8 @@
 			});
 		});
 	</script>
-	<div class="menu-xs animated slideInRight uk-hidden">
-		<a href="#" title="关闭" class="iconfont closebar"
-			data-uk-toggle="{target:'.menu-xs'}">&#xe61e;</a>
-		<div class="nano">
-			<div class="nano-content">
-				<nav id="nav">
-					<ul class="uk-nav" data-uk-nav>
-						<li><a href="/ts">主页</a></li>
-						<li><a href="/ts/bandari">乐团介绍</a></li>
-						<li class="uk-parent"><a href="#">音乐 &amp; 商城</a>
-						<ul class="uk-nav-sub">
-								<li><a href="/ts/albums">专辑</a></li>
-								<li><a href="/ts/discover">发现</a></li>
-								<li><a href="/ts/playlists">歌单</a></li>
-							</ul></li>
-						<script type="text/javascript">
-							$(function() {
-								$('.uk-nav-sub li.uk-active').parents(
-										'.uk-parent').addClass('uk-active');
-							});
-						</script>
-						<li><a href="/ts/photo">爱壁纸</a></li>
-						<li><a href="/ts/movie">电影</a></li>
-						<li><a href="/ts/about">关于</a></li>
-						<li><a href="/ts/blog">日志</a></li>
-					</ul>
-				</nav>
-			</div>
-		</div>
-	</div>
+	<script
+		src="/ts/assets/js/wangEditor.min.js"></script>
 	<script type="text/javascript">
 		var next_page_url = "";
 		var end = 0;
@@ -437,12 +309,13 @@
 					if (res.status == 1000) {
 						$('#booktotal').html(res.total);
 						var bookmine = eval(res.bookmine);
-						var booklis = "<dl class='uk-description-list-line'>";
+						var booklis = "";
 						$.each(bookmine,function(n,value){
-							booklis += "<dt class='uk-text-success'>"+value.markdate+"</dt>";
-							booklis += "<dd>"+value.text+"</dd>";
+							booklis += "<li><article class='uk-comment uk-comment-primary'><div style='margin-left: 20px' class='uk-comment-meta'> "+
+							value.markdate+" </div><div style='margin-left: 20px;' class='uk-comment-body'><p>"+
+							value.text+"</p></div><div bid='"+value.id+"' id='pl"+value.id+"' style='margin-left: 20px;height:30px' class='uk-comment-body'><button id='btn"+value.id+"' bid='"+
+							value.id+"' onclick='doEdit(this)' class='plbtn'>修改</button></div></article></li><hr style='border-top: 1px solid #8a7777;'/>";
 						});
-						booklis += "</dl>";
 						$('#mine').html(booklis);
 					}else{
 						location.href = "/";
@@ -499,6 +372,83 @@
 		});
 	</script>
 	<script type="text/javascript">
+	(function () {
+	    // 获取 wangEditor 构造函数和 jquery
+	    var E = window.wangEditor;
+	    var $ = window.jQuery;
+	    // 用 createMenu 方法创建菜单
+	    E.createMenu(function (check) {
+	        // 定义菜单id，不要和其他菜单id重复。编辑器自带的所有菜单id，可通过『参数配置-自定义菜单』一节查看
+	        var menuId = 'quxiao';
+	        var menuIdtijiao = 'tijiao';
+	        // check将检查菜单配置（『参数配置-自定义菜单』一节描述）中是否该菜单id，如果没有，则忽略下面的代码。
+	        if (!check(menuId)) {
+	            return;
+	        }
+	        // this 指向 editor 对象自身
+	        var editor = this;
+	        // 创建 menu 对象
+	        var menu = new E.Menu({
+	            editor: editor,  // 编辑器对象
+	            id: menuId,  // 菜单id
+	            title: '取消', // 菜单标题
+	            // 正常状态和选中状态下的dom对象，样式需要自定义
+	            $domNormal: $('<a href="#" tabindex="-1">取消</a>'),
+	            $domSelected: $('<a href="#" tabindex="-1" class="selected">取消</a>')
+	        });
+	        // 菜单正常状态下，点击将触发该事件
+	        menu.clickEvent = function (e) {
+	            var elem = editor.getRangeElem();
+	            var p = editor.getSelfOrParentByName(elem, 'button');
+	            if (!p) {
+	                // 未找到 p 元素，则忽略
+	                return e.preventDefault();
+	            }
+	            ccnt = 0;
+	            $(p).show();
+	            editor.destroy();
+	        };
+	        
+	        var menusave = new E.Menu({
+	            editor: editor,  // 编辑器对象
+	            id: menuIdtijiao,  // 菜单id
+	            title: '保存', // 菜单标题
+	            // 正常状态和选中状态下的dom对象，样式需要自定义
+	            $domNormal: $('<a href="#" tabindex="-1">保存</a>'),
+	            $domSelected: $('<a href="#" tabindex="-1" class="selected">保存</a>')
+	        });
+	        menusave.clickEvent = function (e) {
+	            var elem = editor.getRangeElem();
+	            var p = editor.getSelfOrParentByName(elem, 'p');
+	            if (!p) {
+	                return e.preventDefault();
+	            }
+	            $('#btn'+bid).show();
+	            alert($(p).html()+bid);
+	            $(p).remove();
+	            ccnt = 0;
+	            editor.destroy();
+	            $('.wangEditor-container').remove();
+	        };
+	        editor.menus[menuId] = menu;
+	        editor.menus[menuIdtijiao] = menusave;
+	    });
+
+	})();
+	var bid = -1;
+	var editor;
+	var ccnt = 0;
+	function doEdit(element){
+		bid = element.getAttribute("bid");
+		var div = document.getElementById('pl'+bid);
+		if(0==ccnt){
+			editor = new wangEditor(div);
+			editor.config.menus = ['img' ,'emotion','|','quxiao','|','tijiao'];
+	    	editor.create();
+	    	$(element).hide();
+	    	ccnt = 1;
+		}
+	};
 		$.ajaxSetup({
 			headers : {
 				'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
