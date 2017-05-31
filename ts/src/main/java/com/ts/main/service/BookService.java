@@ -286,43 +286,15 @@ public class BookService {
 	private List<BookVo> getBookVoList(List<ID123> rebooklist) {
 		List<BookVo> relist = new ArrayList<BookVo>(rebooklist.size());
 		for (final ID123 id123 : rebooklist) {
-			Book bk = null;
-			try {
-				bk = book4096.get(id123.getBkid().toString(), new Callable<Book>() {
-					@Override
-					public Book call() throws Exception {
-						return getBookById(id123.getBkid());
-					}
-				});
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
+			Book bk  = getBook(id123.getBkid());
 			BookVo bkv = covent(bk);
 			Book bk1 = null;
 			Book bk2 = null;
 			if (-1 != id123.getId23()[0]) {
-				try {
-					bk1 = book4096.get(id123.getId23()[0].toString(), new Callable<Book>() {
-						@Override
-						public Book call() throws Exception {
-							return getBookById(id123.getId23()[0]);
-						}
-					});
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
+				bk1 = getBook(id123.getId23()[0]);
 			}
 			if (-1 != id123.getId23()[1]) {
-				try {
-					bk2 = book4096.get(id123.getId23()[1].toString(), new Callable<Book>() {
-						@Override
-						public Book call() throws Exception {
-							return getBookById(id123.getId23()[1]);
-						}
-					});
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
+				bk2 = getBook(id123.getId23()[1]);
 			}
 			bkv.setNearlist(Lists.newArrayList(null == bk1 ? null : covent(bk1), null == bk2 ? null : covent(bk2)));
 			relist.add(bkv);
@@ -393,19 +365,13 @@ public class BookService {
 		page.setTotalRows(new Long(viewBookidlis.size()));
 		List<Long> pageidlis = viewBookidlis.subList(start - 1,
 				start + PAGE_SIZE > viewBookidlis.size() ? viewBookidlis.size() - 1 : start + PAGE_SIZE - 1);
-		System.out.println(pageidlis.size());
 		List<BookVo> bvolis = Lists.newArrayList();
 		for (final Long id : pageidlis) {
-			try {
-				bvolis.add(covent(book4096.get(id.toString(), new Callable<Book>() {
-					@Override
-					public Book call() throws Exception {
-						return getBookById(id);
-					}
-				})));
-			} catch (ExecutionException e) {
-				e.printStackTrace();
+			Book bk = getBook(id);
+			if(null==bk){
+				continue;
 			}
+			bvolis.add(covent(bk));
 		}
 		page.setList(bvolis);
 		return page;
@@ -491,5 +457,29 @@ public class BookService {
 		}
 		return ls;
 	}
+
+	public Book getBook(final Long id) {
+		try {
+			return book4096.get(id.toString(), new Callable<Book>() {
+				@Override
+				public Book call() throws Exception {
+					return getBookById(id);
+				}
+			});
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public int update(Book bknew) {
+		int i = bookMapper.updateByPrimaryKeySelective(bknew);
+		if(i>0){
+			book4096.put(bknew.getId().toString(), bknew);
+			bookredisService.hSet(RedisService.BOOK_KEY, bknew.getId().toString(), bknew);
+		}
+		return i;
+	}
+	
 
 }

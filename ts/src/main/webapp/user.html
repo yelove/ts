@@ -312,9 +312,9 @@ p{ word-wrap:break-word; word-break:normal;}
 						var booklis = "";
 						$.each(bookmine,function(n,value){
 							booklis += "<li><article class='uk-comment uk-comment-primary'><div style='margin-left: 20px' class='uk-comment-meta'> "+
-							value.markdate+" </div><div style='margin-left: 20px;' class='uk-comment-body'><p>"+
-							value.text+"</p></div><div bid='"+value.id+"' id='pl"+value.id+"' style='margin-left: 20px;height:30px' class='uk-comment-body'><button id='btn"+value.id+"' bid='"+
-							value.id+"' onclick='doEdit(this)' class='plbtn'>修改</button></div></article></li><hr style='border-top: 1px solid #8a7777;'/>";
+							value.markdate+" </div><div id='cnt"+value.id+"' style='margin-left: 20px;' class='uk-comment-body'><p >"+
+							value.text+"</p></div><div bid='"+value.id+"' id='pl"+value.id+"' style='margin-left: 20px;height:30px' class='uk-comment-body'></div><button id='btn"+value.id+"' bid='"+
+							value.id+"' onclick='doEdit(this)' type='button' class='plbtn uk-button'>修改</button></article></li><hr style='border-top: 1px solid #8a7777;'/>";
 						});
 						$('#mine').html(booklis);
 					}else{
@@ -398,15 +398,11 @@ p{ word-wrap:break-word; word-break:normal;}
 	        });
 	        // 菜单正常状态下，点击将触发该事件
 	        menu.clickEvent = function (e) {
-	            var elem = editor.getRangeElem();
-	            var p = editor.getSelfOrParentByName(elem, 'button');
-	            if (!p) {
-	                // 未找到 p 元素，则忽略
-	                return e.preventDefault();
-	            }
+	            $('#pl'+bid).empty();
+	            $('#btn'+bid).show();
 	            ccnt = 0;
-	            $(p).show();
 	            editor.destroy();
+	            $('.wangEditor-container').remove();
 	        };
 	        
 	        var menusave = new E.Menu({
@@ -418,14 +414,32 @@ p{ word-wrap:break-word; word-break:normal;}
 	            $domSelected: $('<a href="#" tabindex="-1" class="selected">保存</a>')
 	        });
 	        menusave.clickEvent = function (e) {
-	            var elem = editor.getRangeElem();
-	            var p = editor.getSelfOrParentByName(elem, 'p');
-	            if (!p) {
-	                return e.preventDefault();
-	            }
 	            $('#btn'+bid).show();
-	            alert($(p).html()+bid);
-	            $(p).remove();
+	            alert($('#pl'+bid).html());
+	            var txt = $('#pl'+bid).html();
+	            var idx = txt.indexOf("<p></p>");
+	            while (idx>=0){
+	            	txt = txt.replace("<p></p>",'');
+	            	idx = txt.indexOf("<p></p>");
+	            }
+	            txt = txt.replace("<p><br></p>",'');
+	            $.ajax({
+	    			dataType : 'json',
+	    			url : '/ts/book/edit/'+bid,
+	    			type : 'POST',
+	    			data : {'txt':txt},
+	    			success : function(res) {
+	    				if (res.status == 1000) {
+	    					$('#cnt'+bid).html(txt);
+	    					UIkit.notify('修改成功',{status : "success"});
+	    				}else if(res.status == 1004){
+	    					UIkit.notify('登录超时',{status : "danger"});
+	    				}else{
+	    					UIkit.notify('修改失败',{status : "danger"});
+	    				}
+	    			}
+	    		});
+	            $('#pl'+bid).empty();
 	            ccnt = 0;
 	            editor.destroy();
 	            $('.wangEditor-container').remove();
@@ -445,15 +459,32 @@ p{ word-wrap:break-word; word-break:normal;}
 			editor = new wangEditor(div);
 			editor.config.menus = ['img' ,'emotion','|','quxiao','|','tijiao'];
 	    	editor.create();
+	    	editor.$txt.html($('#cnt'+bid).html());
 	    	$(element).hide();
 	    	ccnt = 1;
 		}
 	};
-		$.ajaxSetup({
-			headers : {
-				'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+	function submitpl(txt,id){
+		$.ajax({
+			dataType : 'json',
+			url : '/ts/book/edit/'+id,
+			data : {'txt':txt},
+			success : function(res) {
+				if (res.status == 1000) {
+					UIkit.notify('修改成功',{status : "success"});
+				}else if(res.status == 1004){
+					UIkit.notify('登录超时',{status : "danger"});
+				}else{
+					UIkit.notify('修改失败',{status : "danger"});
+				}
 			}
 		});
+	}
+	$.ajaxSetup({
+		headers : {
+			'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+		}
+	});
 	</script>
 </body>
 </html>

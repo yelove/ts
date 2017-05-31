@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +41,7 @@ public class BookAction {
 
 	@Autowired
 	private BookService bookService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -82,6 +83,32 @@ public class BookAction {
 		}
 		Long id = bookService.saveBook(bk);
 		if (id > 0) {
+			rm.put(CommonStr.STATUS, 1000);
+		} else {
+			rm.put(CommonStr.STATUS, 1009);
+		}
+		return rm;
+	}
+
+	@RequestMapping(value = "edit/{id}", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> editBook(
+			@RequestParam(value = "txt", required = true, defaultValue = "") String txt, @PathVariable("id") Long id,
+			HttpServletRequest request) {
+		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
+		Map<String, Object> rm = new HashMap<String, Object>();
+		if (null == obj || StringUtils.isEmpty(txt)) {
+			rm.put(CommonStr.STATUS, 1004);
+			return rm;
+		}
+		Book bk = bookService.getBook(id);
+		if (null == bk || bk.getUserid().longValue() != ((User) obj).getId().longValue()) {
+			rm.put(CommonStr.STATUS, 1006);
+			return rm;
+		}
+		bk.setText(txt);
+		bk.setUpdatetime(System.currentTimeMillis());
+		int i = bookService.update(bk);
+		if (i > 0) {
 			rm.put(CommonStr.STATUS, 1000);
 		} else {
 			rm.put(CommonStr.STATUS, 1009);
@@ -155,14 +182,14 @@ public class BookAction {
 			return rm;
 		}
 		User user = userService.getUserBiIdWithCache(uid);
-		if(null==user){
+		if (null == user) {
 			rm.put(CommonStr.STATUS, 1004);
 			return rm;
 		}
 		Page page = bookService.getView(uid, start);
 		rm.put(CommonStr.STATUS, 1000);
 		rm.put("bookview", page.getList());
-		rm.put("username",user.getTsno());
+		rm.put("username", user.getTsno());
 		rm.put("total", page.getTotalRows());
 		return rm;
 	}
