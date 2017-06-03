@@ -10,57 +10,78 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ts.main.bean.User;
-import com.ts.main.dao.UserDao;
+import com.ts.main.bean.model.User;
+import com.ts.main.mapper.UserMapper;
 
 @Service
 public class UserService {
 	
 	private Logger logger = LoggerFactory.getLogger(UserService.class);
 	
-	@Autowired
-	private UserDao userDao;
+//	@Autowired
+//	private UserDao userDao;
 	
-	private static ConcurrentHashMap<String,User> userCache =  new ConcurrentHashMap<String,User>();
+	@Autowired
+	private UserMapper userMapper;
+	
+	private static ConcurrentHashMap<Long,User> userCache =  new ConcurrentHashMap<Long,User>();
+	
+	private static ConcurrentHashMap<String,Long> usermapingCache =  new ConcurrentHashMap<String,Long>();
+	
+	private static ConcurrentHashMap<Long,Long> userbookidmapingCache =  new ConcurrentHashMap<Long,Long>();
 	
 	private static final AtomicLong tsnoMaker = new AtomicLong();
 	
 	@PostConstruct
 	public void initTsNo() throws Exception{
-		Long maxtsno = userDao.getMaxNoUser();
-		if(null==maxtsno){
-			throw new Exception("initTsNo fail");
-		}
+		long maxtsno = userMapper.getMaxNoUser();
 		logger.info("maxtsno is {}",maxtsno);
 		tsnoMaker.set(maxtsno);
 	}
 	
 	public boolean saveUser(User user){
 		user.setCreatetime(System.currentTimeMillis());
-		user.setTsno(tsnoMaker.getAndAdd(1));
-		long id = userDao.saveUser(user);
-		userCache.put(user.getEmail(), user);
-		user.setId(id);
+		user.setTsno(tsnoMaker.incrementAndGet());
+		user.setState(true);
+		userMapper.insert(user);
+		userCache.put(user.getId(), user);
+		usermapingCache.put(user.getEmail(), user.getId());
+		userbookidmapingCache.put(user.getTsno(), user.getId());
 		return true;
+	}
+	
+	public User getUserBiIdWithCache(Long uid){
+		User user = userCache.get(uid);
+		if(null!=user){
+			return user;
+		}
+		user = userMapper.selectByPrimaryKey(uid);
+		if(null!=user){
+			userCache.put(user.getId(), user);
+			usermapingCache.put(user.getEmail(), user.getId());
+			userbookidmapingCache.put(user.getTsno(), user.getId());
+			return user;
+		}
+		return null;
 	}
 	
 	public User getUserByName(String name){
 		User user = null;
 		if(name.contains("@")){
-			user = userDao.getUser(name);
+			user = userMapper.getUserByEmail(name);
 		}else{
-			user = userDao.getUser(Long.parseLong(name));
+			user = userMapper.getUserByNo(Long.parseLong(name));
 		}
 		return user;
 	}
 
 	public void logout(User user) {
 		user.setUpdatetime(System.currentTimeMillis());
-		userCache.put(user.getName(), user);
+		userCache.put(user.getId(), user);
 	}
 	
 	public void updateUserForLastLog(User user){
-		userDao.updateUserForLastLog(user.getId(), System.currentTimeMillis());
+		userMapper.updateUserForLastLog(user.getId(), System.currentTimeMillis());
 	}
 
 }

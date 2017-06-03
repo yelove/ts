@@ -1,5 +1,7 @@
 package com.ts.main.mapper;
 
+import java.util.List;
+
 import com.ts.main.bean.model.Comment;
 
 public interface CommentMapper {
@@ -14,4 +16,6 @@ public interface CommentMapper {
     int updateByPrimaryKeySelective(Comment record);
 
     int updateByPrimaryKey(Comment record);
+    
+    List<Comment> getCommentByBookId(Long bookid);
 }

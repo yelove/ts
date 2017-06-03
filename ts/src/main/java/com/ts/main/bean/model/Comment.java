@@ -11,6 +11,8 @@ public class Comment implements Serializable{
 	private Long id;
 
     private Long bookid;
+    
+    private Long userid;
 
     private String comment;
 
@@ -67,4 +69,13 @@ public class Comment implements Serializable{
     public void setIsdel(Integer isdel) {
         this.isdel = isdel;
     }
+
+	public Long getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Long userid) {
+		this.userid = userid;
+	}
+    
 }

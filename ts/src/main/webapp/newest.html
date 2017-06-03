@@ -36,6 +36,35 @@
     color: #2d7091;
     text-shadow: 0 1px 0 #fff;
 }
+.uk-comment-primary .uk-comment-header{border-color:rgba(45,112,145,.3);background-color:#dcdbcf;color:#2d7091;}
+.uk-comment-header {
+	filter:alpha(Opacity=70);-moz-opacity:0.7;opacity: 0.7 ;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+.uk-comment-headert {
+	filter:alpha(Opacity=80);-moz-opacity:0.8;opacity: 0.8 ;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+.itt{
+  display:block;
+  background:#e91e63;
+  width:10px;
+  height:8px;
+  top:0px;
+  right:0px;
+  position:absolute;
+}
+.hjtq{
+display:inline;
+}
 </style>
 <script type="text/javascript">
 	var user_id = 4501;
@@ -351,14 +380,15 @@
 						var booklis = "";
 						$.each(bookhot,function(n,value){
 							booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"+
-							"<a href='view.html?uid="+value.userid+"'><img class='uk-comment-avatar' style='border-radius:0%;' src='/ts/uploads/placeholder_avatar.svg' width='50' height='50'>"+
-							"</a><h4 class='uk-comment-title uk-text-warning'>"+value.tsno+"</h4><div class='uk-comment-meta'>"+
+							"<img class='uk-comment-avatar' style='border-radius:0%;' src='/ts/uploads/placeholder_avatar.svg' width='50' height='50'>"+
+							"<h4 class='uk-comment-title'>"+value.userid+"</h4><div class='uk-comment-meta'>"+
 							value.creatdate+" | <a href='javascript:;' val='90' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"+
-							value.praisenum+"</span>)</a> | #</div></header><div class='uk-comment-body'><p>"+value.text+"</p><hr style='border-top: 1px solid #635975;'/></div>"
+							value.praisenum+"</span>)</a> | #</div></header><div class='uk-comment-body'><p>"+value.text+"</p><div><h5 class='hjtq uk-comment-title uk-text-warning'>发表于</h5><button onclick='showComment("+value.id+")' class='uk-button uk-button-small' style='float:right;position:relative;'>精彩评论<i class='itt'></i></button><div id='showcmt"+value.id+"' class='uk-grid' style='margin-left:0px;'></div></div><hr style='border-top: 1px solid #635975;'/></div>"
 							var idx = 1;
 							$.each(value.nearlist,function(n,value){
 								if(null!=value){
-									booklis += "<div class='uk-comment-body' style='font-size: 13px;color: #999;'> "+value.creatdate+"| <a href='javascript:;' val='"+value.praisenum+"' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"+
+									booklis += "<div class='uk-comment-body' style='font-size: 13px;color: #999;'> "+value.creatdate+"| <a href='javascript:;' val='"+
+									value.praisenum+"' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"+
 									value.praisenum+"</span>)</a> |  #</div><div class='uk-comment-body'><p>"+
 									value.text+"</p>";
 									if(idx==1){
@@ -370,7 +400,7 @@
 								}
 							});
 							booklis += "</article></li><hr style='border-top: 1px solid #8a7777;'/>";
-						});
+						});0
 						startnum = startnum+res.bookhot.length;
 						$('#mine').html(booklis);
 						if(res.bookhot.length<10){
@@ -379,6 +409,63 @@
 					}
 				}
 			});
+		};
+		function submitComment(boid){
+			$.ajax({
+				dataType : 'json',
+				type : 'POST',
+				url : '/ts/book/subcomment',
+				data : {'comment':$('#bkcmt'+boid).val()},
+				success : function(res) {
+					if (res.status == 1000) {
+						UIkit.notify('评论成功',{status : "success"});
+						showComment(boid);
+					}else if(res.status == 1004){
+    					UIkit.notify('登录超时',{status : "danger"});
+    				}else{
+    					UIkit.notify('评论失败',{status : "danger"});
+    				}
+				}
+			})
+		};
+		var commentList = {};
+		function showComment(boid){
+			if(!commentList.boid){
+				getComment(new Array(boid));
+			};
+			var commentHtml = '<input id="bkcmt'+boid+'" class="uk-button uk-width-4-5" placeholder="吐个槽吧..."></input><button class="uk-button uk-button-primary uk-width-1-5" onclick="submitComment('+boid+')" type="button">发表</button>';
+			if(!$.isEmptyObject(commentList.boid)){
+				if(commentList.boid.hot){
+					commentHtml += '<ul>';
+					$.each(commentList.boid.hot,function(n,value){
+						commentHtml += '<p>'+value+'</p>';
+					}
+					commentHtml += '</ul>';
+				}
+				if(commentList.boid.list){
+					commentHtml += '<ul>';
+					$.each(commentList.boid.list,function(n,value){
+						commentHtml += '<p>'+value+'</p>';
+					}
+					commentHtml += '</ul>';
+				}
+			}else{
+				commentHtml += '<p class="uk-text-center" style="color:white;">暂时还没有评论<p>';
+			}
+			$('#showcmt'+boid).html(commentHtml);
+		};
+		function getComment(ids){
+			$.ajax({
+				dataType : 'json',
+				type : 'POST',
+				url : '/ts/book/getcomment',
+				data : {'ids':ids},
+				success : function(res) {
+					if (res.status == 1000) {
+						$.extend(commentList, res.comment);
+					}
+				}
+			})
 		};
 		$(window).bind('scroll', function() {
 			show()

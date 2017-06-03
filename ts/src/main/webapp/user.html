@@ -36,6 +36,14 @@
     margin-right: 10%;
 }
 p{ word-wrap:break-word; word-break:normal;}
+.uk-comment-primary .uk-comment-header{border-color:rgba(45,112,145,.3);background-color:#ebf7fd;color:#2d7091;text-shadow:0 1px 0 #f}
+.uk-comment-header {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background: #fafafa;
+}
 </style>
 <script type="text/javascript">
 	var user_id = 4501;
@@ -402,6 +410,7 @@ p{ word-wrap:break-word; word-break:normal;}
 	            $('#btn'+bid).show();
 	            ccnt = 0;
 	            editor.destroy();
+	            $('#pl'+bid).empty();
 	            $('.wangEditor-container').remove();
 	        };
 	        
@@ -415,7 +424,6 @@ p{ word-wrap:break-word; word-break:normal;}
 	        });
 	        menusave.clickEvent = function (e) {
 	            $('#btn'+bid).show();
-	            alert($('#pl'+bid).html());
 	            var txt = $('#pl'+bid).html();
 	            var idx = txt.indexOf("<p></p>");
 	            while (idx>=0){

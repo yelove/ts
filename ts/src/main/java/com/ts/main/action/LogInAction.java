@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ts.main.bean.User;
+import com.ts.main.bean.model.User;
 import com.ts.main.common.CommonStr;
 import com.ts.main.service.UserService;
-import com.ts.main.util.MD5Tools;
+import com.ts.main.utils.MD5Tools;
 
 @RequestMapping(value = "user/")
 @Controller
@@ -43,7 +43,7 @@ public class LogInAction {
 			return rm;
 		}
 		else {
-			request.getSession(true).setAttribute(CommonStr.USERNAME, user.getName());
+			request.getSession(true).setAttribute(CommonStr.USERNAME, aluser.getEmail());
 			request.getSession(true).setAttribute(CommonStr.TKUSER, aluser);
 			rm.put(CommonStr.STATUS, 1000);
 		}
@@ -55,7 +55,7 @@ public class LogInAction {
 		Map<String, Object> rm = new HashMap<String, Object>();
 		boolean suc = uService.saveUser(user);
 		if(suc){
-			request.getSession(true).setAttribute(CommonStr.USERNAME, user.getName());
+			request.getSession(true).setAttribute(CommonStr.USERNAME, user.getEmail());
 			request.getSession(true).setAttribute(CommonStr.TKUSER, user);
 			rm.put(CommonStr.STATUS, 1000);
 		}else{

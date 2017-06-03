@@ -13,11 +13,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Service;
 
-import com.ts.main.bean.User;
+import com.ts.main.bean.model.User;
 
-@Service
 public class UserDao {
 	
 	@Autowired
@@ -35,7 +33,7 @@ public class UserDao {
 				ps.setLong(3, user.getDepartmentid());
 				ps.setString(4, user.getDepartment());
 				ps.setString(5, user.getRealname());
-				ps.setInt(6, user.getState());
+//				ps.setInt(6, user.getState());
 				ps.setLong(7, user.getCreatetime());
 				ps.setLong(8, user.getUpdatetime());
 				ps.setString(9, user.getEmail());

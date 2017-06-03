@@ -28,6 +28,8 @@ public class RedisService<T> {
 	private RedisTemplate<String, T> redisTemplate;
 
 	public static final String BOOK_KEY = "bkid_";
+	
+	public static final String COMMENT_KEY = "cmtid_";
 
 	public static final String USER_KEY_NAME = "username_";
 

@@ -4,13 +4,14 @@
 	<resultMap id="BaseResultMap" type="com.ts.main.bean.model.Comment">
 		<id column="id" property="id" jdbcType="BIGINT" />
 		<result column="bookid" property="bookid" jdbcType="BIGINT" />
+		<result column="userid" property="userid" jdbcType="BIGINT" />
 		<result column="comment" property="comment" jdbcType="VARCHAR" />
 		<result column="createtime" property="createtime" jdbcType="BIGINT" />
 		<result column="updatetime" property="updatetime" jdbcType="BIGINT" />
 		<result column="isdel" property="isdel" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, bookid, comment, createtime, updatetime, isdel
+		id,userid, bookid, comment, createtime, updatetime, isdel
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
@@ -25,10 +26,10 @@
 	</delete>
 	<insert id="insert" parameterType="com.ts.main.bean.model.Comment"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into comment (id, bookid, comment,
+		insert into comment (id,userid, bookid, comment,
 		createtime, updatetime, isdel
 		)
-		values (#{id,jdbcType=BIGINT}, #{bookid,jdbcType=BIGINT},
+		values (#{id,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{bookid,jdbcType=BIGINT},
 		#{comment,jdbcType=VARCHAR},
 		#{createtime,jdbcType=BIGINT}, #{updatetime,jdbcType=BIGINT}, #{isdel,jdbcType=INTEGER}
 		)
@@ -39,6 +40,9 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
+			</if>
+			<if test="userid != null">
+				userid,
 			</if>
 			<if test="bookid != null">
 				bookid,
@@ -59,6 +63,9 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=BIGINT},
 			</if>
 			<if test="bookid != null">
 				#{bookid,jdbcType=BIGINT},
@@ -107,4 +114,9 @@
 		isdel = #{isdel,jdbcType=INTEGER}
 		where id = #{id,jdbcType=BIGINT}
 	</update>
+	
+	<select id="getCommentByBookId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select * from comment where bookid = #{before,jdbcType=BIGINT} and isdel &gt; -1 
+	</select>
 </mapper>

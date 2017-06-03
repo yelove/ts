@@ -22,6 +22,10 @@ public class BookVo extends Book{
 	
 	private String markdate;
 	
+	private String userImgUrl;
+	
+	private String userName;
+	
 	private String creatdate;
 	
 	private String updatedate;
@@ -66,6 +70,22 @@ public class BookVo extends Book{
 
 	public void setTsno(Long tsno) {
 		this.tsno = tsno;
+	}
+
+	public String getUserImgUrl() {
+		return userImgUrl;
+	}
+
+	public void setUserImgUrl(String userImgUrl) {
+		this.userImgUrl = userImgUrl;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

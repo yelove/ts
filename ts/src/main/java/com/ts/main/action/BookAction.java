@@ -24,11 +24,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ts.main.bean.model.Book;
+import com.ts.main.bean.model.Comment;
 import com.ts.main.bean.model.User;
 import com.ts.main.bean.vo.BookVo;
+import com.ts.main.bean.vo.CommentVo;
 import com.ts.main.bean.vo.Page;
 import com.ts.main.common.CommonStr;
 import com.ts.main.service.BookService;
+import com.ts.main.service.CommentService;
 import com.ts.main.service.UserService;
 
 /**
@@ -44,6 +47,9 @@ public class BookAction {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private CommentService commentService;
 
 	/**
 	 * @param mdmap
@@ -271,6 +277,49 @@ public class BookAction {
 		} else {
 			rm.put(CommonStr.STATUS, 1002);
 		}
+		return rm;
+	}
+
+	@RequestMapping(value = "subcomment", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> subComment(
+			@RequestParam(value = "comment", required = true) String comment,
+			@RequestParam(value = "bookid", required = true) Long bookid, HttpServletRequest request) {
+		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
+		Map<String, Object> rm = new HashMap<String, Object>();
+		if (null == obj) {
+			rm.put(CommonStr.STATUS, 1004);
+			return rm;
+		}
+		if (StringUtils.isEmpty(comment) || null == bookid || bookid < 1) {
+			rm.put(CommonStr.STATUS, 1006);
+			return rm;
+		}
+		User user = (User) obj;
+		Comment cmt = new Comment();
+		cmt.setBookid(bookid);
+		cmt.setComment(comment);
+		cmt.setUserid(user.getId());
+		if (commentService.saveComment(cmt) > 0) {
+			rm.put(CommonStr.STATUS, 1000);
+		} else {
+			rm.put(CommonStr.STATUS, 1002);
+		}
+		return rm;
+	}
+
+	@RequestMapping(value = "getcomment", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> getcomment(@RequestParam(value = "bookid", required = true) Long bookid,
+			HttpServletRequest request) {
+		Map<String, Object> rm = new HashMap<String, Object>();
+		if (null == bookid || bookid < 1) {
+			rm.put(CommonStr.STATUS, 1006);
+			return rm;
+		}
+		CommentVo vo = commentService.getCommentByBookId(bookid);
+		if (null != vo) {
+			rm.put(CommonStr.STATUS, 1000);
+		}
+		rm.put(String.valueOf(bookid), vo);
 		return rm;
 	}
 

@@ -32,6 +32,7 @@
 <link media="all" type="text/css" rel="stylesheet"
 	href="/ts/assets/css/datepicker.css">
 <link href="/ts/vendor/pace/pace-flash.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/ts/assets/css/wangEditor.min.css">
 <style type="text/css"> 
 .height_ct_1 {min-height:100px;max-height:250px;} 
 </style>
@@ -63,7 +64,7 @@
 		<nav class="nav-top">
 			<a href="/" title="TinaS"><i class="logo"></i></a>
 			<a href="javascript:;" class="nav-leftbar-open animated tada"
-				data-uk-toggle="{target:'.dynamic-sidebar'}"> NEW... <span></span> <span></span>
+				data-uk-toggle="{target:'.dynamic-sidebar'}"> Hot...<span></span> <span></span>
 				<span></span>
 			</a>
 		</nav>
@@ -72,7 +73,10 @@
 				<nav id="nav">
 					<ul class="uk-nav" data-uk-nav>
 						<li class="uk-active"><a href="#">首页</a></li>
-						<li class="uk-active"><a href="#">随写</a></li>
+						<li class="uk-active"><a href="/newest.html">最新动态</a></li>
+						<li class="uk-active"><a href="/hottoday.html">今日最热</a></li>
+						<li class="uk-active"><a href="/hotweek.html">本周最热</a></li>
+						<li class="uk-active"><a href="/hotmonth.html">月度最热</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -85,8 +89,8 @@
 				<li><a href="#" class="jp-play equaliser"><i></i> <i></i>
 						<i></i> <i></i></a> <a href="#" class="jp-pause equaliser active"
 					id="jp-play"><i></i> <i></i> <i></i> <i></i></a></li>
-				<li><a href="javascript:;" data-uk-toggle="{target:'#i-skin'}"><i
-						class="iconfont icon-skin"></i></a></li>
+				<!-- <li><a href="javascript:;" data-uk-toggle="{target:'#i-skin'}"><i
+						class="iconfont icon-skin"></i></a></li> -->
 				<li><a href="#i-search"
 					data-uk-modal="{center:true,bgclose:false}"><i
 						class="iconfont icon-search"></i></a></li>
@@ -154,7 +158,7 @@
 					</div>
 					<div class="uk-form-row" >
 						<div class="uk-form-controls">
-                             <textarea id="form-h-t" name="text" cols="60" rows="5" placeholder="写点什么..."></textarea>
+                             <textarea id="textarea_editor" name="text" cols="90" rows="9" placeholder="写点什么..."></textarea>
                         </div>
 					</div>
 					<div class="uk-form-row" >
@@ -378,163 +382,6 @@
 			</div>
 		</div>
 	</div>
-	<div id="i-skin" class="animated uk-hidden">
-		<div class="uk-container uk-container-center uk-position-relative">
-			<a href="javascript:;" title="关闭"
-				class="iconfont icon-close closebar"
-				data-uk-toggle="{target:'#i-skin'}"></a>
-			<ul class="uk-subnav" data-uk-switcher="{connect:'#skin-chose'}">
-				<li class="uk-active"><a href="">推荐</a></li>
-				<li><a href="javascript:;">景物</a></li>
-				<li><a href="javascript:;">动物</a></li>
-				<li><a href="javascript:;">女神</a></li>
-				<li><a href="javascript:;">艺术</a></li>
-				<li><a href="javascript:;">电影</a></li>
-				<li><a href="javascript:;">游戏</a></li>
-			</ul>
-			<ul id="skin-chose" class="uk-switcher">
-				<li><div
-						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small">
-						<a href="javascript:;" class="skin-image " val="13"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728b476323b9_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728b47631c62.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="12"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728b3f1226a7_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728b3f121dc1.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="5"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/57276f25d44b6_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/57276f25d3b8b.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="4"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/57276efece828_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/57276efecdd1e.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="3"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/57276edc4cfc3_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/57276edc4c72a.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="2"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/57276eb3cd514_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/57276eb3ccd1a.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image  uk-active " val="1">
-							<img class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/57276e996f62f_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/57276e996ed01.jpeg"
-							alt="">
-						</a>
-					</div></li>
-				<li><div
-						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small">
-						<a href="javascript:;" class="skin-image " val="8"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728acedd4111_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728acedd35c2.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="7"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728acc217888_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728acc216fd2.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="6"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728ac8bdcd30_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728ac8bcc19b.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="4"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/57276efece828_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/57276efecdd1e.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="3"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/57276edc4cfc3_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/57276edc4c72a.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="2"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/57276eb3cd514_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/57276eb3ccd1a.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image  uk-active " val="1">
-							<img class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/57276e996f62f_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/57276e996ed01.jpeg"
-							alt="">
-						</a>
-					</div></li>
-				<li><div
-						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small">
-						<a href="javascript:;" class="skin-image " val="9"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728adff99f17_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728adff997c4.jpeg"
-							alt="">
-						</a>
-					</div></li>
-				<li><div
-						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small">
-						<a href="javascript:;" class="skin-image " val="16"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728ba806a4c0_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728ba8069d7b.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="15"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728b6cf804a9_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728b6cf7ed35.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="14"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728b6106335b_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728b61062ae5.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="13"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728b476323b9_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728b47631c62.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="12"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728b3f1226a7_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728b3f121dc1.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="11"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728b373d84e0_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728b373d5d09.jpeg"
-							alt="">
-						</a> <a href="javascript:;" class="skin-image " val="10"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/5728b2ece3f68_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/5728b2ece3461.jpeg"
-							alt="">
-						</a>
-					</div></li>
-				<li><div
-						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small">
-						<a href="javascript:;" class="skin-image " val="5"> <img
-							class="lazy1"
-							data-original="/ts/uploads/Skin/2016-05/57276f25d44b6_thumb.jpeg"
-							data-src="/ts/uploads/Skin/2016-05/57276f25d3b8b.jpeg"
-							alt="">
-						</a>
-					</div></li>
-				<li><div
-						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small"></div></li>
-				<li><div
-						class="uk-grid uk-grid-width-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-6 uk-grid-small"></div></li>
-			</ul>
-		</div>
-	</div>
 	<div
 		class="dynamic-sidebar animated slideInLeft uk-hidden  uk-width-medium-2-6 ">
 		<a href="#" title="关闭" class="iconfont closebar"
@@ -576,335 +423,6 @@
 								<a href="javascript:;" val="88" class="turn">转发(0)</a> | <a
 									href="javascript:;" class="comments" data-res-type="post"
 									data-res-id="88"><i class="uk-icon-comments-o"></i> 评论(0)</a>
-							</p>
-						</div>
-					</article>
-					<article class="uk-comment" id="post87">
-						<header class="uk-comment-header">
-							<img class="uk-comment-avatar"
-								src="https://q.qlogo.cn/qqapp/101310352/7A18BA4505A61B64B5B6F440BF138F29/100"
-								width="60" height="60" alt="">
-							<h4 class="uk-comment-title">
-								<a href="/ts/user/3828">憨豆狗先生</a> <span
-									class="tag-fxsigle">分享歌单</span>
-							</h4>
-							<div class="uk-comment-meta">04月30日 15:04</div>
-						</header>
-						<div class="uk-comment-body">
-							不错哦
-							<div class="uk-panel uk-panel-box uk-margin-top">
-								<header class="uk-comment-header">
-									<img class="uk-float-left uk-margin-right"
-										src="/ts/uploads/2014/08/14.collection.jpg"
-										width="50" height="50" alt="">
-									<h4 class="uk-comment-title">
-										<span class="tag-album">歌单</span><a
-											href="/ts/playlist/195">20周年纪念</a>
-									</h4>
-									<div class="uk-comment-meta">
-										<a href="/ts/user/4356">Felicity</a>
-									</div>
-								</header>
-							</div>
-							<p class="doper">
-								<a href="javascript:;" val="87" class="like"><i
-									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
-								<a href="javascript:;" val="87" class="turn">转发 (0)</a> | <a
-									href="javascript:;" class="comments" data-res-id="87"><i
-									class="uk-icon-comments-o"></i> 评论(0)</a>
-							</p>
-						</div>
-					</article>
-					<article class="uk-comment" id="post86">
-						<header class="uk-comment-header">
-							<img class="uk-comment-avatar"
-								src="https://q.qlogo.cn/qqapp/101310352/1562810E74244D7DB8540661417D6B95/100"
-								width="60" height="60" alt="">
-							<h4 class="uk-comment-title">
-								<a href="/ts/user/2318">葛迪斯</a> <span
-									class="tag-fxsigle">分享单曲</span>
-							</h4>
-							<div class="uk-comment-meta">04月25日 09:34</div>
-						</header>
-						<div class="uk-comment-body">
-							好喜欢1：35秒时，激昂混杂回忆的情感，突然戛然而止的那种震撼！
-							<div class="uk-panel uk-panel-box uk-margin-top">
-								<header class="uk-comment-header">
-									<img class="uk-float-left uk-margin-right"
-										src="/ts/uploads/Album/2017-01/5874538438169.jpeg"
-										width="50" height="50" alt="">
-									<h4 class="uk-comment-title">
-										<span class="tag-album">单曲</span><a target="_blank"
-											href="/play?id=1879&type=2">Against the World</a>
-									</h4>
-									<div class="uk-comment-meta">
-										<a href="/ts/album/1690">Various
-											Artists</a>
-									</div>
-								</header>
-							</div>
-							<p class="doper">
-								<a href="javascript:;" val="86" class="like"><i
-									class="uk-icon-thumbs-o-up"></i> (<span class="zan">1</span>)</a> |
-								<a href="javascript:;" val="86" class="turn">转发(0)</a> | <a
-									href="javascript:;" class="comments" data-res-type="post"
-									data-res-id="86"><i class="uk-icon-comments-o"></i> 评论(0)</a>
-							</p>
-						</div>
-					</article>
-					<article class="uk-comment" id="post85">
-						<header class="uk-comment-header">
-							<img class="uk-comment-avatar"
-								src="https://q.qlogo.cn/qqapp/101310352/1562810E74244D7DB8540661417D6B95/100"
-								width="60" height="60" alt="">
-							<h4 class="uk-comment-title">
-								<a href="/ts/user/2318">葛迪斯</a> <span
-									class="tag-fxsigle">分享单曲</span>
-							</h4>
-							<div class="uk-comment-meta">04月25日 09:29</div>
-						</header>
-						<div class="uk-comment-body">
-							Things end. But memories last forever.事情结束，但记忆永存。就是这种感觉！
-							<div class="uk-panel uk-panel-box uk-margin-top">
-								<header class="uk-comment-header">
-									<img class="uk-float-left uk-margin-right"
-										src="/ts/uploads/Album/2017-01/5874538438169.jpeg"
-										width="50" height="50" alt="">
-									<h4 class="uk-comment-title">
-										<span class="tag-album">单曲</span><a target="_blank"
-											href="/play?id=1879&type=2">Against the World</a>
-									</h4>
-									<div class="uk-comment-meta">
-										<a href="/ts/album/1690">Various
-											Artists</a>
-									</div>
-								</header>
-							</div>
-							<p class="doper">
-								<a href="javascript:;" val="85" class="like"><i
-									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
-								<a href="javascript:;" val="85" class="turn">转发(0)</a> | <a
-									href="javascript:;" class="comments" data-res-type="post"
-									data-res-id="85"><i class="uk-icon-comments-o"></i> 评论(0)</a>
-							</p>
-						</div>
-					</article>
-					<article class="uk-comment" id="post84">
-						<header class="uk-comment-header">
-							<img class="uk-comment-avatar"
-								src="https://q.qlogo.cn/qqapp/101310352/39F3ECF595F2FF877C3145800CAC3F16/100"
-								width="60" height="60" alt="">
-							<h4 class="uk-comment-title">
-								<a href="/ts/user/3599">太子长琴（ASF）</a> <span
-									class="tag-fxsigle">分享单曲</span>
-							</h4>
-							<div class="uk-comment-meta">04月17日 22:58</div>
-						</header>
-						<div class="uk-comment-body">
-							<img data-text="大笑"
-								data-url="https://s1.music.126.net/style/web2/emt/emoji_86.png"
-								class="f-alpha"
-								src="https://s1.music.126.net/style/web2/emt/emoji_86.png">
-							<div class="uk-panel uk-panel-box uk-margin-top">
-								<header class="uk-comment-header">
-									<img class="uk-float-left uk-margin-right"
-										src="/ts/uploads/Album/2016-08/57a4af49101bc.jpeg"
-										width="50" height="50" alt="">
-									<h4 class="uk-comment-title">
-										<span class="tag-album">单曲</span><a target="_blank"
-											href="/play?id=1822&type=2">야화</a>
-									</h4>
-									<div class="uk-comment-meta">
-										<a href="/ts/album/1686">Various
-											Artists</a>
-									</div>
-								</header>
-							</div>
-							<p class="doper">
-								<a href="javascript:;" val="84" class="like"><i
-									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
-								<a href="javascript:;" val="84" class="turn">转发(0)</a> | <a
-									href="javascript:;" class="comments" data-res-type="post"
-									data-res-id="84"><i class="uk-icon-comments-o"></i> 评论(0)</a>
-							</p>
-						</div>
-					</article>
-					<article class="uk-comment" id="post83">
-						<header class="uk-comment-header">
-							<img class="uk-comment-avatar"
-								src="http://tva3.sinaimg.cn/crop.109.25.308.308.1024/dbc50c3ejw8f23hfa7cr2j20fg0a6jre.jpg"
-								width="60" height="60" alt="">
-							<h4 class="uk-comment-title">
-								<a href="/ts/user/4354">IMeet_</a> <span
-									class="tag-fxsigle">分享单曲</span>
-							</h4>
-							<div class="uk-comment-meta">04月09日 23:15</div>
-						</header>
-						<div class="uk-comment-body">
-							[心]
-							<div class="uk-panel uk-panel-box uk-margin-top">
-								<header class="uk-comment-header">
-									<img class="uk-float-left uk-margin-right"
-										src="/ts/uploads/2014/08/happning.jpg"
-										width="50" height="50" alt="">
-									<h4 class="uk-comment-title">
-										<span class="tag-album">单曲</span><a target="_blank"
-											href="/play?id=550&type=2">My Dear 我的爱人</a>
-									</h4>
-									<div class="uk-comment-meta">
-										<a href="/ts/album/541">林隆璇</a>
-									</div>
-								</header>
-							</div>
-							<p class="doper">
-								<a href="javascript:;" val="83" class="like"><i
-									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
-								<a href="javascript:;" val="83" class="turn">转发(0)</a> | <a
-									href="javascript:;" class="comments" data-res-type="post"
-									data-res-id="83"><i class="uk-icon-comments-o"></i> 评论(0)</a>
-							</p>
-						</div>
-					</article>
-					<article class="uk-comment" id="post82">
-						<header class="uk-comment-header">
-							<img class="uk-comment-avatar"
-								src="http://tva3.sinaimg.cn/crop.109.25.308.308.1024/dbc50c3ejw8f23hfa7cr2j20fg0a6jre.jpg"
-								width="60" height="60" alt="">
-							<h4 class="uk-comment-title">
-								<a href="/ts/user/4354">IMeet_</a> <span
-									class="tag-fxsigle">分享单曲</span>
-							</h4>
-							<div class="uk-comment-meta">04月09日 23:12</div>
-						</header>
-						<div class="uk-comment-body">
-							[心]
-							<div class="uk-panel uk-panel-box uk-margin-top">
-								<header class="uk-comment-header">
-									<img class="uk-float-left uk-margin-right"
-										src="/ts/uploads/2014/08/happning.jpg"
-										width="50" height="50" alt="">
-									<h4 class="uk-comment-title">
-										<span class="tag-album">单曲</span><a target="_blank"
-											href="/play?id=550&type=2">My Dear 我的爱人</a>
-									</h4>
-									<div class="uk-comment-meta">
-										<a href="/ts/album/541">林隆璇</a>
-									</div>
-								</header>
-							</div>
-							<p class="doper">
-								<a href="javascript:;" val="82" class="like"><i
-									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
-								<a href="javascript:;" val="82" class="turn">转发(0)</a> | <a
-									href="javascript:;" class="comments" data-res-type="post"
-									data-res-id="82"><i class="uk-icon-comments-o"></i> 评论(0)</a>
-							</p>
-						</div>
-					</article>
-					<article class="uk-comment" id="post81">
-						<header class="uk-comment-header">
-							<img class="uk-comment-avatar"
-								src="https://q.qlogo.cn/qqapp/101310352/4A34315B17959444858C2F4523731AFB/100"
-								width="60" height="60" alt="">
-							<h4 class="uk-comment-title">
-								<a href="/ts/user/3669">此情可待</a> <span
-									class="tag-fxsigle">分享单曲</span>
-							</h4>
-							<div class="uk-comment-meta">03月30日 09:39</div>
-						</header>
-						<div class="uk-comment-body">
-							退潮
-							<div class="uk-panel uk-panel-box uk-margin-top">
-								<header class="uk-comment-header">
-									<img class="uk-float-left uk-margin-right"
-										src="/ts/uploads/2014/08/loversromance.jpg"
-										width="50" height="50" alt="">
-									<h4 class="uk-comment-title">
-										<span class="tag-album">单曲</span><a target="_blank"
-											href="/play?id=590&type=2">Ebb Tide 退潮</a>
-									</h4>
-									<div class="uk-comment-meta">
-										<a href="/ts/album/580">Various
-											Artists</a>
-									</div>
-								</header>
-							</div>
-							<p class="doper">
-								<a href="javascript:;" val="81" class="like"><i
-									class="uk-icon-thumbs-o-up"></i> (<span class="zan">0</span>)</a> |
-								<a href="javascript:;" val="81" class="turn">转发(0)</a> | <a
-									href="javascript:;" class="comments" data-res-type="post"
-									data-res-id="81"><i class="uk-icon-comments-o"></i> 评论(0)</a>
-							</p>
-						</div>
-					</article>
-					<article class="uk-comment" id="post80">
-						<header class="uk-comment-header">
-							<img class="uk-comment-avatar" src="/img/avatar.jpg" width="60"
-								height="60" alt="">
-							<h4 class="uk-comment-title">
-								<a href="/ts/user/4253">zjtwxws</a> <span
-									class="tag-fxsigle">分享单曲</span>
-							</h4>
-							<div class="uk-comment-meta">03月26日 12:14</div>
-						</header>
-						<div class="uk-comment-body">
-							因为这首，喜欢上她！
-							<div class="uk-panel uk-panel-box uk-margin-top">
-								<header class="uk-comment-header">
-									<img class="uk-float-left uk-margin-right"
-										src="/ts/uploads/2014/10/2014-10-148.png"
-										width="50" height="50" alt="">
-									<h4 class="uk-comment-title">
-										<span class="tag-album">单曲</span><a target="_blank"
-											href="/play?id=1300&type=2">风居住的街道</a>
-									</h4>
-									<div class="uk-comment-meta">
-										<a href="/ts/album/1297">矶村由纪子</a>
-									</div>
-								</header>
-							</div>
-							<p class="doper">
-								<a href="javascript:;" val="80" class="like"><i
-									class="uk-icon-thumbs-o-up"></i> (<span class="zan">1</span>)</a> |
-								<a href="javascript:;" val="80" class="turn">转发(0)</a> | <a
-									href="javascript:;" class="comments" data-res-type="post"
-									data-res-id="80"><i class="uk-icon-comments-o"></i> 评论(0)</a>
-							</p>
-						</div>
-					</article>
-					<article class="uk-comment" id="post79">
-						<header class="uk-comment-header">
-							<img class="uk-comment-avatar" src="/img/avatar.jpg" width="60"
-								height="60" alt="">
-							<h4 class="uk-comment-title">
-								<a href="/ts/user/4253">zjtwxws</a> <span
-									class="tag-fxsigle">分享单曲</span>
-							</h4>
-							<div class="uk-comment-meta">03月26日 09:50</div>
-						</header>
-						<div class="uk-comment-body">
-							好听！
-							<div class="uk-panel uk-panel-box uk-margin-top">
-								<header class="uk-comment-header">
-									<img class="uk-float-left uk-margin-right"
-										src="/ts/uploads/2014/08/Serenade.jpg"
-										width="50" height="50" alt="">
-									<h4 class="uk-comment-title">
-										<span class="tag-album">单曲</span><a target="_blank"
-											href="/play?id=1115&type=2">Serenade 3</a>
-									</h4>
-									<div class="uk-comment-meta">
-										<a href="/ts/album/1112">Flaresoft</a>
-									</div>
-								</header>
-							</div>
-							<p class="doper">
-								<a href="javascript:;" val="79" class="like"><i
-									class="uk-icon-thumbs-o-up"></i> (<span class="zan">1</span>)</a> |
-								<a href="javascript:;" val="79" class="turn">转发(0)</a> | <a
-									href="javascript:;" class="comments" data-res-type="post"
-									data-res-id="79"><i class="uk-icon-comments-o"></i> 评论(0)</a>
 							</p>
 						</div>
 					</article>
@@ -1283,7 +801,9 @@
 	</div>
 	<script
 		src="/ts/assets/libs/jPlayer/dist/jplayer/jquery.jplayer.min.js"></script>
+		
 	<script type="text/javascript">
+		var firstview = 0;
 		$(document)
 				.ready(
 						function() {
@@ -1325,7 +845,12 @@
 		src="/ts/assets/js/components/form-select.js"></script>
 	<script
 		src="/ts/assets/js/components/datepicker.js"></script>
+	<script
+		src="/ts/assets/js/wangEditor.min.js"></script>
 	<script type="text/javascript">
+		var editor = new wangEditor('textarea_editor');
+		editor.config.menus = ['img' ,'emotion'];
+    	editor.create();
 		function getBook123(){
 			$.ajax('/ts/book/get123',{
 				type : 'GET',
@@ -1340,7 +865,11 @@
 						});
 						$("#book123").html(book123_html);
 					}else if(res.status == 1004){
-						UIkit.notify('您没有登录,或登录超时',{status : "danger"});
+						if(firstview!=0){
+							UIkit.notify('您没有登录,或登录超时',{status : "danger"});
+						}else{
+							firstview = firstview+1;
+						}
 					}else{
 						UIkit.notify('服务器未知错误',{status : "danger"});
 					}
