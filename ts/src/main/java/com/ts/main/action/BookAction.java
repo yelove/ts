@@ -317,9 +317,50 @@ public class BookAction {
 		}
 		CommentVo vo = commentService.getCommentByBookId(bookid);
 		if (null != vo) {
-			rm.put(CommonStr.STATUS, 1000);
+			rm.put("bkv", vo);
 		}
-		rm.put(String.valueOf(bookid), vo);
+		rm.put(CommonStr.STATUS, 1000);
+		return rm;
+	}
+
+	@RequestMapping(value = "zanbook", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> zanbook(@RequestParam(value = "bookid", required = true) Long bookid,
+			HttpServletRequest request) {
+		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
+		Map<String, Object> rm = new HashMap<String, Object>();
+		if (null == obj) {
+			rm.put(CommonStr.STATUS, 1004);
+			return rm;
+		}
+		if (null == bookid || bookid < 1) {
+			rm.put(CommonStr.STATUS, 1006);
+			return rm;
+		}
+		User user = (User) obj;
+		rm.put(CommonStr.STATUS, 1000);
+		rm.put(CommonStr.CODE, bookService.bookZan(user.getId(), bookid));
+		return rm;
+	}
+
+	@RequestMapping(value = "zancomment", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> zancomment(@RequestParam(value = "cmtid", required = true) Long cmtid,
+			HttpServletRequest request) {
+		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
+		Map<String, Object> rm = new HashMap<String, Object>();
+		if (null == obj) {
+			rm.put(CommonStr.STATUS, 1004);
+			return rm;
+		}
+		if (null == cmtid || cmtid < 1) {
+			rm.put(CommonStr.STATUS, 1006);
+			return rm;
+		}
+		User user = (User) obj;
+		if (commentService.commentZan(user.getId(), cmtid) > 1) {
+			rm.put(CommonStr.STATUS, 1000);
+		} else {
+			rm.put(CommonStr.STATUS, 1002);
+		}
 		return rm;
 	}
 

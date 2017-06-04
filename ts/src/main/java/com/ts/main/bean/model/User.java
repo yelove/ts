@@ -31,6 +31,20 @@ public class User implements Serializable{
     private Long tsno;
 
     private String email;
+    
+    private Integer sex;
+    
+    private String imgurl;
+    
+    private Long birthday;
+    
+    private String provice;
+    
+    private String city;
+    
+    private String country;
+    
+    private String ustate;
 
     public Long getId() {
         return id;
@@ -127,4 +141,61 @@ public class User implements Serializable{
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
     }
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+
+	public String getImgurl() {
+		return imgurl;
+	}
+
+	public void setImgurl(String imgurl) {
+		this.imgurl = imgurl;
+	}
+
+	public Long getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Long birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getProvice() {
+		return provice;
+	}
+
+	public void setProvice(String provice) {
+		this.provice = provice;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getUstate() {
+		return ustate;
+	}
+
+	public void setUstate(String ustate) {
+		this.ustate = ustate;
+	}
+    
 }

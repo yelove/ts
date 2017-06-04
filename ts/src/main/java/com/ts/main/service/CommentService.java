@@ -3,6 +3,7 @@ package com.ts.main.service;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -14,11 +15,14 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.ts.main.bean.model.Comment;
+import com.ts.main.bean.model.CommentZan;
+import com.ts.main.bean.model.CommentZanKey;
 import com.ts.main.bean.model.User;
 import com.ts.main.bean.vo.CommentDto;
 import com.ts.main.bean.vo.CommentVo;
 import com.ts.main.common.CommentStatus;
 import com.ts.main.mapper.CommentMapper;
+import com.ts.main.mapper.CommentZanMapper;
 import com.ts.main.utils.TimeUtils4book;
 
 @Service
@@ -29,12 +33,21 @@ public class CommentService {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private BookService bookService;
+	
+	@Autowired
+	private CommentZanMapper commentZanMapper;
 
 	@Autowired
 	RedisService<Long> commentIdsService;
 
 	@Autowired
 	RedisService<Comment> commentService;
+	
+	private static Cache<String, ConcurrentHashMap<String, Object>> cmtzan4096 = CacheBuilder.newBuilder().softValues()
+			.expireAfterAccess(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
 
 	/**
 	 * 个人日记前缀
@@ -114,6 +127,7 @@ public class CommentService {
 		User user = userService.getUserBiIdWithCache(cmt.getUserid());
 		dto.setUserimg(user.getName());
 		dto.setUsername(user.getRealname());
+		dto.setZan(new Long(getCommentZanSize(cmt.getBookid())));
 		return dto;
 	}
 
@@ -144,7 +158,8 @@ public class CommentService {
 		cmt.setCreatetime(ct);
 		cmt.setUpdatetime(ct);
 		cmt.setIsdel(CommentStatus.NOMAL.getValue());
-		int i = commentMapper.insert(cmt);
+		int i = commentMapper.insertSelective(cmt);
+		bookService.updateBookCommentSize(cmt.getBookid(), true);
 		if (i > 0) {
 			commentService.hSet(RedisService.COMMENT_KEY, String.valueOf(cmt.getId()), cmt);
 			comment4096.put(String.valueOf(cmt.getId()), cmt);
@@ -164,6 +179,68 @@ public class CommentService {
 			commentIdsService.listRemoveValue(BookComment_List + cmt.getBookid(), 1, cmtId);
 		}
 		return i;
+	}
+	
+	private int getCommentZanSize(Long bookId) {
+		ConcurrentHashMap<String, Object> bkzanMap = getCommentZan(bookId);
+		if (null == bkzanMap) {
+			return 0;
+		} else {
+			return bkzanMap.size();
+		}
+	}
+
+	private ConcurrentHashMap<String, Object> getCommentZan(final Long bookId) {
+		ConcurrentHashMap<String, Object> bkzanMap = null;
+		try {
+			bkzanMap = cmtzan4096.get(String.valueOf(bookId), new Callable<ConcurrentHashMap<String, Object>>() {
+				@Override
+				public ConcurrentHashMap<String, Object> call() throws Exception {
+					ConcurrentHashMap<String, Object> rcm = new ConcurrentHashMap<String, Object>();
+					List<Long> lis = commentZanMapper.selectByCommentId(bookId);
+					if (null == lis || lis.size() == 0) {
+						return rcm;
+					}
+					for (Long id : lis) {
+						rcm.put(String.valueOf(id), null);
+					}
+					return rcm;
+				}
+
+			});
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return bkzanMap;
+	}
+	
+	public int commentZan(Long userId, Long cmtId){
+		ConcurrentHashMap<String, Object> bkzanMap = getCommentZan(cmtId);
+		if (null == bkzanMap) {
+			return -1;
+		}
+		if (bkzanMap.size() == 0) {
+			bkzanMap.put(String.valueOf(userId), null);
+			cmtzan4096.put(String.valueOf(cmtId), bkzanMap);
+		} else {
+			if (bkzanMap.containsKey(String.valueOf(userId))) {
+				bkzanMap.remove(String.valueOf(userId));
+				CommentZanKey bzk = new CommentZanKey();
+				bzk.setCmtid(cmtId);
+				bzk.setUserid(userId);
+				commentZanMapper.deleteByPrimaryKey(bzk);
+				return -1;
+			} else {
+				bkzanMap.put(String.valueOf(userId), null);
+			}
+		}
+		CommentZan bzk = new CommentZan();
+		bzk.setCmtid(cmtId);
+		bzk.setUserid(userId);
+		bzk.setCreatetime(System.currentTimeMillis());
+		commentZanMapper.insert(bzk);
+		return 1;
 	}
 
 }

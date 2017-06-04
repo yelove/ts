@@ -4,8 +4,6 @@
 package com.ts.main.service;
 
 import java.lang.reflect.InvocationTargetException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -26,10 +25,13 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.ts.main.bean.model.Book;
+import com.ts.main.bean.model.BookZan;
+import com.ts.main.bean.model.BookZanKey;
 import com.ts.main.bean.vo.BookVo;
 import com.ts.main.bean.vo.ID123;
 import com.ts.main.bean.vo.Page;
 import com.ts.main.mapper.BookMapper;
+import com.ts.main.mapper.BookZanMapper;
 import com.ts.main.utils.TimeUtils4book;
 
 /**
@@ -59,7 +61,10 @@ public class BookService {
 
 	@Autowired
 	BookMapper bookMapper;
-	
+
+	@Autowired
+	BookZanMapper bookZanMapper;
+
 	@Autowired
 	UserService userService;
 
@@ -75,11 +80,13 @@ public class BookService {
 	private static Cache<String, List<ID123>> BOOKLISTCACHE = CacheBuilder.newBuilder().softValues()
 			.expireAfterWrite(3, TimeUnit.MINUTES).initialCapacity(2).build();
 
-	private static Cache<String, List<ID123>> HOTBOOKLIST = CacheBuilder.newBuilder().softValues().initialCapacity(8)
+	private static Cache<String, List<ID123>> HOTBOOKLIST = CacheBuilder.newBuilder().expireAfterWrite(30, TimeUnit.MINUTES).softValues().initialCapacity(8)
 			.build();
 
 	private static Cache<String, Book> book4096 = CacheBuilder.newBuilder().softValues()
-			.expireAfterAccess(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
+			.expireAfterWrite(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
+	private static Cache<String, ConcurrentHashMap<String, Object>> bookzan4096 = CacheBuilder.newBuilder().softValues()
+			.expireAfterWrite(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
 
 	public void intiNewestBook() {
 		if (redisService.setNx("Task_newestBook", 10)) {
@@ -130,12 +137,6 @@ public class BookService {
 			}
 			if (flag) {
 				redisService.addAll2List(NewestBook_List, id123Lis);
-				if (id123Lis.size() <= 200) {
-					BOOKLISTCACHE.put(NewestBook_List, id123Lis);
-				} else {
-					id123Lis.subList(200, id123Lis.size() - 1).clear();
-					BOOKLISTCACHE.put(NewestBook_List, id123Lis);
-				}
 			} else {
 				if (filtermap2.size() > 0 && null != id123) {
 					if (filtermap2.containsKey(id123.getBkid())) {
@@ -157,7 +158,6 @@ public class BookService {
 				}
 				redisService.addAll2ListLeft(NewestBook_List, id123Lis);
 				id123Lis = redisService.getListRage(NewestBook_List, 200l, ID123.class);
-				BOOKLISTCACHE.put(NewestBook_List, id123Lis);
 			}
 		}
 	}
@@ -286,7 +286,7 @@ public class BookService {
 	private List<BookVo> getBookVoList(List<ID123> rebooklist) {
 		List<BookVo> relist = new ArrayList<BookVo>(rebooklist.size());
 		for (final ID123 id123 : rebooklist) {
-			Book bk  = getBook(id123.getBkid());
+			Book bk = getBook(id123.getBkid());
 			BookVo bkv = covent(bk);
 			Book bk1 = null;
 			Book bk2 = null;
@@ -359,7 +359,7 @@ public class BookService {
 		List<Long> viewBookidlis = getMineBookIds(userid);
 		Page page = new Page();
 		page.setTotalRows(new Long(viewBookidlis.size()));
-		if(CollectionUtils.isEmpty(viewBookidlis)){
+		if (CollectionUtils.isEmpty(viewBookidlis)) {
 			return page;
 		}
 		page.setTotalRows(new Long(viewBookidlis.size()));
@@ -368,7 +368,7 @@ public class BookService {
 		List<BookVo> bvolis = Lists.newArrayList();
 		for (final Long id : pageidlis) {
 			Book bk = getBook(id);
-			if(null==bk){
+			if (null == bk) {
 				continue;
 			}
 			bvolis.add(covent(bk));
@@ -410,7 +410,7 @@ public class BookService {
 	}
 
 	private BookVo covent(Book book) {
-		if(null==book){
+		if (null == book) {
 			return null;
 		}
 		BookVo bkv = new BookVo();
@@ -421,11 +421,12 @@ public class BookService {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		bkv.setMarkdate(df.format(new Date(bkv.getMarktime())));
-		bkv.setCreatdate(df.format(new Date(bkv.getCreatetime())));
-		bkv.setUpdatedate(df.format(new Date(bkv.getUpdatetime())));
+		bkv.setMarkdate(TimeUtils4book.date2str(new Date(bkv.getMarktime())));
+		bkv.setCreatdate(TimeUtils4book.date2str(new Date(bkv.getCreatetime())));
+		bkv.setUpdatedate(TimeUtils4book.date2str(new Date(bkv.getUpdatetime())));
+		bkv.setInterval(TimeUtils4book.dateInterval(bkv.getCreatetime()));
 		bkv.setTsno(userService.getUserBiIdWithCache(book.getUserid()).getTsno());
+		bkv.setPraisenum((long)getBookZanSize(book.getId()));
 		return bkv;
 	}
 
@@ -474,12 +475,80 @@ public class BookService {
 
 	public int update(Book bknew) {
 		int i = bookMapper.updateByPrimaryKeySelective(bknew);
-		if(i>0){
-			book4096.put(bknew.getId().toString(), bknew);
+		if (i > 0) {
 			bookredisService.hSet(RedisService.BOOK_KEY, bknew.getId().toString(), bknew);
 		}
 		return i;
 	}
 	
+	public void updateBookCommentSize(Long bookid,boolean flag){
+		if(flag){
+			bookMapper.updateBookCommentSize(bookid);
+		}else{
+			bookMapper.delBookCommentSize(bookid);
+		}
+	}
+
+	private int getBookZanSize(Long bookId) {
+		ConcurrentHashMap<String, Object> bkzanMap = getCookZan(bookId);
+		if (null == bkzanMap) {
+			return 0;
+		} else {
+			return bkzanMap.size();
+		}
+	}
+
+	private ConcurrentHashMap<String, Object> getCookZan(final Long bookId) {
+		ConcurrentHashMap<String, Object> bkzanMap = null;
+		try {
+			bkzanMap = bookzan4096.get(String.valueOf(bookId), new Callable<ConcurrentHashMap<String, Object>>() {
+				@Override
+				public ConcurrentHashMap<String, Object> call() throws Exception {
+					ConcurrentHashMap<String, Object> rcm = new ConcurrentHashMap<String, Object>();
+					List<Long> lis = bookZanMapper.selectByBookId(bookId);
+					if (null == lis || lis.size() == 0) {
+						return rcm;
+					}
+					for (Long id : lis) {
+						rcm.put(String.valueOf(id), 01);
+					}
+					return rcm;
+				}
+
+			});
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return bkzanMap;
+	}
+
+	public int bookZan(Long userId, Long bookId) {
+		ConcurrentHashMap<String, Object> bkzanMap = getCookZan(bookId);
+		if (null == bkzanMap) {
+			return -1;
+		}
+		if (bkzanMap.size() == 0) {
+			bkzanMap.put(String.valueOf(userId), 01);
+			bookzan4096.put(String.valueOf(bookId), bkzanMap);
+		} else {
+			if (bkzanMap.containsKey(String.valueOf(userId))) {
+				bkzanMap.remove(String.valueOf(userId));
+				BookZanKey bzk = new BookZanKey();
+				bzk.setBookid(bookId);
+				bzk.setUserid(userId);
+				bookZanMapper.deleteByPrimaryKey(bzk);
+				return -1;
+			} else {
+				bkzanMap.put(String.valueOf(userId), 01);
+			}
+		}
+		BookZan bzk = new BookZan();
+		bzk.setBookid(bookId);
+		bzk.setUserid(userId);
+		bzk.setCreatetime(System.currentTimeMillis());
+		bookZanMapper.insert(bzk);
+		return 1;
+	}
 
 }

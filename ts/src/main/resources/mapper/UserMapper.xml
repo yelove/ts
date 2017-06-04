@@ -14,11 +14,18 @@
 		<result column="updatetime" property="updatetime" jdbcType="BIGINT" />
 		<result column="tsno" property="tsno" jdbcType="BIGINT" />
 		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="BIGINT" />
+		<result column="provice" property="provice" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="country" property="country" jdbcType="VARCHAR" />
+		<result column="ustate" property="ustate" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, name, namemd5, password, departmentid, department, realname, state,
 		createtime,
-		updatetime, tsno, email
+		updatetime, tsno, email, sex, imgurl, birthday, provice, city, country, ustate
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
@@ -36,14 +43,16 @@
 		insert into user (id, name, namemd5,
 		password, departmentid, department,
 		realname, state, createtime,
-		updatetime, tsno, email
+		updatetime, tsno, email, sex, imgurl, birthday, provice, city, country, ustate
 		)
 		values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
 		#{namemd5,jdbcType=VARCHAR},
 		md5(#{password,jdbcType=VARCHAR}), #{departmentid,jdbcType=BIGINT}, #{department,jdbcType=VARCHAR},
 		#{realname,jdbcType=VARCHAR}, #{state,jdbcType=BIT},
 		#{createtime,jdbcType=BIGINT},
-		#{updatetime,jdbcType=BIGINT}, #{tsno,jdbcType=BIGINT}, #{email,jdbcType=VARCHAR}
+		#{updatetime,jdbcType=BIGINT}, #{tsno,jdbcType=BIGINT}, #{email,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER},
+		#{imgurl,jdbcType=VARCHAR}, #{birthday,jdbcType=BIGINT}, #{provice,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+		#{country,jdbcType=VARCHAR}, #{ustate,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.ts.main.bean.model.User"
@@ -86,6 +95,27 @@
 			<if test="email != null">
 				email,
 			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="imgurl != null">
+				imgurl,
+			</if>
+			<if test="birthday != null">
+				birthday,
+			</if>
+			<if test="provice != null">
+				provice,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="country != null">
+				country,
+			</if>
+			<if test="ustate != null">
+				ustate,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -123,6 +153,27 @@
 			</if>
 			<if test="email != null">
 				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				#{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null">
+				#{birthday,jdbcType=BIGINT},
+			</if>
+			<if test="provice != null">
+				#{provice,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="country != null">
+				#{country,jdbcType=VARCHAR},
+			</if>
+			<if test="ustate != null">
+				#{ustate,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -162,6 +213,27 @@
 			<if test="email != null">
 				email = #{email,jdbcType=VARCHAR},
 			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				imgurl = #{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday,jdbcType=BIGINT},
+			</if>
+			<if test="provice != null">
+				provice = #{provice,jdbcType=VARCHAR},
+			</if>
+			<if test="provice != null">
+				provice = #{provice,jdbcType=VARCHAR},
+			</if>
+			<if test="country != null">
+				country = #{country,jdbcType=VARCHAR},
+			</if>
+			<if test="ustate != null">
+				ustate = #{ustate,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=BIGINT}
 	</update>
@@ -177,7 +249,14 @@
 		createtime = #{createtime,jdbcType=BIGINT},
 		updatetime = #{updatetime,jdbcType=BIGINT},
 		tsno = #{tsno,jdbcType=BIGINT},
-		email = #{email,jdbcType=VARCHAR}
+		email = #{email,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=INTEGER},
+		imgurl = #{imgurl,jdbcType=VARCHAR},
+		birthday = #{birthday,jdbcType=BIGINT},
+		provice = #{provice,jdbcType=VARCHAR},
+		city = #{city,jdbcType=VARCHAR},
+		country = #{country,jdbcType=VARCHAR},
+		ustate = #{ustate,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=BIGINT}
 	</update>
 

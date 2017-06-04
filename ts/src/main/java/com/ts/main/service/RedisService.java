@@ -28,7 +28,7 @@ public class RedisService<T> {
 	private RedisTemplate<String, T> redisTemplate;
 
 	public static final String BOOK_KEY = "bkid_";
-	
+
 	public static final String COMMENT_KEY = "cmtid_";
 
 	public static final String USER_KEY_NAME = "username_";
@@ -90,7 +90,7 @@ public class RedisService<T> {
 	public Long add2List(String key, T value) {
 		return redisTemplate.opsForList().rightPush(key, value);
 	}
-	
+
 	public Long add2ListLeft(String key, T value) {
 		return redisTemplate.opsForList().leftPush(key, value);
 	}
@@ -104,7 +104,7 @@ public class RedisService<T> {
 	public Long addAll2List(String key, List<T> values) {
 		return redisTemplate.opsForList().rightPushAll(key, values);
 	}
-	
+
 	public Long addAll2ListLeft(String key, List<T> values) {
 		return redisTemplate.opsForList().leftPushAll(key, values);
 	}
@@ -113,17 +113,17 @@ public class RedisService<T> {
 	 * @param key
 	 * @return 返回栈顶元素 即最后一个元素
 	 */
-	public T getListLast(String key,Class<T> type) {
-		List<T> x = getLisetinner(key, -1l, -1l,type);
+	public T getListLast(String key, Class<T> type) {
+		List<T> x = getLisetinner(key, -1l, -1l, type);
 		if (null == x || x.isEmpty()) {
 			return null;
 		}
 
 		return (T) x.get(0);
 	}
-	
-	public T getListFirst(String key,Class<T> type) {
-		List<T> x = getLisetinner(key, 0l, 0l,type);
+
+	public T getListFirst(String key, Class<T> type) {
+		List<T> x = getLisetinner(key, 0l, 0l, type);
 		if (null == x || x.isEmpty()) {
 			return null;
 		}
@@ -165,7 +165,18 @@ public class RedisService<T> {
 			}
 		});
 	}
-	
+
+	public boolean setListClean(final String key, final List<T> values) {
+		return redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
+				redisTemplate.delete(key);
+				long x = redisTemplate.opsForList().rightPushAll(key, values);
+				return x > 0l;
+			}
+		});
+	}
+
 	/**
 	 * @param key
 	 * @param rage
@@ -187,26 +198,25 @@ public class RedisService<T> {
 	public List<T> getListRageFreedom(String key, Long start, Long end, Class<T> type) {
 		return getLisetinner(key, start, end, type);
 	}
-	
+
 	/**
 	 * @param newestbookList
 	 * @return 左弹出
 	 */
 	public T leftPop(String newestbookList) {
-		
+
 		return redisTemplate.opsForList().leftPop(newestbookList);
 	}
-	
+
 	/**
 	 * @param key
 	 * @param count
 	 * @param value
-	 * @return 从list中移除某个元素 
-	 * 	count > 0 : 从表头开始向表尾搜索，移除与 value 相等的元素，数量为 count 
-		count < 0 : 从表尾开始向表头搜索，移除与 value 相等的元素，数量为 count 的绝对值 
-		count = 0 : 移除表中所有与 value 相等的值 
+	 * @return 从list中移除某个元素 count > 0 : 从表头开始向表尾搜索，移除与 value 相等的元素，数量为 count
+	 *         count < 0 : 从表尾开始向表头搜索，移除与 value 相等的元素，数量为 count 的绝对值 count = 0 :
+	 *         移除表中所有与 value 相等的值
 	 */
-	public long listRemoveValue(String key,long count,T value){
+	public long listRemoveValue(String key, long count, T value) {
 		return redisTemplate.opsForList().remove(key, count, value);
 	}
 
@@ -218,6 +228,14 @@ public class RedisService<T> {
 	 */
 	public void hSet(String key, String hashKey, T value) {
 		redisTemplate.opsForHash().put(key, hashKey, value);
+	}
+
+	/**
+	 * @param key
+	 * @return 获取mapsize
+	 */
+	public long hSzie(String key) {
+		return redisTemplate.opsForHash().size(key);
 	}
 
 	/**
@@ -275,6 +293,5 @@ public class RedisService<T> {
 			}
 		});
 	}
-
 
 }

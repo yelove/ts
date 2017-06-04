@@ -47,5 +47,17 @@ public interface BookMapper {
 	 * @return 根据不同时间获取 最热
 	 */
 	List<Book> getHotBook(@Param("before")Long before);
+	
+	/**
+	 * @param bookid
+	 * @return 根据id更新评论数量 数量+1
+	 */
+	int updateBookCommentSize(Long id);
+	
+	/**
+	 * @param bookid
+	 * @return 根据id更新评论数量 数量-1
+	 */
+	int delBookCommentSize(Long id);
 
 }

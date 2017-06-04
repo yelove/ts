@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ts.main.mapper.BookZanMapper" >
+  <resultMap id="BaseResultMap" type="com.ts.main.bean.model.BookZan" >
+    <id column="bookid" property="bookid" jdbcType="BIGINT" />
+    <id column="userid" property="userid" jdbcType="BIGINT" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bookid, userid, createtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.ts.main.bean.model.BookZanKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from bookzan
+    where bookid = #{bookid,jdbcType=BIGINT}
+      and userid = #{userid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ts.main.bean.model.BookZanKey" >
+    delete from bookzan
+    where bookid = #{bookid,jdbcType=BIGINT}
+      and userid = #{userid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ts.main.bean.model.BookZan" >
+    insert into bookzan (bookid, userid, createtime
+      )
+    values (#{bookid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{createtime,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ts.main.bean.model.BookZan" >
+    insert into bookzan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookid != null" >
+        bookid,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookid != null" >
+        #{bookid,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ts.main.bean.model.BookZan" >
+    update bookzan
+    <set >
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where bookid = #{bookid,jdbcType=BIGINT}
+      and userid = #{userid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ts.main.bean.model.BookZan" >
+    update bookzan
+    set createtime = #{createtime,jdbcType=BIGINT}
+    where bookid = #{bookid,jdbcType=BIGINT}
+      and userid = #{userid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByBookId" resultType="java.lang.Long" parameterType="java.lang.Long" >
+    select userid from bookzan where bookid = #{bookid,jdbcType=BIGINT}
+  </select>
+</mapper>

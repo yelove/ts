@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token"
+	content="pVtXQ2LSjhqPfLNGbAXqdmQgn6PVeoHNBHiLo9Z9">
+<title>资料设置-个人设置-BZ521.com</title>
+<link type="application/opensearchdescription+xml" href="opensearch.xml"
+	title="搜索班得瑞网站" rel="search" />
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/uikit.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slider.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slidenav.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slideshow.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/tooltip.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/notify.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/animate.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/introjs.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/style.css">
+<link href="/vendor/pace/pace-flash.css" rel="stylesheet" />
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/select2/css/select2.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/skins/square/square.css">
+<script type="text/javascript">
+	var user_id = 4501;
+	var play_token = '59342b2630439NKkeB';
+	var username = 'Doom4J';
+	var head_pic = '/img/avatar.jpg';
+</script>
+<script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/ts/all/all.js"></script>
+<script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
+<script src='//cdn.bootcss.com/socket.io/1.7.3/socket.io.min.js'></script>
+<link rel="icon" href="/ts/favicon.ico"
+	type="image/x-icon" />
+<link rel="shortcut icon" href="/ts/favicon.ico"
+	type="image/x-icon" />
+<!--[if lt IE 9]> <script src="/ts/assets/js/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="/ts/assets/js/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+</head>
+<body>
+	<div id="scroll"></div>
+	<div id="h5music" class="jp-jplayer"></div>
+	<div class="background-cover-img img-ucenter"></div>
+	<div class="background-cover"></div>
+	<a href="/" title="辈子网" class="s-logo"><i
+		class="logo"></i></a>
+	<nav class="nav-header">
+		<ul class="quick-menu">
+			<li data-uk-dropdown><a href="javascript:;"><i
+					class="iconfont icon-user"></i> <span class="i uk-icon-angle-down"></span>
+			</a>
+			<div class="lomenu uk-dropdown uk-dropdown-flip dropdown-arrow-up">
+					<ul class="uk-nav uk-nav-dropdown">
+						<li><a href="#"><i
+								class="iconfont icon-user"></i> 我的主页</a></li>
+						<li><a href="#"><i
+								class="iconfont icon-mail"></i> 我的消息</a></li>
+						<li class="uk-nav-divider"></li>
+						<li><a href="/ts/user/logout"><i
+								class="iconfont icon-iconexit"></i> 退出</a></li>
+					</ul>
+				</div></li>
+			<li class="uk-visible-small"><a href="javascript:;"
+				class="nav-menu-xs" data-uk-toggle="{target:'.menu-xs'}"> <span></span>
+					<span></span> <span></span>
+			</a></li>
+		</ul>
+	</nav>
+	<div class="header">
+		<div class="h-title">
+			<div class="uk-container uk-container-center">
+				<h2 class="uk-h2">
+					<span id="nickname">Doom4J</span> 的个人中心 <small>修改你的基本资料,方便我们匹配您感兴趣的话题!</small>
+				</h2>
+			</div>
+		</div>
+	</div>
+	<div class="user-center">
+		<div class="uk-container uk-container-center">
+			<ul class="uk-subnav uc-subnav">
+				<li class="uk-active"><a
+					href="#">资料</a></li>
+				<li><a href="/ts/useravatar.html">头像</a></li>
+			</ul>
+			<form class="uc-form uk-form uk-form-stacked" method="POST"
+				action="/ts/user/4501">
+				<fieldset>
+					<div class="uk-form-row">
+						<label class="uk-form-label" for="name">昵称 <small>这将是你在辈子网的昵称。</small></label>
+						<div class="uk-form-controls">
+							<input type="text" id="name" placeholder="编个大名吧"
+								class="uk-form-width-large" value="">
+						</div>
+					</div>
+					<div class="uk-form-row">
+						<label class="uk-form-label" for="signature">个性签名 <small>你的人生感悟或者一句话介绍，建议少于16字。</small></label>
+						<div class="uk-form-controls">
+							<input type="text" id="signature" placeholder=""
+								class="uk-form-width-xlarge" name="signature" value="">
+						</div>
+					</div>
+					<div class="uk-form-row">
+						<div class="uk-grid uk-margin-large-right">
+							<div class="uk-width-6-10">
+								<label class="uk-form-label" for="birthday">生日 <small>填生日有惊喜哦~
+								</small></label>
+								<div class="uk-grid uk-grid-small">
+									<div class="uk-width-medium-1-3">
+										<select class="slec-single sel_year" name="birthday[0]" rel="">
+										</select>
+									</div>
+									<div class="uk-width-medium-1-3">
+										<select class="slec-single sel_month" name="birthday[1]"
+											rel="">
+										</select>
+									</div>
+									<div class="uk-width-medium-1-3">
+										<select class="slec-single sel_day" name="birthday[2]" rel="">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="uk-width-4-10">
+								<label class="uk-form-label">性别 <small>请选择您的性别</small></label>
+								<div class="uk-form-controls">
+									<label class="uk-margin-right"> <input type="radio"
+										name="sex" class="ichecks" value="2"> 女
+									</label> <label class="uk-margin-right"> <input type="radio"
+										name="sex" class="ichecks" value="1"> 男
+									</label> <label> <input type="radio" name="sex" class="ichecks"
+										value="3"> 保密
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="uk-form-row">
+						<div class="uk-grid uk-margin-large-right">
+							<div class="uk-width-7-10">
+								<label class="uk-form-label">所在城市 <small>你目前所在的省市</small></label>
+								<div class="uk-grid uk-grid-small" id="distpicker"
+									data-toggle="distpicker">
+									<div class="uk-width-medium-1-3">
+										<select class="slec-single" name="province" data-province="">
+										</select>
+									</div>
+									<div class="uk-width-medium-1-3">
+										<select class="slec-single" name="city" data-city="">
+										</select>
+									</div>
+									<div class="uk-width-medium-1-3">
+										<select class="slec-single" name="district" data-district="">
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="uk-form-row">
+						<input type="hidden" name="_token"
+							value="pVtXQ2LSjhqPfLNGbAXqdmQgn6PVeoHNBHiLo9Z9"> <input
+							type="hidden" name="_method" value="PUT">
+						<button type="submit"
+							class="uk-button button-signup uk-button-large">确定</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<script>
+		$(function() {
+			$('.search-type').on(
+					'click',
+					function() {
+						$(this).addClass('uk-active').siblings().removeClass(
+								'uk-active');
+						$('#search-type').val($(this).text());
+						$('#web-search-content').val('');
+					});
+			$('#website-search-form').on('submit', function() {
+				if ($('#web-search-content').val() == '') {
+					return false;
+				}
+			});
+		});
+	</script>
+	<script
+		src="/ts/vendor/distpicker/src/distpicker.data.js"></script>
+	<script
+		src="/ts/vendor/distpicker/src/distpicker.js"></script>
+	<script src="/ts/assets/js/birthday.js"></script>
+	<script src="/ts/assets/js/icheck.min.js"></script>
+	<script
+		src="/ts/assets/libs/select2/js/select2.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$.ms_DatePicker({
+				YearSelector : ".sel_year",
+				MonthSelector : ".sel_month",
+				DaySelector : ".sel_day"
+			});
+			$(".slec-single").select2({
+				placeholder : "请选择",
+				allowClear : true,
+				minimumResultsForSearch : Infinity,
+				width : '88%'
+			});
+			$('.ichecks').iCheck({
+				checkboxClass : 'icheckbox_square',
+				radioClass : 'iradio_square',
+				increaseArea : '20%'
+			});
+		});
+	</script>
+	<script
+		src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
+	<script type="text/javascript">
+	$.ajaxSetup({
+		headers : {
+			'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+		$(function() {
+			$("img.lazy1").lazyload({
+				event : "sporty"
+			});
+			$('#i-skin')
+					.on(
+							'click',
+							'.skin-image',
+							function() {
+								var skin_id = $(this).attr('val');
+								if ($(this).hasClass('uk-active')) {
+									$(this).removeClass('uk-active');
+									if (user_id > 0) {
+										updateSkin(0);
+									} else {
+										$.cookie('skin_id', 0);
+									}
+									$('.background-cover-img').css(
+											'background', '').addClass(
+											'img-index');
+								} else {
+									$('#i-skin').find('.skin-image')
+											.removeClass('uk-active');
+									$(this).addClass('uk-active');
+									$('.background-cover-img')
+											.css(
+													'background',
+													'url('
+															+ $(this)
+																	.find('img')
+																	.attr(
+																			'data-src')
+															+ ') no-repeat fixed center top / cover');
+									if (user_id > 0) {
+										updateSkin(skin_id);
+									} else {
+										$.cookie('skin_id', skin_id, {
+											expires : 7
+										});
+									}
+								}
+							});
+			$('.icon-skin').on('click', function() {
+				$("img.lazy1").trigger("sporty");
+			});
+		});
+	</script>
+</body>
+</html>

@@ -28,6 +28,8 @@ public class BookVo extends Book{
 	
 	private String creatdate;
 	
+	private String interval;
+	
 	private String updatedate;
 	
 	private List<BookVo> nearlist;
@@ -87,5 +89,12 @@ public class BookVo extends Book{
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
+
+	public String getInterval() {
+		return interval;
+	}
+
+	public void setInterval(String interval) {
+		this.interval = interval;
+	}
 }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ts.main.mapper.CommentZanMapper" >
+  <resultMap id="BaseResultMap" type="com.ts.main.bean.model.CommentZan" >
+    <id column="cmtid" property="cmtid" jdbcType="BIGINT" />
+    <id column="userid" property="userid" jdbcType="BIGINT" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cmtid, userid, createtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.ts.main.bean.model.CommentZanKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from commentzan
+    where cmtid = #{cmtid,jdbcType=BIGINT}
+      and userid = #{userid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ts.main.bean.model.CommentZanKey" >
+    delete from commentzan
+    where cmtid = #{cmtid,jdbcType=BIGINT}
+      and userid = #{userid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ts.main.bean.model.CommentZan" >
+    insert into commentzan (cmtid, userid, createtime
+      )
+    values (#{cmtid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{createtime,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ts.main.bean.model.CommentZan" >
+    insert into commentzan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cmtid != null" >
+        cmtid,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cmtid != null" >
+        #{cmtid,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ts.main.bean.model.CommentZan" >
+    update commentzan
+    <set >
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where cmtid = #{cmtid,jdbcType=BIGINT}
+      and userid = #{userid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ts.main.bean.model.CommentZan" >
+    update commentzan
+    set createtime = #{createtime,jdbcType=BIGINT}
+    where cmtid = #{cmtid,jdbcType=BIGINT}
+      and userid = #{userid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByCommentId" resultType="java.lang.Long" parameterType="java.lang.Long" >
+    select userid from commentzan where cmtid = #{cmtid,jdbcType=BIGINT}
+  </select>
+</mapper>

@@ -57,6 +57,14 @@
 			</list>
 		</property>
 	</bean>
+	
+    <!-- 另外最好还要加入DefaultAnnotationHandlerMapping，不然会被 XML或其它的映射覆盖！ -->  
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />  
+	 <!-- 支持上传文件 -->  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	 <!-- 设置上传文件最大尺寸，单位为B -->
+   		 <property name="maxUploadSize" value="10485760" />
+    </bean>
 
 	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" 
 		p:ignoreDefaultModelOnRedirect="true"> <property name="messageConverters"> 

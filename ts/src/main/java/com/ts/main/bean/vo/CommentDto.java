@@ -22,7 +22,7 @@ public class CommentDto extends Comment {
 	
 	private String createTimeStr;
 
-	private Integer zan;
+	private Long zan;
 
 	public String getUsername() {
 		return username;
@@ -40,11 +40,11 @@ public class CommentDto extends Comment {
 		this.userimg = userimg;
 	}
 
-	public Integer getZan() {
+	public Long getZan() {
 		return zan;
 	}
 
-	public void setZan(Integer zan) {
+	public void setZan(Long zan) {
 		this.zan = zan;
 	}
 

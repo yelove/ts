@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token"
+	content="pVtXQ2LSjhqPfLNGbAXqdmQgn6PVeoHNBHiLo9Z9">
+<title>头像更改-个人设置-Bandari.Net</title>
+<link type="application/opensearchdescription+xml" href="opensearch.xml"
+	title="搜索班得瑞网站" rel="search" />
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/uikit.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slider.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slidenav.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/slideshow.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/tooltip.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/libs/uikit/css/components/notify.min.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/animate.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/introjs.css">
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/assets/css/style.css">
+<link href="/vendor/pace/pace-flash.css" rel="stylesheet" />
+<link media="all" type="text/css" rel="stylesheet"
+	href="/ts/vendor/cropper/dist/cropper.min.css">
+<style>
+img {
+	max-width: 100%
+}
+</style>
+<script type="text/javascript">
+	var user_id = 4501;
+	var play_token = '59342b2630439NKkeB';
+</script>
+<script type="text/javascript">
+	var username = 'Doom4J';
+	var head_pic = '/img/avatar.jpg';
+</script>
+<script type="text/javascript">
+	paceOptions = {
+		restartOnRequestAfter : false
+	}
+</script>
+<script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/ts/all/all.js"></script>
+<script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
+<script src='//cdn.bootcss.com/socket.io/1.7.3/socket.io.min.js'></script>
+<link rel="icon" href="/ts/favicon.ico"
+	type="image/x-icon" />
+<link rel="shortcut icon" href="/ts/favicon.ico"
+	type="image/x-icon" />
+<!--[if lt IE 9]> <script src="/ts/assets/js/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="/ts/assets/js/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+</head>
+<body>
+	<div id="scroll"></div>
+	<div id="h5music" class="jp-jplayer"></div>
+	<div class="background-cover-img img-ucenter"></div>
+	<div class="background-cover"></div>
+	<a href="/" title="辈子网" class="s-logo"><i
+		class="logo"></i></a>
+	<nav class="nav-header">
+		<ul class="quick-menu">
+			<li data-uk-dropdown><a href="javascript:;"><i
+					class="iconfont icon-user"></i> <span class="i uk-icon-angle-down"></span>
+			</a>
+			<div class="lomenu uk-dropdown uk-dropdown-flip dropdown-arrow-up">
+					<ul class="uk-nav uk-nav-dropdown">
+						<li><a href="#"><i
+								class="iconfont icon-user"></i> 我的主页</a></li>
+						<li><a href="#"><i
+								class="iconfont icon-mail"></i> 我的消息</a></li>
+						<li class="uk-nav-divider"></li>
+						<li><a href="/ts/user/logout"><i
+								class="iconfont icon-iconexit"></i> 退出</a></li>
+					</ul>
+				</div></li>
+			<li class="uk-visible-small"><a href="javascript:;"
+				class="nav-menu-xs" data-uk-toggle="{target:'.menu-xs'}"> <span></span>
+					<span></span> <span></span>
+			</a></li>
+		</ul>
+	</nav>
+	<div class="header">
+		<div class="h-title">
+			<div class="uk-container uk-container-center">
+				<h2 class="uk-h2">
+					<span id="nickname">Doom4J</span> 的个人中心 <small>修改你的基本资料,方便我们匹配您感兴趣的话题!</small>
+				</h2>
+			</div>
+		</div>
+	</div>
+	<div class="user-center">
+		<div class="uk-container uk-container-center">
+			<ul class="uk-subnav uc-subnav">
+				<li><a href="/ts/usersetting.html">资料</a></li>
+				<li class="uk-active"><a
+					href="#">头像</a></li>
+			</ul>
+			<div class="uc-avatar">
+				<h3 class="avatar-header">当前头像</h3>
+				<img id="avatar" width="150px"
+					src="/ts/assets/img/avatar.jpg" alt="">
+				<h3 class="avatar-header uk-margin-large-top">
+					设置新头像 <small>支持jpg、jpeg、png、bmp格式，文件小于5M</small>
+				</h3>
+				<input type="file" class="uk-hidden" id="inputImage" name="file"
+					accept="image/jpg,image/jpeg,image/png,image/bmp">
+				<button
+					class="uk-button uk-margin-bottom img-upload uk-button-borderd">上传图片</button>
+				<div class="uk-grid uk-grid-small">
+					<div class="uk-width-medium-4-10">
+						<div class="cropimg  img-container">
+							<img id="image" style="max-width: 100%"
+								src="">
+						</div>
+					</div>
+					<div class="uk-width-medium-6-10">
+						<div class="big-avatar img-preview preview-lg uk-border-circle"
+							style="overflow: hidden;"></div>
+						<div class="middle-avatar img-preview preview-md uk-border-circle"
+							style="overflow: hidden;"></div>
+						<div class="small-avatar img-preview preview-sm uk-border-circle"
+							style="overflow: hidden;"></div>
+					</div>
+				</div>
+				<div class="uk-panel uk-margin-top">
+					<button
+						class="uk-button img-crop button-signup uk-button-large uk-margin-top-remove">确认</button>
+				</div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+	<script
+		src="/ts/vendor/cropper/dist/cropper.min.js"></script>
+	<script
+		src="/ts/vendor/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var $image = $('#image');
+			var $inputImage = $('#inputImage');
+			var URL = window.URL || window.webkitURL;
+			var blobURL;
+			$image.cropper({
+				aspectRatio : 1 / 1,
+				preview : '.img-preview',
+				dragMode : 'move',
+				crop : function(e) {
+				}
+			});
+			$('.img-upload').click(function() {
+				$inputImage.click();
+			});
+			$('.img-cancel').click(function() {
+				$image.cropper('clear')
+			});
+			if (URL) {
+				$inputImage.change(function() {
+					var files = this.files;
+					var file;
+					if (!$image.data('cropper')) {
+						return;
+					}
+					if (files && files.length) {
+						file = files[0];
+						if((file.size/5242880)>1){
+							layer.msg('头像图片请勿大于5M!');
+							return;
+						}
+						if (/^image\/\w+$/.test(file.type)) {
+							blobURL = URL.createObjectURL(file);
+							$image.one('built.cropper', function() {
+								URL.revokeObjectURL(blobURL);
+							}).cropper('reset').cropper('replace', blobURL);
+							$inputImage.val('');
+						} else {
+							window.alert('请选择一张图片!');
+						}
+					}
+				});
+			} else {
+				$inputImage.prop('disabled', true).parent()
+						.addClass('disabled');
+			}
+			$('.img-crop').click(function() {
+				$image.cropper('getCroppedCanvas').toBlob(function(blob) {
+					var loading = layer.load(2, {
+						shade : 0.1
+					})
+					var formData = new FormData();
+					formData.append('croppedImage', blob);
+					$.ajax('/ts/user/uploadavatar', {
+						method : "POST",
+						data : formData,
+						processData : false,
+						contentType : false,
+						success : function(res) {
+							if (res.status == 1000) {
+								$('#avatar').attr('src', res.path);
+								layer.close(loading);
+								layer.msg('上传成功');
+							}
+						},
+						error : function() {
+							layer.close(loading);
+							layer.msg('上传失败');
+						}
+					});
+				});
+			});
+		});
+	</script>
+	<script
+		src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
+	<script type="text/javascript">
+	$.ajaxSetup({
+		headers : {
+			'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+		$(function() {
+			$("img.lazy1").lazyload({
+				event : "sporty"
+			});
+			$('#i-skin')
+					.on(
+							'click',
+							'.skin-image',
+							function() {
+								var skin_id = $(this).attr('val');
+								if ($(this).hasClass('uk-active')) {
+									$(this).removeClass('uk-active');
+									if (user_id > 0) {
+										updateSkin(0);
+									} else {
+										$.cookie('skin_id', 0);
+									}
+									$('.background-cover-img').css(
+											'background', '').addClass(
+											'img-index');
+								} else {
+									$('#i-skin').find('.skin-image')
+											.removeClass('uk-active');
+									$(this).addClass('uk-active');
+									$('.background-cover-img')
+											.css(
+													'background',
+													'url('
+															+ $(this)
+																	.find('img')
+																	.attr(
+																			'data-src')
+															+ ') no-repeat fixed center top / cover');
+									if (user_id > 0) {
+										updateSkin(skin_id);
+									} else {
+										$.cookie('skin_id', skin_id, {
+											expires : 7
+										});
+									}
+								}
+							});
+			$('.icon-skin').on('click', function() {
+				$("img.lazy1").trigger("sporty");
+			});
+		});
+	</script>
+</body>
+</html>
