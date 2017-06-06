@@ -33,6 +33,7 @@ import com.ts.main.common.CommonStr;
 import com.ts.main.service.BookService;
 import com.ts.main.service.CommentService;
 import com.ts.main.service.UserService;
+import com.ts.main.utils.TimeUtils4book;
 
 /**
  * @author hasee
@@ -165,6 +166,8 @@ public class BookAction {
 		if (null != bvl) {
 			rm.put(CommonStr.STATUS, 1000);
 			rm.put("bookmine", bvl);
+			rm.put(CommonStr.USER, obj);
+			rm.put("joindate", TimeUtils4book.long2Str(((User)obj).getCreatetime(),TimeUtils4book.yMd_));
 			rm.put("total", total);
 		} else {
 			rm.put(CommonStr.STATUS, 1002);
@@ -196,6 +199,8 @@ public class BookAction {
 		rm.put(CommonStr.STATUS, 1000);
 		rm.put("bookview", page.getList());
 		rm.put("username", user.getTsno());
+		rm.put("signature", user.getSignature());
+		rm.put("joindate", TimeUtils4book.long2Str(user.getCreatetime(),TimeUtils4book.yMd_));
 		rm.put("total", page.getTotalRows());
 		return rm;
 	}

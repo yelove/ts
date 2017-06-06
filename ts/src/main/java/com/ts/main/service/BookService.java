@@ -19,6 +19,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -27,6 +28,7 @@ import com.google.common.collect.Sets;
 import com.ts.main.bean.model.Book;
 import com.ts.main.bean.model.BookZan;
 import com.ts.main.bean.model.BookZanKey;
+import com.ts.main.bean.model.User;
 import com.ts.main.bean.vo.BookVo;
 import com.ts.main.bean.vo.ID123;
 import com.ts.main.bean.vo.Page;
@@ -425,8 +427,12 @@ public class BookService {
 		bkv.setCreatdate(TimeUtils4book.date2str(new Date(bkv.getCreatetime())));
 		bkv.setUpdatedate(TimeUtils4book.date2str(new Date(bkv.getUpdatetime())));
 		bkv.setInterval(TimeUtils4book.dateInterval(bkv.getCreatetime()));
-		bkv.setTsno(userService.getUserBiIdWithCache(book.getUserid()).getTsno());
+		User user = userService.getUserBiIdWithCache(book.getUserid());
+		bkv.setTsno(user.getTsno());
 		bkv.setPraisenum((long)getBookZanSize(book.getId()));
+		if(!StringUtils.isEmpty(user.getImgurl())){
+			bkv.setUserImgUrl(user.getImgurl());
+		}
 		return bkv;
 	}
 

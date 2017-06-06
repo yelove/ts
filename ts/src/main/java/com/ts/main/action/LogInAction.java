@@ -2,11 +2,14 @@ package com.ts.main.action;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,7 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aliyun.oss.OSSClient;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.ts.main.bean.model.User;
+import com.ts.main.bean.vo.UserVo;
 import com.ts.main.common.CommonStr;
 import com.ts.main.service.UserService;
 import com.ts.main.utils.MD5Tools;
@@ -70,14 +76,83 @@ public class LogInAction {
 
 	@RequestMapping(value = "checklogin", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> isLogin(ModelMap mdmap, HttpServletRequest request) {
-		Object obj = request.getSession(true).getAttribute(CommonStr.USERNAME);
+		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
 		Map<String, Object> rm = new HashMap<String, Object>();
 		if (null != obj) {
+			rm.put(CommonStr.STATUS, 1000);
+			rm.put(CommonStr.USER, convertUser(uService.getUserBiIdWithCache(((User) obj).getId())));
+		} else {
+			rm.put(CommonStr.STATUS, 1009);
+		}
+		return rm;
+	}
+
+	private static Cache<String, Object> userupadtelock = CacheBuilder.newBuilder().softValues()
+			.expireAfterWrite(2, TimeUnit.SECONDS).initialCapacity(16).build();
+
+	@RequestMapping(value = "saveuserifo", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> saveUserInfo(ModelMap mdmap, UserVo user, HttpServletRequest request) {
+		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
+		Map<String, Object> rm = new HashMap<String, Object>();
+		if (null != obj) {
+			User ouser = (User) obj;
+			if (null == userupadtelock.getIfPresent(String.valueOf(ouser.getId()))) {
+				user.setId(ouser.getId());
+				if (!StringUtils.isEmpty(user.getByear())) {
+					String birthday = user.getByear() + "-"
+							+ (StringUtils.isEmpty(user.getBmonth()) ? "1" : user.getBmonth()) + "-"
+							+ (StringUtils.isEmpty(user.getBday()) ? "1" : user.getBday());
+					user.setBirthday(birthday);
+				}
+				uService.updateUser(user);
+				request.getSession(true).setAttribute(CommonStr.TKUSER, uService.getUserBiIdWithCache(ouser.getId()));
+			}
 			rm.put(CommonStr.STATUS, 1000);
 		} else {
 			rm.put(CommonStr.STATUS, 1009);
 		}
 		return rm;
+	}
+
+	// public static void main(String args[]) {
+	// User u = new User();
+	// u.setId(21l);
+	// u.setName("xxx");
+	// UserVo uv = (UserVo) u;
+	// System.out.println(uv.getName());
+	// uv.setBday("123");
+	// System.out.println(uv.getBday());
+	// }
+
+	@RequestMapping(value = "getuser", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> getUser(ModelMap mdmap, HttpServletRequest request) {
+		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
+		Map<String, Object> rm = new HashMap<String, Object>();
+		if (null != obj) {
+			rm.put(CommonStr.STATUS, 1000);
+			rm.put(CommonStr.USER, convertUser(uService.getUserBiIdWithCache(((User) obj).getId())));
+		} else {
+			rm.put(CommonStr.STATUS, 1009);
+		}
+		return rm;
+	}
+
+	private UserVo convertUser(User user) {
+		UserVo uv = new UserVo();
+		try {
+			BeanUtils.copyProperties(uv, user);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		if (!StringUtils.isEmpty(user.getBirthday())) {
+			String[] bd = user.getBirthday().split("-");
+			uv.setBday(bd[2]);
+			uv.setBmonth(bd[1]);
+			uv.setByear(bd[0]);
+		}
+		return uv;
 	}
 
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
@@ -100,14 +175,14 @@ public class LogInAction {
 			rm.put(CommonStr.STATUS, 1004);
 			return rm;
 		}
-		User user = (User)obj;
-		String finename = user.getId()+"_"+System.currentTimeMillis()+".jpg";
+		User user = (User) obj;
+		String finename = user.getId() + "_" + System.currentTimeMillis() + ".jpg";
 		OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
 		InputStream inputStream;
 		try {
 			inputStream = file.getInputStream();
 			ossClient.putObject("zsytp", finename, inputStream);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			rm.put(CommonStr.STATUS, 1009);
@@ -118,8 +193,8 @@ public class LogInAction {
 		user.setImgurl(finename);
 		user.setUpdatetime(System.currentTimeMillis());
 		uService.updateUser(user);
-		
-		if(!StringUtils.isEmpty(oldimg)){
+
+		if (!StringUtils.isEmpty(oldimg)) {
 			ossClient.deleteObject("zsytp", oldimg);
 		}
 		ossClient.shutdown();

@@ -72,7 +72,7 @@ img {
 			</a>
 			<div class="lomenu uk-dropdown uk-dropdown-flip dropdown-arrow-up">
 					<ul class="uk-nav uk-nav-dropdown">
-						<li><a href="#"><i
+						<li><a href="/user.html"><i
 								class="iconfont icon-user"></i> 我的主页</a></li>
 						<li><a href="#"><i
 								class="iconfont icon-mail"></i> 我的消息</a></li>
@@ -91,7 +91,7 @@ img {
 		<div class="h-title">
 			<div class="uk-container uk-container-center">
 				<h2 class="uk-h2">
-					<span id="nickname">Doom4J</span> 的个人中心 <small>修改你的基本资料,方便我们匹配您感兴趣的话题!</small>
+					<span id="nickname"></span> 的个人中心 <small>修改你的基本资料,方便我们匹配您感兴趣的话题!</small>
 				</h2>
 			</div>
 		</div>
@@ -143,6 +143,7 @@ img {
 	<script
 		src="/ts/vendor/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
 	<script type="text/javascript">
+	var oss_ali = 'http://zsytp.oss-cn-shanghai.aliyuncs.com/';
 		$(function() {
 			var $image = $('#image');
 			var $inputImage = $('#inputImage');
@@ -201,19 +202,26 @@ img {
 						data : formData,
 						processData : false,
 						contentType : false,
+						dataType : 'json',
 						success : function(res) {
+							var msg = '上传成功';
 							if (res.status == 1000) {
-								$('#avatar').attr('src', res.path);
+								$('#avatar').attr('src', oss_ali+res.desc);
+							}else if(res.status == 1004){
+								msg = '登录超时';
+							}else{
 								layer.close(loading);
-								layer.msg('上传成功');
+								msg = '上传失败,服务器异常！';
 							}
+							layer.close(loading);
+							layer.msg(msg);
 						},
 						error : function() {
 							layer.close(loading);
 							layer.msg('上传失败');
 						}
 					});
-				});
+				},"image/jpeg",0.75);
 			});
 		});
 	</script>
@@ -228,6 +236,18 @@ img {
 		$(function() {
 			$("img.lazy1").lazyload({
 				event : "sporty"
+			});
+			$.ajax('/ts/user/getuser',{
+				type : 'GET',
+				dataType : 'json',
+				success : function(res) {
+					if (res.status == 1000) {avatar
+						$("#nickname").html(res.user.name);
+						$("#avatar").attr('src',oss_ali+res.user.imgurl);
+					}else{
+						location.href = "/";
+					}
+				}
 			});
 			$('#i-skin')
 					.on(

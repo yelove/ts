@@ -36,15 +36,17 @@ public class User implements Serializable{
     
     private String imgurl;
     
-    private Long birthday;
+    private String birthday;
     
-    private String provice;
+    private String province;
     
     private String city;
     
     private String country;
     
     private String ustate;
+    
+    private String signature;
 
     public Long getId() {
         return id;
@@ -158,20 +160,20 @@ public class User implements Serializable{
 		this.imgurl = imgurl;
 	}
 
-	public Long getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Long birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 
-	public String getProvice() {
-		return provice;
+	public String getProvince() {
+		return province;
 	}
 
-	public void setProvice(String provice) {
-		this.provice = provice;
+	public void setProvince(String province) {
+		this.province = province;
 	}
 
 	public String getCity() {
@@ -196,6 +198,14 @@ public class User implements Serializable{
 
 	public void setUstate(String ustate) {
 		this.ustate = ustate;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
     
 }

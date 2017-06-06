@@ -48,23 +48,17 @@
 				<h2 class="uk-h2">
 					<span class="h2-icon"></span> <span id="uname">Doom4J</span> <span
 						class="h2-icon"> </span> <small class="my-intro">个人介绍：<span
-						id="udesc">暂无</span></small>
+						id="signature">暂无</span></small>
 				</h2>
-				<div class="header-socal">
-					<a href="#" class="uk-button"><i class="uk-icon-weibo"></i></a> <a
-						href="#" class="uk-button"><i class="uk-icon-qq"></i></a> <a
-						href="#" class="uk-button"><i class="iconfont icon-douban"></i></a>
-				</div>
 			</div>
 		</div>
 	</div>
 	<div class="home-layer">
 		<div class="uk-container uk-container-center">
-			<ul class="uk-list localifo wow fadeInUp" data-wow-delay="1s">
+			<ul class="uk-list localifo wow fadeInUp" style=" margin-top: 10px;" data-wow-delay="1s">
 				<li><i class="iconfont icon-local"></i> 共<span id="booktotal"></span>条状态
 					<i class="iconfont icon-xingzuo"></i></li>
-				<li><i class="iconfont icon-flag"></i> 2017-05-07 加入</li>
-				<li><i class="iconfont icon-nianling"></i> 年龄： -</li>
+				<li><i class="iconfont icon-flag"></i> <span id="joindate" >2017-05-07</span> 加入</li>
 			</ul>
 			<div class="uk-panel uk-panel-box home-dynamic"
 				data-uk-scrollspy="{cls:'animated', target:'.uk-comment', delay:550}"
@@ -140,6 +134,8 @@
 						success : function(res) {
 							if (res.status == 1000) {
 								$('#uname').html(res.username);
+								$('#signature').html(res.signature);
+								$('#joindate').html(res.joindate);
 								$('#booktotal').html(res.total);
 								if (0 == res.total) {
 									UIkit.notify('你访问的用户不存在', {

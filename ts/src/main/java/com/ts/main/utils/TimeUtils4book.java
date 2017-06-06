@@ -13,6 +13,7 @@ public class TimeUtils4book {
 	public final static String yMdHmscn= "yyyy年MM月dd HH时mm分ss";
 	
 	public final static String yMd= "yyyyMMdd";
+	public final static String yMd_ = "yyyy-MM-dd";
 	
 	public static String date2str(Date date){
 		SimpleDateFormat time = new SimpleDateFormat(yMdHms);
@@ -63,6 +64,11 @@ public class TimeUtils4book {
 	
 	public static String long2Str(Long date){
 		SimpleDateFormat time = new SimpleDateFormat(yMdHmscn);
+		return time.format(new Date(date));
+	}
+	
+	public static String long2Str(Long date,String format){
+		SimpleDateFormat time = new SimpleDateFormat(format);
 		return time.format(new Date(date));
 	}
 	

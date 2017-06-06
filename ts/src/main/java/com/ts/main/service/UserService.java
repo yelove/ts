@@ -76,6 +76,7 @@ public class UserService {
 	}
 	
 	public void updateUser(User user){
+		user.setUpdatetime(System.currentTimeMillis());
 		int i = userMapper.updateByPrimaryKeySelective(user);
 		if(i>0){
 			userCache.put(user.getId(), user);

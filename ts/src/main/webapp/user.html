@@ -45,15 +45,6 @@ p{ word-wrap:break-word; word-break:normal;}
     background: #fafafa;
 }
 </style>
-<script type="text/javascript">
-	var user_id = 4501;
-	var play_token = '5912554fdec6cZDUDF';
-	var username = 'Doom4J';
-	var head_pic = '/img/avatar.jpg';
-	paceOptions = {
-		restartOnRequestAfter : false
-	}
-</script>
 <script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
 <script src="/ts/all/all.js"></script>
 <script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
@@ -95,16 +86,11 @@ p{ word-wrap:break-word; word-break:normal;}
 		<div class="h-title">
 			<div class="uk-container uk-container-center">
 				<h2 class="uk-h2">
-					<span class="h2-icon"></span> Doom4J <span class="h2-icon">
-					</span> <a href="#"
+					<span class="h2-icon"></span><span id="username"> Doom4J </span><span class="h2-icon">
+					</span> <a href="/usersetting.html"
 						class="uk-button uk-button-small uk-button-borderd"><i
-						class="uk-icon-pencil"></i> 编辑</a> <small class="my-intro">个人介绍：暂无介绍</small>
+						class="uk-icon-pencil"></i> 编辑</a> <small class="my-intro">个性签名：<span id="signature">暂无</span></small>
 				</h2>
-				<div class="header-socal">
-					<a href="#" class="uk-button"><i class="uk-icon-weibo"></i></a> <a
-						href="#" class="uk-button"><i class="uk-icon-qq"></i></a> <a
-						href="#" class="uk-button"><i class="iconfont icon-douban"></i></a>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -148,11 +134,12 @@ p{ word-wrap:break-word; word-break:normal;}
 	</script>
 	<div class="home-layer">
 		<div class="uk-container uk-container-center">
+		<!-- 
 			<div class="big-avatar">
-				<img src="/ts/uploads/avatar.jpg" alt=""
+				<img id="usertx" src="/ts/uploads/avatar.jpg" alt=""
 					class="animated rotateIn">
-			</div>
-			<div class="uk-width-4-10 uk-push-3-10 proifo wow fadeInUp"
+			</div> -->
+			<div class="uk-width-4-10 uk-push-3-10 proifo wow fadeInUp" style="margin-top: 20px;"
 				data-wow-delay="0.4s">
 				<div class="uk-grid">
 					<div class="uk-width-1-3">
@@ -173,10 +160,7 @@ p{ word-wrap:break-word; word-break:normal;}
 				</div>
 			</div>
 			<ul class="uk-list localifo wow fadeInUp" data-wow-delay="1s">
-				<li><i class="iconfont icon-local"></i> 暂未设置 <i
-					class="iconfont icon-xingzuo"></i> 设置生日有惊喜哦</li>
-				<li><i class="iconfont icon-flag"></i> 2017-05-07 加入</li>
-				<li><i class="iconfont icon-nianling"></i> 年龄： -</li>
+				<li><i class="iconfont icon-flag"></i> <span id="joindate">2017-05-07</span> 加入</li>
 			</ul>
 			<ul class="uk-list home-nav">
 				<li class="uk-active"><a
@@ -196,55 +180,6 @@ p{ word-wrap:break-word; word-break:normal;}
 			</div>
 		</div>
 	</div>
-	<script src="/ts/assets/libs/select2/js/select2.min.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			$(document).ready(function() {
-				$(".slec-single").select2({
-					placeholder : "请选择",
-					allowClear : true,
-					minimumResultsForSearch : Infinity,
-					width : '88%'
-				});
-			});
-			$('#private-form .at').click(
-					function() {
-						$('#private-content').insertContent(
-								'@' + $(this).text() + ' ');
-					});
-			$('#private-form .emtitm').click(
-					function() {
-						$('#private-content').insertContent(
-								'[[' + $(this).attr('title') + ']]');
-					});
-			$('#private-form').on('submit', function() {
-				var users = $('select[name^=to_users').val();
-				if (!users) {
-					layer.msg('请选择消息接收者');
-				}
-				var content = $('#private-content').val();
-				if (!content) {
-					layer.msg('请输入内容');
-				}
-				$.ajax('/message/send', {
-					type : "POST",
-					dataType : "json",
-					data : $('#private-form').serialize(),
-					success : function(res) {
-						if (res.error == 0) {
-							$('#private-form')[0].reset();
-							layer.msg('消息发送成功');
-						} else {
-							UIkit.notify('系统或参数错误，请稍后再试', {
-								status : 'danger'
-							});
-						}
-					}
-				});
-				return false;
-			});
-		});
-	</script>
 	<div class="go-up">
 		<a href=""><i class="uk-icon-chevron-up"></i></a>
 	</div>
@@ -268,6 +203,7 @@ p{ word-wrap:break-word; word-break:normal;}
 	<script
 		src="/ts/assets/js/wangEditor.min.js"></script>
 	<script type="text/javascript">
+		var oss_ali = 'http://zsytp.oss-cn-shanghai.aliyuncs.com/';
 		var next_page_url = "";
 		var end = 0;
 		var loading = null;
@@ -316,6 +252,10 @@ p{ word-wrap:break-word; word-break:normal;}
 				success : function(res) {
 					if (res.status == 1000) {
 						$('#booktotal').html(res.total);
+						$('#usertx').attr('src', oss_ali+res.user.imgurl);
+						$('#username').html(res.user.name);
+						$('#signature').html(res.user.signature);
+						$('#joindate').html(res.joindate);
 						var bookmine = eval(res.bookmine);
 						var booklis = "";
 						$.each(bookmine,function(n,value){

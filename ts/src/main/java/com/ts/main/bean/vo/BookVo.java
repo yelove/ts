@@ -22,7 +22,7 @@ public class BookVo extends Book{
 	
 	private String markdate;
 	
-	private String userImgUrl;
+	private String userImgUrl = "avatar.jpg";
 	
 	private String userName;
 	

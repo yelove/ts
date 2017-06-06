@@ -84,6 +84,7 @@ public class CommentService {
 					hot.add(covent(cmt));
 				}
 				rm.put(id, cmt);
+				lis.add(cmt.getId());
 				comment4096.put(String.valueOf(id), cmt);
 				commentService.hSet(RedisService.COMMENT_KEY, String.valueOf(id), cmt);
 			}
