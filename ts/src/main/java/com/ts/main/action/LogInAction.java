@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,15 +98,34 @@ public class LogInAction {
 		if (null != obj) {
 			User ouser = (User) obj;
 			if (null == userupadtelock.getIfPresent(String.valueOf(ouser.getId()))) {
-				user.setId(ouser.getId());
+
+				User bser = uService.getUserBiIdWithCache(ouser.getId());
 				if (!StringUtils.isEmpty(user.getByear())) {
 					String birthday = user.getByear() + "-"
 							+ (StringUtils.isEmpty(user.getBmonth()) ? "1" : user.getBmonth()) + "-"
 							+ (StringUtils.isEmpty(user.getBday()) ? "1" : user.getBday());
-					user.setBirthday(birthday);
+					bser.setBirthday(birthday);
 				}
-				uService.updateUser(user);
-				request.getSession(true).setAttribute(CommonStr.TKUSER, uService.getUserBiIdWithCache(ouser.getId()));
+				if (!StringUtils.isEmpty(user.getName())) {
+					bser.setName(user.getName());
+				}
+				if (!StringUtils.isEmpty(user.getSignature())) {
+					bser.setSignature(user.getSignature());
+				}
+				if (null != user.getSex()) {
+					bser.setSex(user.getSex());
+				}
+				if (!StringUtils.isEmpty(user.getProvince())) {
+					bser.setProvince(user.getProvince());
+				}
+				if (!StringUtils.isEmpty(user.getCity())) {
+					bser.setCity(user.getCity());
+				}
+				if (!StringUtils.isEmpty(user.getCountry())) {
+					bser.setCountry(user.getCountry());
+				}
+				uService.updateUser(bser);
+				request.getSession(true).setAttribute(CommonStr.TKUSER, bser);
 			}
 			rm.put(CommonStr.STATUS, 1000);
 		} else {
@@ -153,6 +173,16 @@ public class LogInAction {
 			uv.setByear(bd[0]);
 		}
 		return uv;
+	}
+
+	@RequestMapping(value = "checkUserEmail", method = RequestMethod.GET)
+	public void checkUserEmail(@RequestParam(value = "email", required = true) String email, HttpServletResponse resp) {
+		User user = uService.getUserByName(email);
+		if (null != user) {
+			resp.setStatus(200);
+		} else {
+			resp.setStatus(404);
+		}
 	}
 
 	@RequestMapping(value = "logout", method = RequestMethod.GET)

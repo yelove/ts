@@ -18,7 +18,7 @@
 	<div class="login-wrapper">
 		<a href="/ts" class="login-logo"><i class="iconfont icon-minilogo"></i>
 			会员注册</a>
-		<form action="/user" method="POST" class="uk-form uc-form"
+		<form method="POST" class="uk-form uc-form"
 			id="register-form">
 			<div class="uk-form-row">
 				<div class="uk-form-controls">
@@ -128,7 +128,7 @@
 						data : $('#register-form').serialize(),
 						success : function(res) {
 							if (res.status == 1000) {
-								location.href = '/ts';
+								location.href = '/';
 							} else {
 								UIkit.notify('系统或参数错误，请稍后再试', {
 									status : "danger"

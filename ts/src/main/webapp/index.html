@@ -870,6 +870,8 @@
 						}else{
 							firstview = firstview+1;
 						}
+					}else if(res.status == 1002){
+						$("#book123").html('还没有发布过内容');
 					}else{
 						UIkit.notify('服务器未知错误',{status : "danger"});
 					}

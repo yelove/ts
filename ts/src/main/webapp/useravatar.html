@@ -241,9 +241,11 @@ img {
 				type : 'GET',
 				dataType : 'json',
 				success : function(res) {
-					if (res.status == 1000) {avatar
+					if (res.status == 1000) {
 						$("#nickname").html(res.user.name);
-						$("#avatar").attr('src',oss_ali+res.user.imgurl);
+						if(res.user.imgurl)}{
+							$("#avatar").attr('src',oss_ali+res.user.imgurl);
+						}
 					}else{
 						location.href = "/";
 					}

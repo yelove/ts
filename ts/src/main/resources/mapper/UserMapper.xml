@@ -132,7 +132,7 @@
 				#{namemd5,jdbcType=VARCHAR},
 			</if>
 			<if test="password != null">
-				#{password,jdbcType=VARCHAR},
+				md5(#{password,jdbcType=VARCHAR}),
 			</if>
 			<if test="departmentid != null">
 				#{departmentid,jdbcType=BIGINT},
@@ -194,7 +194,7 @@
 				namemd5 = #{namemd5,jdbcType=VARCHAR},
 			</if>
 			<if test="password != null">
-				password = #{password,jdbcType=VARCHAR},
+				password = md5(#{password,jdbcType=VARCHAR}),
 			</if>
 			<if test="departmentid != null">
 				departmentid = #{departmentid,jdbcType=BIGINT},
@@ -251,7 +251,7 @@
 		update user
 		set name = #{name,jdbcType=VARCHAR},
 		namemd5 = #{namemd5,jdbcType=VARCHAR},
-		password = #{password,jdbcType=VARCHAR},
+		password = md5(#{password,jdbcType=VARCHAR}),
 		departmentid = #{departmentid,jdbcType=BIGINT},
 		department = #{department,jdbcType=VARCHAR},
 		realname = #{realname,jdbcType=VARCHAR},
