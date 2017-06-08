@@ -81,7 +81,7 @@
 		<div class="h-title">
 			<div class="uk-container uk-container-center">
 				<h2 class="uk-h2">
-					<span id="nickname"></span> 的个人中心 <small>修改你的基本资料,方便我们匹配您感兴趣的话题!</small>
+					<a href="/user.html"><span style="color: #fff;" id="nickname"></span></a> 的个人中心 <small>修改你的基本资料,方便我们匹配您感兴趣的话题!</small>
 				</h2>
 			</div>
 		</div>
@@ -144,6 +144,7 @@
 							</div>
 						</div>
 					</div>
+					<!-- 
 					<div class="uk-form-row">
 						<div class="uk-grid uk-margin-large-right">
 							<div class="uk-width-7-10">
@@ -165,7 +166,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<div class="uk-form-row">
 						<button  type="submit"
 							class="uk-button uk-button-large">确定</button>
@@ -239,13 +240,16 @@
 						$("#nickname").html(res.user.name);
 						$("#name").val(res.user.name);
 						$("#signature").val(res.user.signature);
-						$("#byear").val(res.user.byear);
-						$("#bmonth").val(res.user.bmonth);
-						$("#bday").val(res.user.bday);
-						$("input[name='sex'][value="+res.user.sex+"]").attr("checked",true);
-						$("#province").val(res.user.province);
-						$("#city").val(res.user.city);
-						$("#country").val(res.user.country);
+						$("#byear").attr('rel',res.user.byear);
+						$("#bmonth").attr('rel',res.user.bmonth);
+						$("#bday").attr('rel',res.user.bday);
+						$.ms_DatePicker({
+							YearSelector : ".sel_year",
+							MonthSelector : ".sel_month",
+							DaySelector : ".sel_day"
+						});
+						$("input[name='sex'][value="+res.user.sex+"]").attr("checked","checked");
+						$("input[name='sex'][value="+res.user.sex+"]").parent().addClass("checked");
 					}else{
 						location.href = "/";
 					}

@@ -31,61 +31,98 @@
 	href="/ts/assets/libs/select2/css/select2.css">
 <style type="text/css">
 .uk-comment-test1 {
-    border-color: rgba(45,112,145,.3);
-    background-color: #92a9b5;
-    color: #2d7091;
-    text-shadow: 0 1px 0 #fff;
+	border-color: rgba(45, 112, 145, .3);
+	background-color: #92a9b5;
+	color: #2d7091;
+	text-shadow: 0 1px 0 #fff;
 }
-.uk-comment-primary .uk-comment-header{border-color:rgba(45,112,145,.3);background-color:#dcdbcf;color:#2d7091;}
+
+.uk-comment-primary .uk-comment-header {
+	border-color: rgba(45, 112, 145, .3);
+	background-color: #dcdbcf;
+	color: #2d7091;
+}
+
 .uk-comment-header {
-	filter:alpha(Opacity=70);-moz-opacity:0.7;opacity: 0.7 ;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-    background: #fafafa;
+	filter: alpha(Opacity = 70);
+	-moz-opacity: 0.7;
+	opacity: 0.7;
+	margin-bottom: 15px;
+	padding: 10px;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	background: #fafafa;
 }
 
 .uk-comment-headert {
-	filter:alpha(Opacity=80);-moz-opacity:0.8;opacity: 0.8 ;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
+	filter: alpha(Opacity = 80);
+	-moz-opacity: 0.8;
+	opacity: 0.8;
+	margin-bottom: 15px;
+	padding: 10px;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
 }
-.itt{
-  display:block;
-  background:#e91e63;
-  width:10px;
-  height:8px;
-  top:0px;
-  right:0px;
-  position:absolute;
+
+.itt {
+	display: block;
+	background: #e91e63;
+	width: 10px;
+	height: 8px;
+	top: 0px;
+	right: 0px;
+	position: absolute;
 }
-.hjtq{
-display:inline;
+
+.hjtq {
+	display: inline;
 }
-.plk_div{
-    padding: 10px;
-    border: 1px solid #d7dcf5;
-    border-radius: 4px;
+
+.plk_div {
+	padding: 10px;
+	border-radius: 4px;
+}
+
+.hr_1 {
+	border-top: 1px solid #635975;
+}
+
+.hr_2 {
+	border-top: 1px solid #8a7777;
+}
+.mt_10{
+margin-top: 20px;
+}
+.div_d1 {
+	margin-left: 0px;
+	margin-top: 10px;
+	display: none;
+}
+.btn_d1{
+float:right;position:relative;color:#d8a868;
+}
+.fbt_d1{
+font-size: 13px;color: #999;
+}
+.avatar_1{
+    width: 2.7rem;
+    height: 2.7rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: inline-block;
+    background-position: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.p_dd{
+word-wrap:break-word; word-break:normal; 
 }
 </style>
-<script type="text/javascript">
-	var user_id = 4501;
-	var play_token = '5912554fdec6cZDUDF';
-	var username = 'Doom4J';
-	var head_pic = '/img/avatar.jpg';
-	paceOptions = {
-		restartOnRequestAfter : false
-	}
-</script>
 <script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
 <script src="/ts/all/all.js"></script>
 <script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
 <script src='//cdn.bootcss.com/socket.io/1.7.3/socket.io.min.js'></script>
-<link rel="icon" href="/ts/favicon.ico"
-	type="image/x-icon" />
+<link rel="icon" href="/ts/favicon.ico" type="image/x-icon" />
 <!--[if lt IE 9]> <script src="/ts/assets/js/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="/ts/assets/js/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 </head>
 <body>
@@ -93,18 +130,17 @@ display:inline;
 	<div id="h5music" class="jp-jplayer"></div>
 	<div class="background-cover-img img-ucenter"></div>
 	<div class="background-cover"></div>
-	<a href="/ts" title="TS.COM" class="s-logo"><i
-		class="logo"></i></a>
+	<a href="/ts" title="TS.COM" class="s-logo"><i class="logo"></i></a>
 	<div class="header">
 		<div class="h-title">
 			<div class="uk-container uk-container-center">
 				<ul class="uk-tab">
 					<li class="uk-active"><a href="#">最新日记</a></li>
-				    <li><a href="/hottoday.html">24小时最热</a></li>
-				    <li><a href="/hotweek.html">本周热评</a></li>
-				    <li><a href="/hotmonth.html">本月热评</a></li>
-				    <li><a href="/hotyear.html">年度热评</a></li>
-				    <li class="uk-disabled"><a href="/">返回主页</a></li>
+					<li><a href="/hottoday.html">24小时最热</a></li>
+					<li><a href="/hotweek.html">本周热评</a></li>
+					<li><a href="/hotmonth.html">本月热评</a></li>
+					<li><a href="/hotyear.html">年度热评</a></li>
+					<li class="uk-disabled"><a href="/">返回主页</a></li>
 				</ul>
 			</div>
 		</div>
@@ -115,24 +151,30 @@ display:inline;
 				data-uk-scrollspy="{cls:'animated', target:'.uk-comment', delay:550}"
 				id="posts-list">
 				<ul id="mine" class="uk-comment-list">
-				<article class="uk-comment">
-					<p style="color: white;">暂无动态</p>
-				</article>
+					<article class="uk-comment">
+						<p style="color: white;">暂无动态</p>
+					</article>
 				</ul>
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="go-up">
 		<a href=""><i class="uk-icon-chevron-up"></i></a>
 	</div>
 	<script type="text/javascript">
+		$.ajaxSetup({
+			headers : {
+				'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+			}
+		});
 		var next_page_url = "/ts/book/newest";
 		var end = 0;
 		var loading = null;
 		var startnum = 1;
 		function show() {
-			if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+			if ($(window).scrollTop() + $(window).height() >= $(document)
+					.height()) {
 				if (end == 1) {
 					return false;
 				}
@@ -140,204 +182,308 @@ display:inline;
 					ajaxRead(next_page_url, 'mine');
 				} else {
 					end = 1;
-					$('#mine').append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
+					$('#mine')
+							.append(
+									'<p class="uk-text-center" style="color:white;">没有更多了<p>');
 				}
 			}
 		};
 		function ajaxRead(url, id) {
 			$.ajax({
-					dataType : 'json',
-					url : url,
-					data : {'start':startnum},
-					beforeSend : function() {
-						loading = layer.load(2, {
-							shade : 0
-						});
-					},
-					success : function(res) {
-						layer.close(loading);
-						if (res.status == 1000) {
-							if (res.bookhot != null&&res.bookhot.length>0) {
-								var bookhot = eval(res.bookhot);
-								var booklis = "";
-								$.each(bookhot,function(n,value){
-									booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"+
-									"<img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsytp.oss-cn-shanghai.aliyuncs.com/"+value.userImgUrl+"' width='50' height='50'>"+
-									"<a href='/view.html?uid="+value.userid+"'><h4 class='uk-comment-title'>"+value.tsno+"</h4></a><div class='uk-comment-meta'>"+
-									value.creatdate+" | <a href='javascript:;' val='90' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"+
-									value.praisenum+"</span>)</a> | #</div></header><div class='uk-comment-body'><p>"+value.text+"</p><hr style='border-top: 1px solid #635975;'/></div>"
-									var idx = 1;
-									$.each(value.nearlist,function(n,value){
-										if(null!=value){
-											booklis += "<div class='uk-comment-body' style='font-size: 13px;color: #999;'> "+value.creatdate+"| <a href='javascript:;' val='"+value.praisenum+"' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"+
-											value.praisenum+"</span>)</a> |  #</div><div class='uk-comment-body'><p>"+
-											value.text+"</p>";
-											if(idx==1){
-												booklis += "<hr style='border-top: 1px solid #635975;'/></div></div>";
-											}else{
-												booklis += "</div></div>";
-											}
-											idx += 1;
-										}
-									});
-									booklis += "</article></li><hr style='border-top: 1px solid #8a7777;'/>";
-								});
-								$('#' + id).append(booklis);
-								startnum = startnum+res.bookhot.length;
-							} else {
-								end = 1;
-								$('#' + id).append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
+						dataType : 'json',
+						url : url,
+						data : {
+							'start' : startnum
+						},
+						beforeSend : function() {
+							loading = layer.load(2, {
+								shade : 0
+							});
+						},
+						success : function(res) {
+							layer.close(loading);
+							if (res.status == 1000) {
+								if (res.bookhot != null
+										&& res.bookhot.length > 0) {
+									var bookhot = eval(res.bookhot);
+									var booklis = "";
+									$
+											.each(
+													bookhot,
+													function(n, value) {
+														booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"
+																+ "<img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsytp.oss-cn-shanghai.aliyuncs.com/"
+																+ value.userImgUrl
+																+ "' width='50' height='50'>"
+																+ "<a href='/view.html?uid="
+																+ value.userid
+																+ "'><h4 class='uk-comment-title'>"
+																+ value.tsno
+																+ "</h4></a><div class='uk-comment-meta'>"
+																+ value.creatdate
+																+ " | <a href='javascript:;' val='90' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"
+																+ value.praisenum
+																+ "</span>)</a> | #</div></header><div class='uk-comment-body'><p>"
+																+ value.text
+																+ "</p><hr style='border-top: 1px solid #635975;'/></div>"
+														var idx = 1;
+														$
+																.each(
+																		value.nearlist,
+																		function(
+																				n,
+																				value) {
+																			if (null != value) {
+																				booklis += "<div class='uk-comment-body' style='font-size: 13px;color: #999;'> "
+																						+ value.creatdate
+																						+ "| <a href='javascript:;' val='"+value.praisenum+"' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"
+																						+ value.praisenum
+																						+ "</span>)</a> |  #</div><div class='uk-comment-body'><p>"
+																						+ value.text
+																						+ "</p>";
+																				if (idx == 1) {
+																					booklis += "<hr class='hr_1'/></div></div>";
+																				} else {
+																					booklis += "</div></div>";
+																				}
+																				idx += 1;
+																			}
+																		});
+														booklis += "</article></li><hr class='hr_2'/>";
+													});
+									$('#' + id).append(booklis);
+									startnum = startnum + res.bookhot.length;
+								} else {
+									end = 1;
+									$('#' + id)
+											.append(
+													'<p class="uk-text-center" style="color:white;">没有更多了<p>');
+								}
 							}
 						}
-					}
 					});
 		};
-		function getHot(page){
-			$.ajax({
-				dataType : 'json',
-				url : '/ts/book/newest',
-				data : {'start':startnum},
-				success : function(res) {
-					if (res.status == 1000) {
-						var bookhot = eval(res.bookhot);
-						var booklis = "";
-						$.each(bookhot,function(n,value){
-							booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"+
-							"<img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsytp.oss-cn-shanghai.aliyuncs.com/"+value.userImgUrl+"' width='50' height='50'>"+
-							"<a href='/view.html?uid="+value.userid+"'><h4 class='uk-comment-title'>"+value.tsno+"</h4></a><div class='uk-comment-meta'>"+
-							value.creatdate+" | "+value.interval+" | #</div></header><div class='uk-comment-body'><p>"+value.text+"</p><div><div class='uk-grid'><div class='uk-width-8-10'>&nbsp;</div><a href='javascript:zanbook("+value.id+");' val='90' class='like uk-width-1-10'><i class='uk-icon-thumbs-o-up' style='margin-top: 8px;'></i> (<span id='bkzan"+value.id+"' class='zan'>"+
-							value.praisenum+"</span>)</a> <button onclick='showComment("+value.id+")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>评论</button></div><div id='showcmt"+
-							value.id+"' class='uk-grid plk_div' style='margin-left:0px;margin-top:10px; display:none'></div></div><hr style='border-top: 1px solid #635975;'/></div>"
-							var idx = 1;
-							$.each(value.nearlist,function(n,value){
-								if(null!=value){
-									booklis += "<div class='uk-comment-body' style='font-size: 13px;color: #999;'> "+value.creatdate+"| "+value.interval+" |  #</div><div class='uk-comment-body'><p>"+
-									value.text+"</p><div><div class='uk-grid'><div class='uk-width-8-10'>&nbsp;</div><a href='javascript:zanbook("+value.id+");' val='90' class='like uk-width-1-10'><i class='uk-icon-thumbs-o-up' style='margin-top: 8px;'></i> (<span id='bkzan"+value.id+"' class='zan'>"+
-									value.praisenum+"</span>)</a> <button onclick='showComment("+value.id+")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>评论</button></div><div id='showcmt"+
-									value.id+"' class='uk-grid plk_div' style='margin-left:0px;margin-top:10px; display:none'></div>";
-									if(idx==1){
-										booklis += "<hr style='border-top: 1px solid #635975;'/></div></div>";
-									}else{
-										booklis += "</div></div>";
-									}
-									idx += 1;
+		function getHot(page) {
+			$.ajax({dataType : 'json',
+						url : '/ts/book/newest',
+						data : {
+							'start' : startnum
+						},
+						success : function(res) {
+							if (res.status == 1000) {
+								var bookhot = eval(res.bookhot);
+								var booklis = "";
+								$.each(
+									bookhot,
+									function(n, value) {
+										booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"
+												+ "<img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsytp.oss-cn-shanghai.aliyuncs.com/"
+												+ value.userImgUrl
+												+ "' width='50' height='50'>"
+												+ "<a href='/view.html?uid="
+												+ value.userid
+												+ "'><h4 class='uk-comment-title'>"
+												+ value.tsno
+												+ "</h4></a><div class='uk-comment-meta'>"
+												+ value.creatdate
+												+ " | "
+												+ value.interval
+												+ " | #</div></header><div class='uk-comment-body'><p>"
+												+ value.text
+												+ "</p><div><div class='uk-grid'><div class='uk-width-8-10'>&nbsp;</div><a href='javascript:zanbook("
+												+ value.id
+												+ ");' val='90' class='like uk-width-1-10'><i class='uk-icon-thumbs-o-up' style='margin-top: 8px;'></i> (<span id='bkzan"+value.id+"' class='zan'>"
+												+ value.praisenum
+												+ "</span>)</a> <button onclick='showComment("
+												+ value.id
+												+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>"
+												if(value.commentnum>0){
+													booklis +=value.commentnum+"条";
+												}
+												booklis += "评论</button></div><div id='showcmt"+value.id+"' class='plk_div div_d1'></div></div>"
+												var nearlistsizt = value.nearlist.length;
+												if(value.nearlist&&null!=value.nearlist[0]){
+													booklis += "<hr class='hr_1'/></div>";
+												}else{
+													booklis += "</div>";
+												}
+													$.each(value.nearlist,
+																	function(n,
+																			value) {
+																		if (null != value) {
+																			booklis += "<div class='uk-comment-body fbt_d1'> "
+																					+ value.creatdate
+																					+ "| "
+																					+ value.interval
+																					+ " |  #</div><div class='uk-comment-body'><p>"
+																					+ value.text
+																					+ "</p><div><div class='uk-grid'><div class='uk-width-8-10'>&nbsp;</div><a href='javascript:zanbook("
+																					+ value.id
+																					+ ");' val='90' class='like uk-width-1-10'><i class='uk-icon-thumbs-o-up' style='margin-top: 8px;'></i> (<span id='bkzan"+value.id+"' class='zan'>"
+																					+ value.praisenum
+																					+ "</span>)</a> <button onclick='showComment("
+																					+ value.id
+																					+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>评论</button></div><div id='showcmt"+
+																					value.id+"' class='plk_div div_d1'></div>";
+																			if (n<nearlistsizt-1) {
+																				booklis += "<hr class='hr_1'/></div></div>";
+																			} else {
+																				booklis += "</div></div>";
+																			}
+																		}
+																	});
+													booklis += "</article></li><hr class='hr_2'/>";
+												});
+								startnum = startnum + res.bookhot.length;
+								$('#mine').html(booklis);
+								if (res.bookhot.length < 10) {
+									$('#mine')
+											.append(
+													'<p class="uk-text-center" style="color:white;">没有更多了<p>');
 								}
-							});
-							booklis += "</article></li><hr style='border-top: 1px solid #8a7777;'/>";
-						});
-						startnum = startnum+res.bookhot.length;
-						$('#mine').html(booklis);
-						if(res.bookhot.length<10){
-							$('#mine').append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
+							}
 						}
-					}
-				}
-			});
+					});
 		};
-		function submitComment(boid){
+		function submitComment(boid) {
 			$.ajax({
 				dataType : 'json',
 				type : 'POST',
 				url : '/ts/book/subcomment',
-				data : {'comment':$('#bkcmt'+boid).val(),'bookid':boid},
+				data : {
+					'comment' : $('#bkcmt' + boid).val(),
+					'bookid' : boid
+				},
 				success : function(res) {
 					if (res.status == 1000) {
 						delete showarry[boid.toString()];
 						showComment(boid);
-					}else if(res.status == 1004){
-    					UIkit.notify('登录超时',{status : "danger"});
-    				}else{
-    					UIkit.notify('评论失败',{status : "danger"});
-    				}
+					} else if (res.status == 1004) {
+						UIkit.notify('登录超时', {
+							status : "danger"
+						});
+					} else {
+						UIkit.notify('评论失败', {
+							status : "danger"
+						});
+					}
 				}
 			})
 		};
-		function zanbook(boid){
+		function zanbook(boid) {
 			$.ajax({
 				dataType : 'json',
 				type : 'POST',
 				url : '/ts/book/zanbook',
-				data : {'bookid':boid},
+				data : {
+					'bookid' : boid
+				},
 				success : function(res) {
 					if (res.status == 1000) {
-						var xz = Number($('#bkzan'+boid).html());
-						if(res.code==1){
+						var xz = Number($('#bkzan' + boid).html());
+						if (res.code == 1) {
 							xz++;
-						}else{
+						} else {
 							xz--;
 						}
-						$('#bkzan'+boid).html(xz);
-					}else if(res.status == 1004){
-    					UIkit.notify('登录超时',{status : "danger"});
-    				}else{
-    					UIkit.notify('服务器异常',{status : "danger"});
-    				}
+						$('#bkzan' + boid).html(xz);
+					} else if (res.status == 1004) {
+						UIkit.notify('登录超时', {
+							status : "danger"
+						});
+					} else {
+						UIkit.notify('服务器异常', {
+							status : "danger"
+						});
+					}
 				}
 			})
 		};
-		function zancomment(cmtid){
+		function zancomment(cmtid) {
 			$.ajax({
 				dataType : 'json',
 				type : 'POST',
 				url : '/ts/book/zancomment',
-				data : {'cmtid':cmtid},
+				data : {
+					'cmtid' : cmtid
+				},
 				success : function(res) {
 					if (res.status == 1000) {
-						var xz = Number($('#cmtzan'+cmtid).html());
-						if(res.code==1){
+						var xz = Number($('#cmtzan' + cmtid).html());
+						if (res.code == 1) {
 							xz++;
-						}else{
+						} else {
 							xz--;
 						}
-						$('#cmtzan'+boid).cmtid(xz);
-					}else if(res.status == 1004){
-    					UIkit.notify('登录超时',{status : "danger"});
-    				}else{
-    					UIkit.notify('服务器异常',{status : "danger"});
-    				}
+						$('#cmtzan' + boid).cmtid(xz);
+					} else if (res.status == 1004) {
+						UIkit.notify('登录超时', {
+							status : "danger"
+						});
+					} else {
+						UIkit.notify('服务器异常', {
+							status : "danger"
+						});
+					}
 				}
 			})
 		};
 		var showarry = {};
-		function showComment(boid){
-			if(showarry[boid.toString()]){
-				$('#showcmt'+boid).slideUp();
+		function showComment(boid) {
+			if (showarry[boid.toString()]) {
+				$('#showcmt' + boid).slideUp();
 				delete showarry[boid.toString()];
-			}else{
-			$.ajax({
-				dataType : 'json',
-				type : 'POST',
-				url : '/ts/book/getcomment',
-				data : {'bookid':boid},
-				success : function(res) {
-					if (res.status == 1000) {
-						var commentHtml = '<input id="bkcmt'+boid+'" class="uk-button uk-width-4-5" placeholder="吐个槽吧..."></input><button class="uk-button uk-button-primary uk-width-1-5" onclick="submitComment('+boid+')" type="button">发表</button>';
-						if(null!=res.bkv){
-							if(res.bkv.hotList){
-								commentHtml += '<ul>';
-								$.each(res.bkv.hotList,function(n,value){
-									commentHtml += '<p>'+value.comment+'</p>';
-								});
-								commentHtml += '</ul>';
+			} else {
+				$
+						.ajax({
+							dataType : 'json',
+							type : 'POST',
+							url : '/ts/book/getcomment',
+							data : {
+								'bookid' : boid
+							},
+							success : function(res) {
+								if (res.status == 1000) {
+									var commentHtml = '<div><input id="bkcmt'+boid+'" class="uk-button uk-width-4-5" placeholder="吐个槽吧..."></input><button class="uk-button uk-button-primary uk-width-1-5" onclick="submitComment('
+											+ boid
+											+ ')" type="button">发表</button></div>';
+									if (null != res.bkv) {
+										commentHtml += '<div class="mt_10">';
+										if (res.bkv.hotList) {
+											commentHtml += '<div><ul>';
+											$.each(res.bkv.hotList, function(n,
+													value) {
+												commentHtml += '<p>'
+														+ value.comment
+														+ '</p>';
+											});
+											commentHtml += '</ul></div>';
+										}
+										if (res.bkv.nomalList) {
+											commentHtml += '<ul>';
+											$.each(res.bkv.nomalList, function(
+													n, value) {
+												commentHtml += '<li style="display: flex;"><a href="/view.html?uid='+value.userid+'"><img class="avatar_1" src="http://zsytp.oss-cn-shanghai.aliyuncs.com/'+value.userimg+'"/></a><div style="padding-left:12px;"><div><a style="font-size:18px" href="/view.html?uid='+value.userid+'">'+value.username+'</a></div><div><p class="p_dd">'
+														+ value.comment
+														+ '</p></div><div><h4 style="float:left;color:white;">'+value.createTimeStr+'</h4><div style="padding-left:20px;float:left;margin-top:-4px"><a onclick="zancomment('+value.id+')"><i class="uk-icon-thumbs-o-up" ></i> (<span id="cmtzan'+value.id+'" class="zan">'+value.zan+'</span>)</a></div></div></div></li>';
+											});
+											commentHtml += '</ul>';
+										}
+										commentHtml += '</div>';
+									} else {
+										commentHtml += '<p class="uk-text-center" style="color:white;">暂时还没有评论<p>';
+									}
+									$('#showcmt' + boid).html(commentHtml);
+									$('#showcmt' + boid).slideDown();
+									showarry[boid.toString()] = 1;
+								} else {
+									UIkit.notify('服务器异常', {
+										status : "danger"
+									});
+								}
 							}
-							if(res.bkv.nomalList){
-								commentHtml += '<ul>';
-								$.each(res.bkv.nomalList,function(n,value){
-									commentHtml += '<p>'+value.comment+'</p>';
-								});
-								commentHtml += '</ul>';
-							}
-						}else{
-							commentHtml += '<p class="uk-text-center" style="color:white;">暂时还没有评论<p>';
-						}
-						$('#showcmt'+boid).html(commentHtml);
-						$('#showcmt'+boid).slideDown();
-						showarry[boid.toString()]=1;
-					}else{
-						UIkit.notify('服务器异常',{status : "danger"});
-					}
-				}
-			})}
+						})
+			}
 		};
 		$(window).bind('scroll', function() {
 			show()
@@ -346,9 +492,11 @@ display:inline;
 	<script src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
-			$('.search-type').on('click',
+			$('.search-type').on(
+					'click',
 					function() {
-						$(this).addClass('uk-active').siblings().removeClass('uk-active');
+						$(this).addClass('uk-active').siblings().removeClass(
+								'uk-active');
 						$('#search-type').val($(this).text());
 						$('#web-search-content').val('');
 					});
@@ -363,40 +511,9 @@ display:inline;
 			$('.icon-skin').on('click', function() {
 				$("img.lazy1").trigger("sporty");
 			});
-			$('.uk-nav-sub li.uk-active').parents('.uk-parent').addClass('uk-active');
+			$('.uk-nav-sub li.uk-active').parents('.uk-parent').addClass(
+					'uk-active');
 			getHot(1);
-			$('#i-skin').on('click','.skin-image',
-							function() {
-								var skin_id = $(this).attr('val');
-								if ($(this).hasClass('uk-active')) {
-									$(this).removeClass('uk-active');
-									if (user_id > 0) {
-										updateSkin(0);
-									} else {
-										$.cookie('skin_id', 0);
-									}
-									$('.background-cover-img').css('background', '').addClass('img-index');
-								} else {
-									$('#i-skin').find('.skin-image').removeClass('uk-active');
-									$(this).addClass('uk-active');
-									$('.background-cover-img').css('background',
-										'url('+ $(this).find('img').attr('data-src')+ ') no-repeat fixed center top / cover');
-									if (user_id > 0) {
-										updateSkin(skin_id);
-									} else {
-										$.cookie('skin_id', skin_id, {
-											expires : 7
-										});
-									}
-								}
-							});
-		});
-	</script>
-	<script type="text/javascript">
-		$.ajaxSetup({
-			headers : {
-				'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-			}
 		});
 	</script>
 </body>

@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -126,8 +127,8 @@ public class CommentService {
 		dto.setIsdel(cmt.getIsdel());
 		dto.setUserid(cmt.getUserid());
 		User user = userService.getUserBiIdWithCache(cmt.getUserid());
-		dto.setUserimg(user.getName());
-		dto.setUsername(user.getRealname());
+		dto.setUserimg(user.getImgurl());
+		dto.setUsername(StringUtils.isEmpty(user.getName())?user.getTsno().toString():user.getName());
 		dto.setZan(new Long(getCommentZanSize(cmt.getBookid())));
 		return dto;
 	}

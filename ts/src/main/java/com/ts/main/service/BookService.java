@@ -82,8 +82,8 @@ public class BookService {
 	private static Cache<String, List<ID123>> BOOKLISTCACHE = CacheBuilder.newBuilder().softValues()
 			.expireAfterWrite(3, TimeUnit.MINUTES).initialCapacity(2).build();
 
-	private static Cache<String, List<ID123>> HOTBOOKLIST = CacheBuilder.newBuilder().expireAfterWrite(30, TimeUnit.MINUTES).softValues().initialCapacity(8)
-			.build();
+	private static Cache<String, List<ID123>> HOTBOOKLIST = CacheBuilder.newBuilder()
+			.expireAfterWrite(30, TimeUnit.MINUTES).softValues().initialCapacity(8).build();
 
 	private static Cache<String, Book> book4096 = CacheBuilder.newBuilder().softValues()
 			.expireAfterWrite(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
@@ -298,7 +298,11 @@ public class BookService {
 			if (-1 != id123.getId23()[1]) {
 				bk2 = getBook(id123.getId23()[1]);
 			}
-			bkv.setNearlist(Lists.newArrayList(null == bk1 ? null : covent(bk1), null == bk2 ? null : covent(bk2)));
+			if (null != bk1 && null != bk2) {
+				bkv.setNearlist(Lists.newArrayList(covent(bk1), covent(bk2)));
+			} else {
+				bkv.setNearlist(Lists.newArrayList(covent(bk1)));
+			}
 			relist.add(bkv);
 		}
 		return relist;
@@ -429,8 +433,8 @@ public class BookService {
 		bkv.setInterval(TimeUtils4book.dateInterval(bkv.getCreatetime()));
 		User user = userService.getUserBiIdWithCache(book.getUserid());
 		bkv.setTsno(user.getTsno());
-		bkv.setPraisenum((long)getBookZanSize(book.getId()));
-		if(!StringUtils.isEmpty(user.getImgurl())){
+		bkv.setPraisenum((long) getBookZanSize(book.getId()));
+		if (!StringUtils.isEmpty(user.getImgurl())) {
 			bkv.setUserImgUrl(user.getImgurl());
 		}
 		return bkv;
@@ -483,15 +487,25 @@ public class BookService {
 		int i = bookMapper.updateByPrimaryKeySelective(bknew);
 		if (i > 0) {
 			bookredisService.hSet(RedisService.BOOK_KEY, bknew.getId().toString(), bknew);
+			book4096.put(bknew.getId().toString(), bknew);
 		}
 		return i;
 	}
-	
-	public void updateBookCommentSize(Long bookid,boolean flag){
-		if(flag){
+
+	public void updateBookCommentSize(Long bookid, boolean flag) {
+		if (flag) {
 			bookMapper.updateBookCommentSize(bookid);
-		}else{
+		} else {
 			bookMapper.delBookCommentSize(bookid);
+		}
+		reCacheBook(bookid);
+	}
+
+	private void reCacheBook(Long bookid) {
+		Book bk = bookMapper.selectByPrimaryKey(bookid);
+		if (null != bk) {
+			bookredisService.hSet(RedisService.BOOK_KEY, bookid.toString(), bk);
+			book4096.put(bookid.toString(), bk);
 		}
 	}
 
