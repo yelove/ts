@@ -120,6 +120,7 @@ public class CommentService {
 
 	private CommentDto covent(Comment cmt) {
 		CommentDto dto = new CommentDto();
+		dto.setId(cmt.getId());
 		dto.setBookid(cmt.getBookid());
 		dto.setComment(cmt.getComment());
 		dto.setCreatetime(cmt.getCreatetime());
@@ -129,7 +130,7 @@ public class CommentService {
 		User user = userService.getUserBiIdWithCache(cmt.getUserid());
 		dto.setUserimg(user.getImgurl());
 		dto.setUsername(StringUtils.isEmpty(user.getName())?user.getTsno().toString():user.getName());
-		dto.setZan(new Long(getCommentZanSize(cmt.getBookid())));
+		dto.setZan(new Long(getCommentZanSize(cmt.getId())));
 		return dto;
 	}
 
@@ -204,7 +205,7 @@ public class CommentService {
 						return rcm;
 					}
 					for (Long id : lis) {
-						rcm.put(String.valueOf(id), null);
+						rcm.put(String.valueOf(id), 1);
 					}
 					return rcm;
 				}
@@ -220,10 +221,10 @@ public class CommentService {
 	public int commentZan(Long userId, Long cmtId){
 		ConcurrentHashMap<String, Object> bkzanMap = getCommentZan(cmtId);
 		if (null == bkzanMap) {
-			return -1;
+			return -2;
 		}
 		if (bkzanMap.size() == 0) {
-			bkzanMap.put(String.valueOf(userId), null);
+			bkzanMap.put(String.valueOf(userId), 1);
 			cmtzan4096.put(String.valueOf(cmtId), bkzanMap);
 		} else {
 			if (bkzanMap.containsKey(String.valueOf(userId))) {
@@ -234,7 +235,7 @@ public class CommentService {
 				commentZanMapper.deleteByPrimaryKey(bzk);
 				return -1;
 			} else {
-				bkzanMap.put(String.valueOf(userId), null);
+				bkzanMap.put(String.valueOf(userId), 1);
 			}
 		}
 		CommentZan bzk = new CommentZan();

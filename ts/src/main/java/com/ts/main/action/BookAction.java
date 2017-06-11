@@ -361,10 +361,12 @@ public class BookAction {
 			return rm;
 		}
 		User user = (User) obj;
-		if (commentService.commentZan(user.getId(), cmtid) > 1) {
-			rm.put(CommonStr.STATUS, 1000);
-		} else {
+		int ix = commentService.commentZan(user.getId(), cmtid);
+		if (ix==-2) {
 			rm.put(CommonStr.STATUS, 1002);
+		} else {
+			rm.put(CommonStr.STATUS, 1000);
+			rm.put(CommonStr.CODE, ix);
 		}
 		return rm;
 	}

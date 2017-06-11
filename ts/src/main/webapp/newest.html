@@ -184,7 +184,7 @@ word-wrap:break-word; word-break:normal;
 					end = 1;
 					$('#mine')
 							.append(
-									'<p class="uk-text-center" style="color:white;">没有更多了<p>');
+									'<p class="uk-text-center" style="color:white;"> 没有更多了<p>');
 				}
 			}
 		};
@@ -207,50 +207,70 @@ word-wrap:break-word; word-break:normal;
 										&& res.bookhot.length > 0) {
 									var bookhot = eval(res.bookhot);
 									var booklis = "";
-									$
-											.each(
-													bookhot,
-													function(n, value) {
-														booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"
-																+ "<img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsytp.oss-cn-shanghai.aliyuncs.com/"
-																+ value.userImgUrl
-																+ "' width='50' height='50'>"
-																+ "<a href='/view.html?uid="
-																+ value.userid
-																+ "'><h4 class='uk-comment-title'>"
-																+ value.tsno
-																+ "</h4></a><div class='uk-comment-meta'>"
-																+ value.creatdate
-																+ " | <a href='javascript:;' val='90' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"
-																+ value.praisenum
-																+ "</span>)</a> | #</div></header><div class='uk-comment-body'><p>"
-																+ value.text
-																+ "</p><hr style='border-top: 1px solid #635975;'/></div>"
-														var idx = 1;
-														$
-																.each(
-																		value.nearlist,
-																		function(
-																				n,
-																				value) {
-																			if (null != value) {
-																				booklis += "<div class='uk-comment-body' style='font-size: 13px;color: #999;'> "
-																						+ value.creatdate
-																						+ "| <a href='javascript:;' val='"+value.praisenum+"' class='like'><i class='uk-icon-thumbs-o-up'></i> (<span class='zan'>"
-																						+ value.praisenum
-																						+ "</span>)</a> |  #</div><div class='uk-comment-body'><p>"
-																						+ value.text
-																						+ "</p>";
-																				if (idx == 1) {
-																					booklis += "<hr class='hr_1'/></div></div>";
-																				} else {
-																					booklis += "</div></div>";
+									$.each(
+											bookhot,
+											function(n, value) {
+												booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"
+														+ "<img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsytp.oss-cn-shanghai.aliyuncs.com/"
+														+ value.userImgUrl
+														+ "' width='50' height='50'>"
+														+ "<a href='/view.html?uid="
+														+ value.userid
+														+ "'><h4 class='uk-comment-title'>"
+														+ value.tsno
+														+ "</h4></a><div class='uk-comment-meta'>"
+														+ value.creatdate
+														+ " | "
+														+ value.interval
+														+ " | #</div></header><div class='uk-comment-body'><p>"
+														+ value.text
+														+ "</p><div><div class='uk-grid'><div class='uk-width-8-10'>&nbsp;</div><a href='javascript:zanbook("
+														+ value.id
+														+ ");' val='90' class='like uk-width-1-10'><i class='uk-icon-thumbs-o-up' style='margin-top: 8px;'></i> (<span id='bkzan"+value.id+"' class='zan'>"
+														+ value.praisenum
+														+ "</span>)</a> <button onclick='showComment("
+														+ value.id
+														+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>"
+														if(value.commentnum>0){
+															booklis +=value.commentnum+"条";
+														}
+														booklis += "评论</button></div><div id='showcmt"+value.id+"' class='plk_div div_d1'></div></div>"
+														var nearlistsizt = value.nearlist.length;
+														if(value.nearlist&&null!=value.nearlist[0]){
+															booklis += "<hr class='hr_1'/></div>";
+														}else{
+															booklis += "</div>";
+														}
+															$.each(value.nearlist,
+																			function(n,
+																					value) {
+																				if (null != value) {
+																					booklis += "<div class='uk-comment-body fbt_d1'> "
+																							+ value.creatdate
+																							+ "| "
+																							+ value.interval
+																							+ " |  #</div><div class='uk-comment-body'><p>"
+																							+ value.text
+																							+ "</p><div><div class='uk-grid'><div class='uk-width-8-10'>&nbsp;</div><a href='javascript:zanbook("
+																							+ value.id
+																							+ ");' val='90' class='like uk-width-1-10'><i class='uk-icon-thumbs-o-up' style='margin-top: 8px;'></i> (<span id='bkzan"+value.id+"' class='zan'>"
+																							+ value.praisenum
+																							+ "</span>)</a> <button onclick='showComment("
+																							+ value.id
+																							+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>"
+																							if(value.commentnum>0){
+																								booklis +=value.commentnum+"条";
+																							}
+																							booklis += "评论</button></div><div id='showcmt"+value.id+"' class='plk_div div_d1'></div>";
+																					if (n<nearlistsizt-1) {
+																						booklis += "<hr class='hr_1'/></div></div>";
+																					} else {
+																						booklis += "</div></div>";
+																					}
 																				}
-																				idx += 1;
-																			}
-																		});
-														booklis += "</article></li><hr class='hr_2'/>";
-													});
+																			});
+															booklis += "</article></li><hr class='hr_2'/>";
+														});
 									$('#' + id).append(booklis);
 									startnum = startnum + res.bookhot.length;
 								} else {
@@ -323,8 +343,11 @@ word-wrap:break-word; word-break:normal;
 																					+ value.praisenum
 																					+ "</span>)</a> <button onclick='showComment("
 																					+ value.id
-																					+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>评论</button></div><div id='showcmt"+
-																					value.id+"' class='plk_div div_d1'></div>";
+																					+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>"
+																					if(value.commentnum>0){
+																						booklis +=value.commentnum+"条";
+																					}
+																					booklis += "评论</button></div><div id='showcmt"+value.id+"' class='plk_div div_d1'></div>";
 																			if (n<nearlistsizt-1) {
 																				booklis += "<hr class='hr_1'/></div></div>";
 																			} else {
@@ -415,7 +438,7 @@ word-wrap:break-word; word-break:normal;
 						} else {
 							xz--;
 						}
-						$('#cmtzan' + boid).cmtid(xz);
+						$('#cmtzan' + cmtid).html(xz);
 					} else if (res.status == 1004) {
 						UIkit.notify('登录超时', {
 							status : "danger"
@@ -444,7 +467,7 @@ word-wrap:break-word; word-break:normal;
 							},
 							success : function(res) {
 								if (res.status == 1000) {
-									var commentHtml = '<div><input id="bkcmt'+boid+'" class="uk-button uk-width-4-5" placeholder="吐个槽吧..."></input><button class="uk-button uk-button-primary uk-width-1-5" onclick="submitComment('
+									var commentHtml = '<div><textarea id="bkcmt'+boid+'" class="uk-button uk-width-4-5" style="text-align: left;" placeholder="吐个槽吧..."></textarea><button class="uk-button uk-button-primary uk-width-1-5" style="height:60px" onclick="submitComment('
 											+ boid
 											+ ')" type="button">发表</button></div>';
 									if (null != res.bkv) {
@@ -471,10 +494,11 @@ word-wrap:break-word; word-break:normal;
 										}
 										commentHtml += '</div>';
 									} else {
-										commentHtml += '<p class="uk-text-center" style="color:white;">暂时还没有评论<p>';
+										commentHtml += '<p class="uk-text-center" style="color:white;"> 暂时还没有评论<p>';
 									}
 									$('#showcmt' + boid).html(commentHtml);
 									$('#showcmt' + boid).slideDown();
+									$('#bkcmt' + boid).focus();
 									showarry[boid.toString()] = 1;
 								} else {
 									UIkit.notify('服务器异常', {
@@ -492,19 +516,6 @@ word-wrap:break-word; word-break:normal;
 	<script src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
-			$('.search-type').on(
-					'click',
-					function() {
-						$(this).addClass('uk-active').siblings().removeClass(
-								'uk-active');
-						$('#search-type').val($(this).text());
-						$('#web-search-content').val('');
-					});
-			$('#website-search-form').on('submit', function() {
-				if ($('#web-search-content').val() == '') {
-					return false;
-				}
-			});
 			$("img.lazy1").lazyload({
 				event : "sporty"
 			});
