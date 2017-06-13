@@ -3,6 +3,7 @@
  */
 package com.ts.main.service;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -27,11 +28,15 @@ public class RedisService<T> {
 	@Autowired
 	private RedisTemplate<String, T> redisTemplate;
 
+	public static final String USER_KEY = "uid_";
+
 	public static final String BOOK_KEY = "bkid_";
 
 	public static final String COMMENT_KEY = "cmtid_";
 
 	public static final String USER_KEY_NAME = "username_";
+
+	public static final String ID_KEY = "id_get_";
 
 	/**
 	 * redis key 默认超时时间 7天 数据量小情况可用
@@ -292,6 +297,35 @@ public class RedisService<T> {
 				return connection.exists(key.getBytes());
 			}
 		});
+	}
+
+	public Long getIncrement(final String key) {
+		return redisTemplate.execute(new RedisCallback<Long>() {
+			@Override
+			public Long doInRedis(RedisConnection connection) throws DataAccessException {
+				return connection.incr(key.getBytes());
+			}
+		});
+	}
+
+	public Long initIncrement(final String key, final Long id) {
+		return redisTemplate.execute(new RedisCallback<Long>() {
+			@Override
+			public Long doInRedis(RedisConnection connection) throws DataAccessException {
+				Long nid = connection.incr(key.getBytes());
+				if (nid.longValue() == 0 || nid.longValue() < id) {
+					connection.incrBy(key.getBytes(), id);
+				}
+				return connection.incr(key.getBytes());
+			}
+		});
+	}
+
+	private static ByteBuffer buffer = ByteBuffer.allocate(8);
+
+	public static byte[] longToBytes(long x) {
+		buffer.putLong(0, x);
+		return buffer.array();
 	}
 
 }

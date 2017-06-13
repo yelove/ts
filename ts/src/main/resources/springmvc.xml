@@ -59,7 +59,10 @@
 	</bean>
 	
     <!-- 另外最好还要加入DefaultAnnotationHandlerMapping，不然会被 XML或其它的映射覆盖！ -->  
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />  
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">  
+        <property name="order" value="0"/>  
+        <property name="useDefaultSuffixPattern" value="false"/>  
+    </bean>  
 	 <!-- 支持上传文件 -->  
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     	 <!-- 设置上传文件最大尺寸，单位为B -->
