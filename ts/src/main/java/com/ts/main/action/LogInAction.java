@@ -38,7 +38,7 @@ public class LogInAction {
 	private UserService uService;
 
 	@RequestMapping(value = "login", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-	public @ResponseBody Map<String, Object> login(User user, ModelMap mdmap, HttpServletRequest request) {
+	public @ResponseBody Map<String, Object> login(User user, HttpServletRequest request) {
 		Map<String, Object> rm = new HashMap<String, Object>();
 		rm.put(CommonStr.STATUS, 1002);
 		if (StringUtils.isEmpty(user.getName())) {
@@ -62,7 +62,7 @@ public class LogInAction {
 	}
 
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> register(User user, ModelMap mdmap, HttpServletRequest request) {
+	public @ResponseBody Map<String, Object> register(User user, HttpServletRequest request) {
 		Map<String, Object> rm = new HashMap<String, Object>();
 		boolean suc = uService.saveUser(user);
 		if (suc) {
@@ -76,7 +76,7 @@ public class LogInAction {
 	}
 
 	@RequestMapping(value = "checklogin", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> isLogin(ModelMap mdmap, HttpServletRequest request) {
+	public @ResponseBody Map<String, Object> isLogin( HttpServletRequest request) {
 		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
 		Map<String, Object> rm = new HashMap<String, Object>();
 		if (null != obj) {

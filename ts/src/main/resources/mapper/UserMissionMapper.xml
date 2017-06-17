@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ts.main.mapper.UserMissionMapper">
+	<resultMap id="BaseResultMap" type="com.ts.main.bean.model.UserMission">
+		<id column="mid" property="mid" jdbcType="BIGINT" />
+		<id column="uid" property="uid" jdbcType="BIGINT" />
+		<result column="createtime" property="createtime" jdbcType="BIGINT" />
+		<result column="updatetime" property="updatetime" jdbcType="BIGINT" />
+		<result column="umstatus" property="umstatus" jdbcType="INTEGER" />
+		<result column="bkid" property="bkid" jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		mid, uid, createtime, updatetime, umstatus, bkid
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="com.ts.main.bean.model.UserMissionKey">
+		select
+		<include refid="Base_Column_List" />
+		from usermission
+		where mid = #{mid,jdbcType=BIGINT}
+		and uid = #{uid,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="com.ts.main.bean.model.UserMissionKey">
+		delete from usermission
+		where mid = #{mid,jdbcType=BIGINT}
+		and uid = #{uid,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.ts.main.bean.model.UserMission">
+		insert into usermission (mid, uid, createtime,
+		updatetime, umstatus, bkid
+		)
+		values (#{mid,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT},
+		#{createtime,jdbcType=BIGINT},
+		#{updatetime,jdbcType=BIGINT}, #{umstatus,jdbcType=INTEGER}, #{bkid,jdbcType=BIGINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.ts.main.bean.model.UserMission">
+		insert into usermission
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null">
+				mid,
+			</if>
+			<if test="uid != null">
+				uid,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+			<if test="umstatus != null">
+				umstatus,
+			</if>
+			<if test="bkid != null">
+				bkid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null">
+				#{mid,jdbcType=BIGINT},
+			</if>
+			<if test="uid != null">
+				#{uid,jdbcType=BIGINT},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=BIGINT},
+			</if>
+			<if test="umstatus != null">
+				#{umstatus,jdbcType=INTEGER},
+			</if>
+			<if test="bkid != null">
+				#{bkid,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ts.main.bean.model.UserMission">
+		update usermission
+		<set>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="updatetime != null">
+				updatetime = #{updatetime,jdbcType=BIGINT},
+			</if>
+			<if test="umstatus != null">
+				umstatus = #{umstatus,jdbcType=INTEGER},
+			</if>
+			<if test="bkid != null">
+				bkid = #{bkid,jdbcType=BIGINT},
+			</if>
+		</set>
+		where mid = #{mid,jdbcType=BIGINT}
+		and uid = #{uid,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ts.main.bean.model.UserMission">
+		update usermission
+		set createtime = #{createtime,jdbcType=BIGINT},
+		updatetime = #{updatetime,jdbcType=BIGINT},
+		umstatus = #{umstatus,jdbcType=INTEGER},
+		bkid = #{bkid,jdbcType=BIGINT}
+		where mid = #{mid,jdbcType=BIGINT}
+		and uid = #{uid,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectByUserId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from usermission
+		where uid = #{userid,jdbcType=BIGINT}
+	</select>
+	<select id="selectByUserIdAndDate" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from usermission
+		where uid = #{userid,jdbcType=BIGINT} and createtime &lt;
+		#{date,jdbcType=BIGINT} and createtime &gt; #{today,jdbcType=BIGINT}
+	</select>
+</mapper>

@@ -457,8 +457,7 @@ word-wrap:break-word; word-break:normal;
 				$('#showcmt' + boid).slideUp();
 				delete showarry[boid.toString()];
 			} else {
-				$
-						.ajax({
+				$.ajax({
 							dataType : 'json',
 							type : 'POST',
 							url : '/ts/book/getcomment',

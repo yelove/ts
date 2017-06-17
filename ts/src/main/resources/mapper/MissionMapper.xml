@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ts.main.mapper.MissionMapper" >
+  <resultMap id="BaseResultMap" type="com.ts.main.bean.model.Mission" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="mission" property="mission" jdbcType="VARCHAR" />
+    <result column="mtype" property="mtype" jdbcType="VARCHAR" />
+    <result column="mstatus" property="mstatus" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="updatetime" property="updatetime" jdbcType="BIGINT" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="rank" property="rank" jdbcType="INTEGER" />
+    <result column="startdate" property="startdate" jdbcType="BIGINT" />
+    <result column="enddate" property="enddate" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mission, mtype, mstatus, createtime, updatetime, creator, rank, startdate, enddate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from mission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ts.main.bean.model.Mission" useGeneratedKeys="true" keyProperty="id" >
+    insert into mission (id, mission, mtype, 
+      mstatus, createtime, updatetime, 
+      creator, rank, startdate, 
+      enddate)
+    values (#{id,jdbcType=BIGINT}, #{mission,jdbcType=VARCHAR}, #{mtype,jdbcType=VARCHAR}, 
+      #{mstatus,jdbcType=INTEGER}, #{createtime,jdbcType=BIGINT}, #{updatetime,jdbcType=BIGINT}, 
+      #{creator,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER}, #{startdate,jdbcType=BIGINT}, 
+      #{enddate,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ts.main.bean.model.Mission" useGeneratedKeys="true" keyProperty="id" >
+    insert into mission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mission != null" >
+        mission,
+      </if>
+      <if test="mtype != null" >
+        mtype,
+      </if>
+      <if test="mstatus != null" >
+        mstatus,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="rank != null" >
+        rank,
+      </if>
+      <if test="startdate != null" >
+        startdate,
+      </if>
+      <if test="enddate != null" >
+        enddate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mission != null" >
+        #{mission,jdbcType=VARCHAR},
+      </if>
+      <if test="mtype != null" >
+        #{mtype,jdbcType=VARCHAR},
+      </if>
+      <if test="mstatus != null" >
+        #{mstatus,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="rank != null" >
+        #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=BIGINT},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ts.main.bean.model.Mission" >
+    update mission
+    <set >
+      <if test="mission != null" >
+        mission = #{mission,jdbcType=VARCHAR},
+      </if>
+      <if test="mtype != null" >
+        mtype = #{mtype,jdbcType=VARCHAR},
+      </if>
+      <if test="mstatus != null" >
+        mstatus = #{mstatus,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="rank != null" >
+        rank = #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="startdate != null" >
+        startdate = #{startdate,jdbcType=BIGINT},
+      </if>
+      <if test="enddate != null" >
+        enddate = #{enddate,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ts.main.bean.model.Mission" >
+    update mission
+    set mission = #{mission,jdbcType=VARCHAR},
+      mtype = #{mtype,jdbcType=VARCHAR},
+      mstatus = #{mstatus,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=BIGINT},
+      updatetime = #{updatetime,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=VARCHAR},
+      rank = #{rank,jdbcType=INTEGER},
+      startdate = #{startdate,jdbcType=BIGINT},
+      enddate = #{enddate,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+   <select id="selectMissionByDate" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from mission
+    where startdate &lt;= #{date,jdbcType=BIGINT} and enddate &gt;= #{date,jdbcType=BIGINT} and mstatus = 0
+  </select>
+</mapper>

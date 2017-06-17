@@ -49,13 +49,13 @@
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false"></table>
 		-->
-		<table tableName="commentzan" domainObjectName="CommentZan"
+		<table tableName="mission" domainObjectName="Mission"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false"></table>
-		<table tableName="bookzan" domainObjectName="BookZan"
+		<!-- <table tableName="bookzan" domainObjectName="BookZan"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false"></table>
+			selectByExampleQueryId="false"></table> -->
 	</context>
 </generatorConfiguration>

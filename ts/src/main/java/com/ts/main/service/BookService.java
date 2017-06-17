@@ -406,6 +406,13 @@ public class BookService {
 		}
 		return minebooklis;
 	}
+	
+	public List<Book> getMineTodayBooks(Long userid){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userid", userid);
+		map.put("createtime", TimeUtils4book.getTimesmorning());
+		return bookMapper.getBookList(map);
+	}
 
 	private List<BookVo> covent(List<Book> bl) {
 		List<BookVo> bvl = new ArrayList<BookVo>();
