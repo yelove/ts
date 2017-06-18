@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,7 +108,7 @@ public class MissionService {
 //		}
 		return umMapper.getAllMissionByUserId(userid);
 	}
-	private static List<Mission> AllMission = Lists.newArrayList();
+	private  List<Mission> AllMission = Lists.newArrayList();
 	
 	public List<Mission> getAllMission(){
 		if(AllMission.isEmpty()){
@@ -135,33 +136,31 @@ public class MissionService {
 	}
 	
 	public List<Mission> getOldMission(Long userid){
-		List<Mission> oldmis = Lists.newArrayList();
 		List<Mission> all =  getAllMission();
-		int x = 0;
-		Random random = new Random();
+		Map<Long,Mission> mapMis = Maps.newHashMap();
+		for(Mission mis : all){
+			mapMis.put(mis.getId(), mis);
+		}
 		List<Long> lilong = getAllMissionByUserId(userid);
-		Map<Long,Object> map = Maps.newHashMap();
 		for(Long id : lilong){
-			map.put(id, null);
+			mapMis.remove(id);
 		}
-		boolean flag = true;
-		while(flag){
-			if(x>lilong.size()||x>20){
-				flag = false;
-			}
-			x++;
-			int a=random.nextInt(all.size());
-			Mission mi = all.get(a);
-			if(map.containsKey(mi.getId())){
-				continue;
-			}else{
-				oldmis.add(mi);
-				if(oldmis.size()==2){
-					flag = false;
+		List<Mission> tlm =  dogetTodayMission();
+		for(Mission mis : tlm){
+			mapMis.remove(mis.getId());
+		}
+		List<Mission> rl = new ArrayList<Mission>();
+		if(!mapMis.isEmpty()){
+			int o = 0;
+			Set<Long> ms = mapMis.keySet();
+			for(Long x : ms){
+				if(o<2){
+					rl.add(mapMis.get(x));
 				}
+				o++;
 			}
 		}
-		return oldmis;
+		return rl;
 	}
 	
 	public int saveUserMission(final UserMission um){

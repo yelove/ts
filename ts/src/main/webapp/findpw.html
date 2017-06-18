@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>找回密码-Bandari.Net</title>
+<title>找回密码-bz521.com</title>
 <link rel="stylesheet" href="/ts/assets/libs/uikit/css/uikit.min.css">
 <link rel="stylesheet"
 	href="/ts/assets/libs/uikit/css/components/slider.min.css">
@@ -28,21 +28,19 @@
 	<div class="login-wrapper">
 		<a href="/ts" class="login-logo"><i class="iconfont icon-minilogo"></i>
 			找回密码</a>
-		<form class="uk-form uc-form" method="POST" action="/password/email">
+		<form id="register-form" class="uk-form uc-form" method="POST" action="">
 			<input type="hidden" name="_token"
 				value="aHdDJsiiJgikdT80ZKkQ5K4X7ot8ypRBoqgWHrqM">
 			<div class="uk-form-row">
 				<div class="uk-form-controls">
-					<input placeholder="请输入您注册时留的邮箱地址" type="text" name="email"
+					<input id="fpname" placeholder="请输入您注册时留的邮箱地址" type="text" name="email"
 						value="" required="" data-parsley-required-message="邮箱不能为空"
 						data-parsley-type="email" data-parsley-type-message="邮箱地址错误！请重新输入"
-						data-parsley-remote
-						data-parsley-remote-validator='checkEmailIfExist'
-						data-parsley-remote-message="该邮箱不存在" autocomplete="off">
+						autocomplete="off">
 				</div>
 			</div>
 			<div class="uk-form-row">
-				<button type="submit" class="uk-button button-signup">提 交</button>
+				<button type="submit"  class="uk-button button-signup">提 交</button>
 			</div>
 		</form>
 	</div>
@@ -58,6 +56,30 @@
 			errorsWrapper : "<p class='uk-form-help-block'></p>",
 			errorTemplate : "<span></span>"
 		});
+		$("#register-form").on(
+				'submit',
+				function (){
+					$.ajax('/ts/user/pwfind',{
+						type : 'POST',
+						data : {'name':$("#fpname").val()},
+						dataType : 'json',
+						success : function(res) {
+							if (res.status == 1000) {
+								UIkit.notify('重置密码邮件发送成功！',{status : "success"});
+							}else if(res.status == 1009){
+								UIkit.notify('用户不存在',{status : "danger"});
+							}else if(res.status == 1007){
+								UIkit.notify('服务器异常',{status : "warning"});
+							}else if(res.status == 1002){
+								UIkit.notify('参数错误哟',{status : "danger"});
+							}else {
+								UIkit.notify('未知错误,可能是服务器异常哟',{status : "danger"});
+							}
+							return false;
+						}
+					});
+					return false;
+				});
 	});
 </script>
 </html>

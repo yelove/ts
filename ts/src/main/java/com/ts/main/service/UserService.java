@@ -1,5 +1,6 @@
 package com.ts.main.service;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -13,8 +14,11 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.ts.main.bean.model.Findpw;
 import com.ts.main.bean.model.User;
+import com.ts.main.mapper.FindpwMapper;
 import com.ts.main.mapper.UserMapper;
+import com.ts.main.utils.MD5Tools;
 
 @Service
 public class UserService {
@@ -23,6 +27,9 @@ public class UserService {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private FindpwMapper findpwMapper;
 
 	@Autowired
 	private RedisService<Long> idRedisService;
@@ -49,6 +56,7 @@ public class UserService {
 	public boolean saveUser(User user) {
 		user.setCreatetime(System.currentTimeMillis());
 		user.setTsno(idRedisService.getIncrement(TSNO));
+		user.setPassword(MD5Tools.MD5(user.getPassword()));
 		user.setState(true);
 		userMapper.insert(user);
 		putUser(user);
@@ -100,6 +108,30 @@ public class UserService {
 
 	public void updateUserForLastLog(User user) {
 		userMapper.updateUserForLastLog(user.getId(), System.currentTimeMillis());
+	}
+	
+	public Findpw getFpById(String id){
+		return findpwMapper.selectByPrimaryKey(id);
+	}
+	
+	public String insertFindpw(String email,Long uid){
+		List<Findpw> fplis = findpwMapper.selectByUid(uid);
+		if(!fplis.isEmpty()){
+			return fplis.get(0).getId();
+		}
+		Findpw fp = new Findpw();
+		Long ct = System.currentTimeMillis();
+		fp.setId(MD5Tools.MD5(email+ct));
+		fp.setUid(uid);
+		fp.setCreatetime(ct);
+		fp.setUpdatetime(ct);
+		fp.setFtype(0);
+		int i = findpwMapper.insert(fp);
+		if(i>0){
+			return fp.getId();
+		}else{
+			return null;
+		}
 	}
 
 }

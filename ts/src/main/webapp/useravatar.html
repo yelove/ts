@@ -143,7 +143,7 @@ img {
 	<script
 		src="/ts/vendor/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
 	<script type="text/javascript">
-	var oss_ali = 'http://zsytp.oss-cn-shanghai.aliyuncs.com/';
+	var oss_ali = 'http://zsypt.oss-cn-shanghai.aliyuncs.com/';
 		$(function() {
 			var $image = $('#image');
 			var $inputImage = $('#inputImage');
@@ -243,7 +243,7 @@ img {
 				success : function(res) {
 					if (res.status == 1000) {
 						$("#nickname").html(res.user.name);
-						if(res.user.imgurl)}{
+						if(res.user.imgurl){
 							$("#avatar").attr('src',oss_ali+res.user.imgurl);
 						}
 					}else{

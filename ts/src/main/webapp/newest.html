@@ -297,7 +297,7 @@ word-wrap:break-word; word-break:normal;
 									bookhot,
 									function(n, value) {
 										booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"
-												+ "<img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsytp.oss-cn-shanghai.aliyuncs.com/"
+												+ "<img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsypt.oss-cn-shanghai.aliyuncs.com/"
 												+ value.userImgUrl
 												+ "' width='50' height='50'>"
 												+ "<a href='/view.html?uid="
@@ -485,7 +485,7 @@ word-wrap:break-word; word-break:normal;
 											commentHtml += '<ul>';
 											$.each(res.bkv.nomalList, function(
 													n, value) {
-												commentHtml += '<li style="display: flex;"><a href="/view.html?uid='+value.userid+'"><img class="avatar_1" src="http://zsytp.oss-cn-shanghai.aliyuncs.com/'+value.userimg+'"/></a><div style="padding-left:12px;"><div><a style="font-size:18px" href="/view.html?uid='+value.userid+'">'+value.username+'</a></div><div><p class="p_dd">'
+												commentHtml += '<li style="display: flex;"><a href="/view.html?uid='+value.userid+'"><img class="avatar_1" src="http://zsypt.oss-cn-shanghai.aliyuncs.com/'+value.userimg+'"/></a><div style="padding-left:12px;"><div><a style="font-size:18px" href="/view.html?uid='+value.userid+'">'+value.username+'</a></div><div><p class="p_dd">'
 														+ value.comment
 														+ '</p></div><div><h4 style="float:left;color:white;">'+value.createTimeStr+'</h4><div style="padding-left:20px;float:left;margin-top:-4px"><a onclick="zancomment('+value.id+')"><i class="uk-icon-thumbs-o-up" ></i> (<span id="cmtzan'+value.id+'" class="zan">'+value.zan+'</span>)</a></div></div></div></li>';
 											});
