@@ -6,11 +6,15 @@ package com.ts.main.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.ts.main.bean.model.Mission;
 import com.ts.main.bean.model.UserMission;
 import com.ts.main.mapper.MissionMapper;
@@ -62,11 +66,16 @@ public class MissionService {
 				mis.setEnddate(dayfirts+(24*3600000)-1);
 				saveMission(mis);
 				toDayMission = missionMapper.selectMissionByDate(System.currentTimeMillis());
+				AllMission = missionMapper.selectAll();
 			}
 		}
-		return toDayMission;
+		return jsonClone(toDayMission);
 	}
 	
+	
+	private List<Mission> jsonClone(List<Mission> jso){
+		return JSON.parseArray(JSON.toJSONString(jso), Mission.class);
+	}
 	
 	public int saveMission(Mission mis){
 		Long nowdt = System.currentTimeMillis();
@@ -82,13 +91,101 @@ public class MissionService {
 	public List<UserMission> getUserTodayMission(Long userid){
 		return umMapper.selectByUserIdAndDate(userid, System.currentTimeMillis(),TimeUtils4book.getTimesmorning());
 	}
+//	private static Cache<String, List<Long>> USERMISSIONID = CacheBuilder.newBuilder()
+//			.expireAfterAccess(30, TimeUnit.MINUTES).softValues().initialCapacity(128).maximumSize(32768).build();
+	public List<Long> getAllMissionByUserId(final Long userid){
+//		try {
+//			return USERMISSIONID.get(String.valueOf(userid), new Callable<List<Long>>(){
+//				@Override
+//				public List<Long> call() throws Exception {
+//					return umMapper.getAllMissionByUserId(userid);
+//				}
+//			});
+//		} catch (ExecutionException e) {
+//			e.printStackTrace();
+//			return new ArrayList<Long>();
+//		}
+		return umMapper.getAllMissionByUserId(userid);
+	}
+	private static List<Mission> AllMission = Lists.newArrayList();
 	
-	public int saveUserMission(UserMission um){
+	public List<Mission> getAllMission(){
+		if(AllMission.isEmpty()){
+			AllMission = missionMapper.selectAll();
+		}
+		return AllMission;
+	}
+	
+//	private static Cache<String, List<Mission>> USERMISSION_OLD = CacheBuilder.newBuilder()
+//			.expireAfterAccess(30, TimeUnit.MINUTES).softValues().initialCapacity(128).maximumSize(32768).build(); 
+	
+	public List<Mission> getOldeMissonByCache(final Long userid){
+//		try {
+//			return USERMISSION_OLD.get(String.valueOf(userid), new Callable<List<Mission>>(){
+//				@Override
+//				public List<Mission> call() throws Exception {
+//					return getOldMission(userid);
+//				}
+//			});
+//		} catch (ExecutionException e) {
+//			e.printStackTrace();
+//			return new ArrayList<Mission>();
+//		}
+		return getOldMission(userid);
+	}
+	
+	public List<Mission> getOldMission(Long userid){
+		List<Mission> oldmis = Lists.newArrayList();
+		List<Mission> all =  getAllMission();
+		int x = 0;
+		Random random = new Random();
+		List<Long> lilong = getAllMissionByUserId(userid);
+		Map<Long,Object> map = Maps.newHashMap();
+		for(Long id : lilong){
+			map.put(id, null);
+		}
+		boolean flag = true;
+		while(flag){
+			if(x>lilong.size()||x>20){
+				flag = false;
+			}
+			x++;
+			int a=random.nextInt(all.size());
+			Mission mi = all.get(a);
+			if(map.containsKey(mi.getId())){
+				continue;
+			}else{
+				oldmis.add(mi);
+				if(oldmis.size()==2){
+					flag = false;
+				}
+			}
+		}
+		return oldmis;
+	}
+	
+	public int saveUserMission(final UserMission um){
 		Long nowdt = System.currentTimeMillis();
 		um.setCreatetime(nowdt);
 		um.setUpdatetime(nowdt);
-		um.setUmstatus(0);;
-		return umMapper.insert(um);
+		um.setUmstatus(0);
+		int i = umMapper.insert(um);
+//		if(i>0){
+//			try {
+//				List<Long> li = USERMISSIONID.get(String.valueOf(um.getUid()), new Callable<List<Long>>(){
+//					@Override
+//					public List<Long> call() throws Exception {
+//						return umMapper.getAllMissionByUserId(um.getUid());
+//					}
+//				});
+//				li.add(um.getMid());
+//				USERMISSIONID.put(String.valueOf(um.getUid()), li);
+//			} catch (ExecutionException e) {
+//				e.printStackTrace();
+//			}
+//			USERMISSION_OLD.invalidate(String.valueOf(um.getUid()));
+//		}
+		return i;
 	}
 	
 	public static void main(String args[]){

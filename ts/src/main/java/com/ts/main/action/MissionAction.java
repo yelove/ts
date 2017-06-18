@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.ts.main.bean.model.Book;
 import com.ts.main.bean.model.Mission;
@@ -41,12 +43,35 @@ public class MissionAction {
 	private BookService bookService;
 
 	@RequestMapping(value = "getmission", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> getMission() {
+	public @ResponseBody Map<String, Object> getMission(HttpServletRequest request) {
 		Map<String, Object> rm = new HashMap<String, Object>();
 		List<Mission> mislis = misService.dogetTodayMission();
 		if (null != mislis && mislis.size() > 0) {
+			List<Mission> rmlis = Lists.newArrayList();
 			rm.put(CommonStr.STATUS, 1000);
-			rm.put(CommonStr.DESC, mislis);
+			rmlis.addAll(mislis);
+			Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
+			if(null != obj){
+				Long userid = ((User) obj).getId();
+				List<UserMission> umlis = misService.getUserTodayMission(userid);
+				if(!CollectionUtils.isEmpty(umlis)){
+					Map<Long,Object> mp = Maps.newHashMap();
+					for(UserMission um : umlis){
+						mp.put(um.getMid(), null);
+					}	
+					for(Mission mi : mislis){
+						if(mp.containsKey(mi.getId())){
+							mi.setMstatus(-1);
+						}
+					}
+				}
+				List<Mission> mislisod = misService.getOldeMissonByCache(userid);
+				if(!CollectionUtils.isEmpty(mislisod)){
+					rmlis.addAll(mislisod);
+				}
+			}
+			rm.put(CommonStr.DESC, rmlis);
+			rm.put(CommonStr.LIT, mislis.size());
 		} else {
 			rm.put(CommonStr.STATUS, 1009);
 		}
@@ -62,20 +87,7 @@ public class MissionAction {
 		}
 		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
 		if (null != obj) {
-			List<Mission> mislis = misService.dogetTodayMission();
 			boolean flag = true;
-			for (Mission mis : mislis) {
-				if (mis.getId().longValue() == mid.longValue()) {
-					flag = false;
-					break;
-				}
-			}
-			// 任务ID不是当天的 直接返回
-			if (flag) {
-				rm.put(CommonStr.STATUS, 1007);
-				return rm;
-			}
-			flag = true;
 			Long userid = ((User) obj).getId();
 			rm.put(CommonStr.STATUS, 1000);
 			List<Book> bl = bookService.getMineTodayBooks(userid);
@@ -110,20 +122,7 @@ public class MissionAction {
 		}
 		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
 		if (null != obj) {
-			List<Mission> mislis = misService.dogetTodayMission();
 			boolean flag = true;
-			for (Mission mis : mislis) {
-				if (mis.getId().longValue() == id.longValue()) {
-					flag = false;
-					break;
-				}
-			}
-			// 任务ID不是当天的 直接返回
-			if (flag) {
-				rm.put(CommonStr.STATUS, 1007);
-				return rm;
-			}
-			flag = true;
 			Long userid = ((User) obj).getId();
 			rm.put(CommonStr.STATUS, 1000);
 			// 拉取当前用户已完成的任务
@@ -137,23 +136,29 @@ public class MissionAction {
 					ummap.put(um.getBkid(), um.getMid());
 				}
 			}
+			if (!flag) {
+				rm.put(CommonStr.STATUS, 1004);
+				return rm;
+			}
 			List<Book> bl = bookService.getMineTodayBooks(userid);
 			if (null != bl && bl.size() > 0) {
+				int xd = bl.size();
 				for (Book bk : bl) {
 					// 如果该日记已经被完整任务 则标记为置9
 					if (ummap.containsKey(bk.getId())) {
 						bk.setIsdel(9);
+						xd--;
 					}
+				}if(xd==0){
+					rm.put(CommonStr.STATUS, 1002);
+				}else{
+					rm.put(CommonStr.DESC, bl);
 				}
-				rm.put(CommonStr.DESC, bl);
 			} else {
 				rm.put(CommonStr.STATUS, 1002);
 			}
 			if (null != tp && tp.intValue() > 0) {
 				return rm;
-			}
-			if (!flag) {
-				rm.put(CommonStr.STATUS, 1004);
 			}
 		} else {
 			rm.put(CommonStr.STATUS, 1009);

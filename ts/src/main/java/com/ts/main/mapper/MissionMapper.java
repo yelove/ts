@@ -18,4 +18,6 @@ public interface MissionMapper {
     int updateByPrimaryKey(Mission record);
     
     List<Mission> selectMissionByDate(Long date);
+    
+    List<Mission> selectAll();
 }

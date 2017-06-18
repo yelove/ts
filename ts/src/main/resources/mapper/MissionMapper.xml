@@ -156,4 +156,9 @@
     from mission
     where startdate &lt;= #{date,jdbcType=BIGINT} and enddate &gt;= #{date,jdbcType=BIGINT} and mstatus = 0
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mission
+  </select>
 </mapper>

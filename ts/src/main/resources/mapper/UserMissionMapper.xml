@@ -121,4 +121,11 @@
 		where uid = #{userid,jdbcType=BIGINT} and createtime &lt;
 		#{date,jdbcType=BIGINT} and createtime &gt; #{today,jdbcType=BIGINT}
 	</select>
+	<select id="getAllMissionByUserId" resultType="java.lang.Long"
+		parameterType="java.lang.Long">
+		select
+		 mid
+		from usermission
+		where uid = #{userid,jdbcType=BIGINT}
+	</select>
 </mapper>

@@ -1,27 +1,17 @@
 (function(addon) {
-
     var component;
-
     if (window.UIkit) {
         component = addon(UIkit);
     }
-
     if (typeof define == "function" && define.amd) {
         define("uikit-datepicker", ["uikit"], function(){
             return component || addon(UIkit);
         });
     }
-
 })(function(UI){
-
     "use strict";
-
-    // Datepicker
-
     var active = false, dropdown, moment;
-
     UI.component('datepicker', {
-
         defaults: {
             mobile: false,
             weekstart: 1,
@@ -35,17 +25,12 @@
             minDate: false,
             pos: 'auto',
             template: function(data, opts) {
-
                 var content = '', i;
-
                 content += '<div class="uk-datepicker-nav">';
                 content += '<a href="" class="uk-datepicker-previous"></a>';
                 content += '<a href="" class="uk-datepicker-next"></a>';
-
                 if (UI.formSelect) {
-
                     var currentyear = (new Date()).getFullYear(), options = [], months, years, minYear, maxYear;
-
                     for (i=0;i<opts.i18n.months.length;i++) {
                         if(i==data.month) {
                             options.push('<option value="'+i+'" selected>'+opts.i18n.months[i]+'</option>');
@@ -53,16 +38,10 @@
                             options.push('<option value="'+i+'">'+opts.i18n.months[i]+'</option>');
                         }
                     }
-
                     months = '<span class="uk-form-select">'+ opts.i18n.months[data.month] + '<select class="update-picker-month">'+options.join('')+'</select></span>';
-
-                    // --
-
                     options = [];
-
                     minYear = data.minDate ? data.minDate.year() : currentyear - 50;
                     maxYear = data.maxDate ? data.maxDate.year() : currentyear + 20;
-
                     for (i=minYear;i<=maxYear;i++) {
                         if (i == data.year) {
                             options.push('<option value="'+i+'" selected>'+i+'</option>');
@@ -70,17 +49,12 @@
                             options.push('<option value="'+i+'">'+i+'</option>');
                         }
                     }
-
                     years  = '<span class="uk-form-select">'+ data.year + '<select class="update-picker-year">'+options.join('')+'</select></span>';
-
                     content += '<div class="uk-datepicker-heading">'+ months + ' ' + years +'</div>';
-
                 } else {
                     content += '<div class="uk-datepicker-heading">'+ opts.i18n.months[data.month] +' '+ data.year+'</div>';
                 }
-
                 content += '</div>';
-
                 content += '<table class="uk-datepicker-table">';
                 content += '<thead>';
                 for(i = 0; i < data.weekdays.length; i++) {
@@ -89,7 +63,6 @@
                     }
                 }
                 content += '</thead>';
-
                 content += '<tbody>';
                 for(i = 0; i < data.days.length; i++) {
                     if (data.days[i] && data.days[i].length){
@@ -110,78 +83,52 @@
                     }
                 }
                 content += '</tbody>';
-
                 content += '</table>';
-
                 return content;
             }
         },
 
         boot: function() {
-
             UI.$win.on("resize orientationchange", function() {
-
                 if (active) {
                     active.hide();
                 }
             });
-
-            // init code
             UI.$html.on("focus.datepicker.uikit", "[data-uk-datepicker]", function(e) {
-
                 var ele = UI.$(this);
-
                 if (!ele.data("datepicker")) {
                     e.preventDefault();
                     UI.datepicker(ele, UI.Utils.options(ele.attr("data-uk-datepicker")));
                     ele.trigger("focus");
                 }
             });
-
             UI.$html.on("click focus", '*', function(e) {
-
                 var target = UI.$(e.target);
-
                 if (active && target[0] != dropdown[0] && !target.data("datepicker") && !target.parents(".uk-datepicker:first").length) {
                     active.hide();
                 }
             });
         },
-
         init: function() {
-
-            // use native datepicker on touch devices
             if (UI.support.touch && this.element.attr('type')=='date' && !this.options.mobile) {
                 return;
             }
-
             var $this = this;
-
             this.current  = this.element.val() ? moment(this.element.val(), this.options.format) : moment();
-
             this.on("click focus", function(){
                 if (active!==$this) $this.pick(this.value ? this.value:($this.options.minDate ? $this.options.minDate :''));
             }).on("change", function(){
-
                 if ($this.element.val() && !moment($this.element.val(), $this.options.format).isValid()) {
                    $this.element.val(moment().format($this.options.format));
                 }
             });
-
-            // init dropdown
             if (!dropdown) {
-
                 dropdown = UI.$('<div class="uk-dropdown uk-datepicker"></div>');
-
                 dropdown.on("click", ".uk-datepicker-next, .uk-datepicker-previous, [data-date]", function(e){
-
                     e.stopPropagation();
                     e.preventDefault();
-
                     var ele = UI.$(this);
-
                     if (ele.hasClass('uk-datepicker-date-disabled')) return false;
-
                     if (ele.is('[data-date]')) {
                         active.current = moment(ele.data("date"));
                         active.element.val(active.current.format(active.options.format)).trigger("change");
@@ -190,166 +137,111 @@
                        active.add((ele.hasClass("uk-datepicker-next") ? 1:-1), "months");
                     }
                 });
-
                 dropdown.on('change', '.update-picker-month, .update-picker-year', function(){
-
                     var select = UI.$(this);
                     active[select.is('.update-picker-year') ? 'setYear':'setMonth'](Number(select.val()));
                 });
-
                 dropdown.appendTo("body");
             }
         },
-
         pick: function(initdate) {
-
             var offset = this.element.offset(),
                 css    = {"left": offset.left, "right":""};
-
             this.current  = isNaN(initdate) ? moment(initdate, this.options.format):moment();
             this.initdate = this.current.format("YYYY-MM-DD");
-
             this.update();
-
             if (UI.langdirection == 'right') {
                 css.right = window.innerWidth - (css.left + this.element.outerWidth());
                 css.left  = "";
             }
-
             var posTop    = (offset.top - this.element.outerHeight() + this.element.height()) - this.options.offsettop - dropdown.outerHeight(),
                 posBottom = offset.top + this.element.outerHeight() + this.options.offsettop;
-
             css.top = posBottom;
-
             if (this.options.pos == 'top') {
                 css.top = posTop;
             } else if(this.options.pos == 'auto' && (window.innerHeight - posBottom - dropdown.outerHeight() < 0 && posTop >= 0) ) {
                 css.top = posTop;
             }
-
             dropdown.css(css).show();
             this.trigger('show.uk.datepicker');
-
             active = this;
         },
-
         add: function(unit, value) {
             this.current.add(unit, value);
             this.update();
         },
-
         setMonth: function(month) {
             this.current.month(month);
             this.update();
         },
-
         setYear: function(year) {
             this.current.year(year);
             this.update();
         },
-
         update: function() {
-
             var data = this.getRows(this.current.year(), this.current.month()),
                 tpl  = this.options.template(data, this.options);
-
             dropdown.html(tpl);
-
             this.trigger('update.uk.datepicker');
         },
-
         getRows: function(year, month) {
-
             var opts   = this.options,
                 now    = moment().format('YYYY-MM-DD'),
                 days   = [31, (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month],
                 before = new Date(year, month, 1, 12).getDay(),
                 data   = {"month":month, "year":year,"weekdays":[],"days":[], "maxDate": false, "minDate": false},
                 row    = [];
-
             if (opts.maxDate!==false){
                 data.maxDate = isNaN(opts.maxDate) ? moment(opts.maxDate, opts.format) : moment().add(opts.maxDate, 'days');
             }
-
             if (opts.minDate!==false){
                 data.minDate = isNaN(opts.minDate) ? moment(opts.minDate, opts.format) : moment().add(opts.minDate-1, 'days');
             }
-
             data.weekdays = (function(){
-
                 for (var i=0, arr=[]; i < 7; i++) {
-
                     var day = i + (opts.weekstart || 0);
-
                     while (day >= 7) {
                         day -= 7;
                     }
-
                     arr.push(opts.i18n.weekdays[day]);
                 }
-
                 return arr;
             })();
-
             if (opts.weekstart && opts.weekstart > 0) {
                 before -= opts.weekstart;
                 if (before < 0) {
                     before += 7;
                 }
             }
-
             var cells = days + before, after = cells;
-
             while(after > 7) { after -= 7; }
-
             cells += 7 - after;
-
             var day, isDisabled, isSelected, isToday, isInMonth;
-
             for (var i = 0, r = 0; i < cells; i++) {
-
                 day        = new Date(year, month, 1 + (i - before), 12);
                 isDisabled = (data.minDate && data.minDate > day) || (data.maxDate && day > data.maxDate);
                 isInMonth  = !(i < before || i >= (days + before));
-
                 day = moment(day);
-
                 isSelected = this.initdate == day.format("YYYY-MM-DD");
                 isToday    = now == day.format("YYYY-MM-DD");
-
                 row.push({"selected": isSelected, "today": isToday, "disabled": isDisabled, "day":day, "inmonth":isInMonth});
-
                 if (++r === 7) {
                     data.days.push(row);
                     row = [];
                     r = 0;
                 }
             }
-
             return data;
         },
-
         hide: function() {
-
             if (active && active === this) {
                 dropdown.hide();
                 active = false;
-
                 this.trigger('hide.uk.datepicker');
             }
         }
     });
-
-    //! moment.js
-    //! version : 2.8.3
-    //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-    //! license : MIT
-    //! momentjs.com
-
     moment = (function (undefined) {
-        /************************************
-            Constants
-        ************************************/
         var moment,
             VERSION = '2.8.3',
             // the global-scope this is NOT the global object in Node.js
@@ -358,7 +250,6 @@
             round = Math.round,
             hasOwnProperty = Object.prototype.hasOwnProperty,
             i,
-
             YEAR = 0,
             MONTH = 1,
             DATE = 2,
@@ -366,29 +257,14 @@
             MINUTE = 4,
             SECOND = 5,
             MILLISECOND = 6,
-
-            // internal storage for locale config files
             locales = {},
-
-            // extra moment internal properties (plugins register props here)
             momentProperties = [],
-
-            // check for nodeJS
             hasModule = (typeof module !== 'undefined' && module.exports),
-
-            // ASP.NET json date format regex
             aspNetJsonRegex = /^\/?Date\((\-?\d+)/i,
             aspNetTimeSpanJsonRegex = /(\-)?(?:(\d*)\.)?(\d+)\:(\d+)(?:\:(\d+)\.?(\d{3})?)?/,
-
-            // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
-            // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
             isoDurationRegex = /^(-)?P(?:(?:([0-9,.]*)Y)?(?:([0-9,.]*)M)?(?:([0-9,.]*)D)?(?:T(?:([0-9,.]*)H)?(?:([0-9,.]*)M)?(?:([0-9,.]*)S)?)?|([0-9,.]*)W)$/,
-
-            // format tokens
             formattingTokens = /(\[[^\[]*\])|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Q|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|mm?|ss?|S{1,4}|X|zz?|ZZ?|.)/g,
             localFormattingTokens = /(\[[^\[]*\])|(\\)?(LT|LL?L?L?|l{1,4})/g,
-
-            // parsing token regexes
             parseTokenOneOrTwoDigits = /\d\d?/, // 0 - 99
             parseTokenOneToThreeDigits = /\d{1,3}/, // 0 - 999
             parseTokenOneToFourDigits = /\d{1,4}/, // 0 - 9999
@@ -399,21 +275,14 @@
             parseTokenT = /T/i, // T (ISO separator)
             parseTokenTimestampMs = /[\+\-]?\d+(\.\d{1,3})?/, // 123456789 123456789.123
             parseTokenOrdinal = /\d{1,2}/,
-
-            //strict parsing regexes
             parseTokenOneDigit = /\d/, // 0 - 9
             parseTokenTwoDigits = /\d\d/, // 00 - 99
             parseTokenThreeDigits = /\d{3}/, // 000 - 999
             parseTokenFourDigits = /\d{4}/, // 0000 - 9999
             parseTokenSixDigits = /[+-]?\d{6}/, // -999,999 - 999,999
             parseTokenSignedNumber = /[+-]?\d+/, // -inf - inf
-
-            // iso 8601 regex
-            // 0000-00-00 0000-W00 or 0000-W00-0 + T + 00 or 00:00 or 00:00:00 or 00:00:00.000 + +00:00 or +0000 or +00)
             isoRegex = /^\s*(?:[+-]\d{6}|\d{4})-(?:(\d\d-\d\d)|(W\d\d$)|(W\d\d-\d)|(\d\d\d))((T| )(\d\d(:\d\d(:\d\d(\.\d+)?)?)?)?([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,
-
             isoFormat = 'YYYY-MM-DDTHH:mm:ssZ',
-
             isoDates = [
                 ['YYYYYY-MM-DD', /[+-]\d{6}-\d{2}-\d{2}/],
                 ['YYYY-MM-DD', /\d{4}-\d{2}-\d{2}/],
@@ -421,19 +290,13 @@
                 ['GGGG-[W]WW', /\d{4}-W\d{2}/],
                 ['YYYY-DDD', /\d{4}-\d{3}/]
             ],
-
-            // iso time formats and regexes
             isoTimes = [
                 ['HH:mm:ss.SSSS', /(T| )\d\d:\d\d:\d\d\.\d+/],
                 ['HH:mm:ss', /(T| )\d\d:\d\d:\d\d/],
                 ['HH:mm', /(T| )\d\d:\d\d/],
                 ['HH', /(T| )\d\d/]
             ],
-
-            // timezone chunker '+10:00' > ['10', '00'] or '-1530' > ['-15', '30']
             parseTimezoneChunker = /([\+\-]|\d\d)/gi,
-
-            // getter and setter names
             proxyGettersAndSetters = 'Date|Hours|Minutes|Seconds|Milliseconds'.split('|'),
             unitMillisecondFactors = {
                 'Milliseconds' : 1,
@@ -444,7 +307,6 @@
                 'Months' : 2592e6,
                 'Years' : 31536e6
             },
-
             unitAliases = {
                 ms : 'millisecond',
                 s : 'second',
@@ -463,7 +325,6 @@
                 gg: 'weekYear',
                 GG: 'isoWeekYear'
             },
-
             camelFunctions = {
                 dayofyear : 'dayOfYear',
                 isoweekday : 'isoWeekday',
@@ -471,11 +332,7 @@
                 weekyear : 'weekYear',
                 isoweekyear : 'isoWeekYear'
             },
-
-            // format function strings
             formatFunctions = {},
-
-            // default relative time thresholds
             relativeTimeThresholds = {
                 s: 45,  // seconds to minute
                 m: 45,  // minutes to hour
@@ -483,11 +340,8 @@
                 d: 26,  // days to month
                 M: 11   // months to year
             },
-
-            // tokens to ordinalize and pad
             ordinalizeTokens = 'DDD w W M D d'.split(' '),
             paddedTokens = 'M D H h m s w W'.split(' '),
-
             formatTokenFunctions = {
                 M    : function () {
                     return this.month() + 1;
@@ -620,13 +474,8 @@
                     return this.quarter();
                 }
             },
-
             deprecations = {},
-
             lists = ['months', 'monthsShort', 'weekdays', 'weekdaysShort', 'weekdaysMin'];
-
-        // Pick the first defined of two or three arguments. dfl comes from
-        // default.
         function dfl(a, b, c) {
             switch (arguments.length) {
                 case 2: return a != null ? a : b;
@@ -634,14 +483,10 @@
                 default: throw new Error('Implement me');
             }
         }
-
         function hasOwnProp(a, b) {
             return hasOwnProperty.call(a, b);
         }
-
         function defaultParsingFlags() {
-            // We need to deep clone this object, and es5 standard is not very
-            // helpful.
             return {
                 empty : false,
                 unusedTokens : [],
@@ -655,14 +500,12 @@
                 iso: false
             };
         }
-
         function printMsg(msg) {
             if (moment.suppressDeprecationWarnings === false &&
                     typeof console !== 'undefined' && console.warn) {
                 console.warn('Deprecation warning: ' + msg);
             }
         }
-
         function deprecate(msg, fn) {
             var firstTime = true;
             return extend(function () {
@@ -673,14 +516,12 @@
                 return fn.apply(this, arguments);
             }, fn);
         }
-
         function deprecateSimple(name, msg) {
             if (!deprecations[name]) {
                 printMsg(msg);
                 deprecations[name] = true;
             }
         }
-
         function padToken(func, count) {
             return function (a) {
                 return leftZeroFill(func.call(this, a), count);
@@ -691,7 +532,6 @@
                 return this.localeData().ordinal(func.call(this, a), period);
             };
         }
-
         while (ordinalizeTokens.length) {
             i = ordinalizeTokens.pop();
             formatTokenFunctions[i + 'o'] = ordinalizeToken(formatTokenFunctions[i], i);
@@ -701,16 +541,8 @@
             formatTokenFunctions[i + i] = padToken(formatTokenFunctions[i], 2);
         }
         formatTokenFunctions.DDDD = padToken(formatTokenFunctions.DDD, 3);
-
-
-        /************************************
-            Constructors
-        ************************************/
-
         function Locale() {
         }
-
-        // Moment prototype object
         function Moment(config, skipOverflow) {
             if (skipOverflow !== false) {
                 checkOverflow(config);
@@ -718,8 +550,6 @@
             copyConfig(this, config);
             this._d = new Date(+config._d);
         }
-
-        // Duration Constructor
         function Duration(duration) {
             var normalizedInput = normalizeObjectUnits(duration),
                 years = normalizedInput.year || 0,
@@ -731,56 +561,35 @@
                 minutes = normalizedInput.minute || 0,
                 seconds = normalizedInput.second || 0,
                 milliseconds = normalizedInput.millisecond || 0;
-
-            // representation for dateAddRemove
             this._milliseconds = +milliseconds +
                 seconds * 1e3 + // 1000
                 minutes * 6e4 + // 1000 * 60
                 hours * 36e5; // 1000 * 60 * 60
-            // Because of dateAddRemove treats 24 hours as different from a
-            // day when working around DST, we need to store them separately
             this._days = +days +
                 weeks * 7;
-            // It is impossible translate months into days without knowing
-            // which months you are are talking about, so we have to store
-            // it separately.
             this._months = +months +
                 quarters * 3 +
                 years * 12;
-
             this._data = {};
-
             this._locale = moment.localeData();
-
             this._bubble();
         }
-
-        /************************************
-            Helpers
-        ************************************/
-
-
         function extend(a, b) {
             for (var i in b) {
                 if (hasOwnProp(b, i)) {
                     a[i] = b[i];
                 }
             }
-
             if (hasOwnProp(b, 'toString')) {
                 a.toString = b.toString;
             }
-
             if (hasOwnProp(b, 'valueOf')) {
                 a.valueOf = b.valueOf;
             }
-
             return a;
         }
-
         function copyConfig(to, from) {
             var i, prop, val;
-
             if (typeof from._isAMomentObject !== 'undefined') {
                 to._isAMomentObject = from._isAMomentObject;
             }
@@ -811,7 +620,6 @@
             if (typeof from._locale !== 'undefined') {
                 to._locale = from._locale;
             }
-
             if (momentProperties.length > 0) {
                 for (i in momentProperties) {
                     prop = momentProperties[i];
@@ -821,10 +629,8 @@
                     }
                 }
             }
-
             return to;
         }
-
         function absRound(number) {
             if (number < 0) {
                 return Math.ceil(number);
@@ -832,19 +638,14 @@
                 return Math.floor(number);
             }
         }
-
-        // left zero fill a number
-        // see http://jsperf.com/left-zero-filling for performance comparison
         function leftZeroFill(number, targetLength, forceSign) {
             var output = '' + Math.abs(number),
                 sign = number >= 0;
-
             while (output.length < targetLength) {
                 output = '0' + output;
             }
             return (sign ? (forceSign ? '+' : '') : '-') + output;
         }
-
         function positiveMomentsDifference(base, other) {
             var res = {milliseconds: 0, months: 0};
 
@@ -853,12 +654,10 @@
             if (base.clone().add(res.months, 'M').isAfter(other)) {
                 --res.months;
             }
-
             res.milliseconds = +other - +(base.clone().add(res.months, 'M'));
 
             return res;
         }
-
         function momentsDifference(base, other) {
             var res;
             other = makeAs(other, base);
@@ -869,33 +668,26 @@
                 res.milliseconds = -res.milliseconds;
                 res.months = -res.months;
             }
-
             return res;
         }
-
-        // TODO: remove 'name' arg after deprecation is removed
         function createAdder(direction, name) {
             return function (val, period) {
                 var dur, tmp;
-                //invert the arguments, but complain about it
                 if (period !== null && !isNaN(+period)) {
                     deprecateSimple(name, 'moment().' + name  + '(period, number) is deprecated. Please use moment().' + name + '(number, period).');
                     tmp = val; val = period; period = tmp;
                 }
-
                 val = typeof val === 'string' ? +val : val;
                 dur = moment.duration(val, period);
                 addOrSubtractDurationFromMoment(this, dur, direction);
                 return this;
             };
         }
-
         function addOrSubtractDurationFromMoment(mom, duration, isAdding, updateOffset) {
             var milliseconds = duration._milliseconds,
                 days = duration._days,
                 months = duration._months;
             updateOffset = updateOffset == null ? true : updateOffset;
-
             if (milliseconds) {
                 mom._d.setTime(+mom._d + milliseconds * isAdding);
             }
@@ -909,8 +701,6 @@
                 moment.updateOffset(mom, days || months);
             }
         }
-
-        // check if is an array
         function isArray(input) {
             return Object.prototype.toString.call(input) === '[object Array]';
         }
@@ -919,8 +709,6 @@
             return Object.prototype.toString.call(input) === '[object Date]' ||
                 input instanceof Date;
         }
-
-        // compare two arrays, return the number of differences
         function compareArrays(array1, array2, dontConvert) {
             var len = Math.min(array1.length, array2.length),
                 lengthDiff = Math.abs(array1.length - array2.length),
