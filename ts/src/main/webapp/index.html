@@ -170,8 +170,8 @@
 	<aside id="sidebar" class=" uk-width-medium-2-6  uk-hidden-small">
 		<nav class="nav-top">
 			<a href="/" title="TinaS"><i class="logo"></i></a>
-			<a href="javascript:;" class="nav-leftbar-open animated tada"
-				data-uk-toggle="{target:'.dynamic-sidebar'}"> Hot...<span></span> <span></span>
+			<a href="javascript:;" class="nav-leftbar-open animated tada" style="width: 40px;"
+				data-uk-toggle="{target:'.dynamic-sidebar'}"><p style="margin-bottom: 5px;">话题</p><span></span> <span></span>
 				<span></span>
 			</a>
 		</nav>
@@ -217,7 +217,7 @@
 						记录自己
 						<nobr>品味他人</nobr>
 					</h1>
-					<div class="uk-text-small">辈子：感恩每一天,记录每一天,分享每一天,品味每一人</div>
+					<div class="uk-text-small">碑子：感恩每一天,记录每一天,分享每一天,品味每一人</div>
 				</div>
 			</div>
 		</div>
@@ -228,19 +228,20 @@
                            <div class="uk-width-medium-1-3 uk-row-first">
                             <div class="uk-panel">隐私社交</div>
                                <div class="uk-panel testdiv">
-                                   <p>记录分享每一天真实的自己,勿需担心圈子熟人.不同于其他社交产品,辈子权利保护您不被熟人感知.</p>
+                                   <p>记录分享每一天真实的自己,勿需担心圈子熟人。碑子相信隐私是真正属于你的，会和你一起成长。碑子全力打造私密圈子，保护您的隐私。</p>
                                </div>
                            </div>
                            <div class="uk-width-medium-1-3">
                             <div class="uk-panel">感悟</div>
                                <div class="uk-panel">
-                                   <p>辈子网提供您不同的人生经历,阅读获得感悟.祝您抉择人生.</p>
+                                   <p>人生是一个很漫长但又很短暂的过程。</p>
+                                   <p>碑子网提供不同的人生历程，来源于人们的亲身经历与感受。阅读分享故事，感悟探讨人生。</p>
                                </div>
                            </div>
                            <div class="uk-width-medium-1-3">
                             <div class="uk-panel">成长</div>
                                <div class="uk-panel">
-                                   <p>通过阅读,让我们一起成长.回忆并记录过往,趁现在还记得住哦.</p>
+                                   <p>世界很大，有意思的事情很多，对自己永存想像，永不停止成长。回忆并记录过往，碑子与您相伴成长。希望让你觉得成长是件美好的事。</p>
                                </div>
                            </div>
                        </div>
@@ -336,18 +337,10 @@
 				<nav id="nav">
 					<ul class="uk-nav" data-uk-nav>
 						<li class="uk-active"><a href="#">主页</a></li>
-						<!-- <li class="uk-parent"><a href="#">收藏 &amp; 足迹</a>
-						<ul class="uk-nav-sub">
-								<li><a href="#">收藏</a></li>
-								<li><a href="#">关注</a></li>
-								<li><a href="#">阅读记录</a></li>
-							</ul></li>
-						<script type="text/javascript">
-							$(function() {
-								$('.uk-nav-sub li.uk-active').parents(
-										'.uk-parent').addClass('uk-active');
-							});
-						</script> -->
+						<li class="uk-active"><a href="/newest.html">最新动态</a></li>
+						<li class="uk-active"><a href="/hottoday.html">今日最热</a></li>
+						<li class="uk-active"><a href="/hotweek.html">本周最热</a></li>
+						<li class="uk-active"><a href="/hotmonth.html">月度最热</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -513,12 +506,12 @@
 			<div class="nano-content">
 				<div class="home-dynamic" id="posts-list">
 					<article class="uk-comment" id="post88">
-						任务列表
+						话题列表
 						<div id = "mislis" class="uk-comment-body" style="margin-left: 0px">
 							<div class="uk-panel uk-panel-box uk-margin-top">
 								<header class="uk-comment-header">
 									<h4 class="uk-comment-title">
-										<span class="tag-album">日常任务</span><a>汪汪快乐颂 bark, bark, song of
+										<span class="tag-album">日常话题</span><a>汪汪快乐颂 bark, bark, song of
 											happiness</a>
 									</h4>
 								</header>
@@ -592,16 +585,16 @@
 								'<header class="uk-comment-header"> <h4 class="uk-comment-title">';
 								if(index <= res.lit){
 									if(value.mtype=='daily'){
-										mishtml += '<span class="tag-album">日常任务</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+										mishtml += '<span class="tag-album">日常话题</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
 									}else if(value.mtype=='week'){
-										mishtml += '<span class="tag-album">周常任务</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+										mishtml += '<span class="tag-album">周常话题</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
 									}else if(value.mtype=='holiday'){
-										mishtml += '<span class="tag-album">节日任务</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+										mishtml += '<span class="tag-album">节日话题</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
 									}else{
-										mishtml += '<span class="tag-album">特殊任务</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+										mishtml += '<span class="tag-album">特殊话题</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
 									}
 								}else{
-									mishtml += '<span class="tag-album">过往任务</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+									mishtml += '<span class="tag-album">过往话题</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
 								}
 								if(value.mstatus==-1){
 									mishtml += '<a class="comments" data-res-type="post" data-res-id="88"><i class="uk-icon-comments-o"></i> 已完成</a></p>';
@@ -698,6 +691,8 @@
 		src="/ts/assets/js/components/datepicker.js"></script>
 	<script
 		src="/ts/assets/js/wangEditor.min.js"></script>
+	<script
+		src="/ts/assets/js/bzcom.js"></script>
 	<script type="text/javascript">
 		var user_id = -1;
     	function doMission(mid){
@@ -728,14 +723,14 @@
 					}else if(res.status == 1011){
 						UIkit.notify('参数错误哟',{status : "danger"});
 					}else if(res.status == 1007){
-						UIkit.notify('不能提交以前的任务哟',{status : "warning"});
+						UIkit.notify('不能提交以前的话题哟',{status : "warning"});
 					}else if(res.status == 1004){
-						UIkit.notify('这个任务已经完成了哟',{status : "success"});
+						UIkit.notify('这个话题已经完成了哟',{status : "success"});
 					}else if(res.status == 1002){
-						UIkit.notify('需要先分享您的故事才能完成任务哟',{status : "success"});
+						UIkit.notify('需要先分享您的故事才能完成话题哟',{status : "success"});
 						$("html, body").animate({scrollTop:$('#addbookbt').offset().top}, 1000);
 						$('.wangEditor-txt').focus();
-						$('#title_txt').html('分享你的经历,完成今天的任务吧！');
+						$('#title_txt').html('分享你的经历,完成今天的话题吧！');
 						return false;
 					}else {
 						UIkit.notify('未知错误,可能是服务器异常哟',{status : "danger"});
@@ -751,14 +746,14 @@
 				dataType : 'json',
 				success : function(res) {
 					if (res.status == 1000) {
-						UIkit.notify('恭喜您成功完成任务！',{status : "success"});
+						UIkit.notify('恭喜您成功完成话题！',{status : "success"});
 						UIkit.modal('#missionwapper', {center : true}).hide();
 					}else if(res.status == 1009){
 						UIkit.notify('您没有登录,或登录超时',{status : "danger"});
 					}else if(res.status == 1011||res.status == 1002){
 						UIkit.notify('参数错误哟',{status : "danger"});
 					}else if(res.status == 1007){
-						UIkit.notify('不能提交以前的任务哟',{status : "warning"});
+						UIkit.notify('不能提交以前的话题哟',{status : "warning"});
 					}else {
 						UIkit.notify('未知错误,可能是服务器异常哟',{status : "danger"});
 					}
@@ -799,10 +794,7 @@
 				success : function(res) {
 					if (res.status == 1000) {
 						user_id = res.user.id;
-						$("#userlogin").html(" <a href='javascript:;'> <i class='iconfont icon-user'></i><span class='i uk-icon-angle-down'></span></a>"+
-						"<div class='lomenu uk-dropdown uk-dropdown-flip dropdown-arrow-up uk-dropdown-bottom' style='top: 48px; left: 113px;background: #273035;'><ul class='uk-nav uk-nav-dropdown'>"+
-						"<li><a href='/ts/user.html'><i class='iconfont icon-user'></i> 我的主页</a></li><li><a href='#'><i class='iconfont icon-mail'></i> 我的消息</a></li><li class='uk-nav-divider'></li>"+
-						"<li><a href='/ts/user/logout'><i class='iconfont icon-iconexit'></i> 退出</a></li></ul></div>");
+						userLoginTip();
 					}
 				}
 			});

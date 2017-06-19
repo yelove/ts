@@ -129,7 +129,7 @@ public class LogInAction {
 		taskExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				AliMailUtil.sample(user.getName(), "密码找回邮件", "点击URL重置您的密码</br><a href='http://www.ba521.com/user/findpw/"+id+"'>http://www.ba521.com/user/findpw/"+id+"</a><br/>");
+				AliMailUtil.sample(user.getName(), "密码找回邮件", "点击URL重置您的密码</br><a href='http://www.bz521.com/user/findpw/"+id+"'>http://www.bz521.com/user/findpw/"+id+"</a><br/>");
 			}
 		});
 		rm.put(CommonStr.STATUS, 1000);
@@ -191,7 +191,7 @@ public class LogInAction {
 			taskExecutor.execute(new Runnable() {
 				@Override
 				public void run() {
-					AliMailUtil.sample(user.getEmail(), "注册成功!", "<a href='http://www.bz521.com'>欢迎来到辈子网!</a><br/>我们是一家以分享个人经历作为交流方式的私密社交网站.在这里可以看到形形色色不同的人生经历,也可以记录自己的点点滴滴.<br/>");
+					AliMailUtil.sample(user.getEmail(), "注册成功!", "<a href='http://www.bz521.com'>欢迎来到碑子网!</a><br/>我们是一家以分享个人经历作为交流方式的私密社交网站.在这里可以看到形形色色不同的人生经历,也可以记录自己的点点滴滴.<br/>");
 				}
 			});
 			request.getSession(true).setAttribute(CommonStr.USERNAME, user.getEmail());

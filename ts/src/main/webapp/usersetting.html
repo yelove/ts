@@ -32,12 +32,6 @@
 	href="/ts/assets/libs/select2/css/select2.css">
 <link media="all" type="text/css" rel="stylesheet"
 	href="/ts/assets/css/skins/square/square.css">
-<script type="text/javascript">
-	var user_id = 4501;
-	var play_token = '59342b2630439NKkeB';
-	var username = 'Doom4J';
-	var head_pic = '/img/avatar.jpg';
-</script>
 <script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
 <script src="/ts/all/all.js"></script>
 <script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
@@ -57,7 +51,7 @@
 		class="logo"></i></a>
 	<nav class="nav-header">
 		<ul class="quick-menu">
-			<li data-uk-dropdown><a href="javascript:;"><i
+			<li id="userlogin"  data-uk-dropdown><a href="javascript:;"><i
 					class="iconfont icon-user"></i> <span class="i uk-icon-angle-down"></span>
 			</a>
 			<div class="lomenu uk-dropdown uk-dropdown-flip dropdown-arrow-up">
@@ -81,7 +75,7 @@
 		<div class="h-title">
 			<div class="uk-container uk-container-center">
 				<h2 class="uk-h2">
-					<a href="/user.html"><span style="color: #fff;" id="nickname"></span></a> 的个人中心 <small>修改你的基本资料,方便我们匹配您感兴趣的话题!</small>
+					<a href="/user.html"><span style="color: #fff;" id="nickname"></span> 的个人中心 </a><small>修改你的基本资料,方便我们匹配您感兴趣的话题!</small>
 				</h2>
 			</div>
 		</div>
@@ -221,6 +215,8 @@
 		});
 	</script>
 	<script
+		src="/ts/assets/js/bzcom.js"></script>
+	<script
 		src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
 	<script type="text/javascript">
 	$.ajaxSetup({
@@ -250,6 +246,7 @@
 						});
 						$("input[name='sex'][value="+res.user.sex+"]").attr("checked","checked");
 						$("input[name='sex'][value="+res.user.sex+"]").parent().addClass("checked");
+						userLoginTip();
 					}else{
 						location.href = "/";
 					}

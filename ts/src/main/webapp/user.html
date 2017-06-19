@@ -62,7 +62,7 @@ p{ word-wrap:break-word; word-break:normal;}
 		class="logo"></i></a>
 	<nav class="nav-header">
 		<ul class="quick-menu">
-			<li data-uk-dropdown><a href="javascript:;"><i
+			<li id="userlogin"  data-uk-dropdown><a href="javascript:;"><i
 					class="iconfont icon-user"></i> <span class="i uk-icon-angle-down"></span>
 			</a>
 			<div class="lomenu uk-dropdown uk-dropdown-flip dropdown-arrow-up">
@@ -87,9 +87,9 @@ p{ word-wrap:break-word; word-break:normal;}
 			<div class="uk-container uk-container-center">
 				<h2 class="uk-h2">
 					<span class="h2-icon"></span><span id="username"> </span><span class="h2-icon">
-					</span> <a href="/usersetting.html"
+					</span> <a href="/useravatar.html"
 						class="uk-button uk-button-small uk-button-borderd"><i
-						class="uk-icon-pencil"></i> 编辑</a> <small class="my-intro">个性签名：<span id="signature">暂无</span></small>
+						class="uk-icon-pencil"></i> 编辑个人信息</a> <small class="my-intro">个性签名：<span id="signature">暂无</span></small>
 				</h2>
 			</div>
 		</div>
@@ -265,6 +265,7 @@ p{ word-wrap:break-word; word-break:normal;}
 							value.id+"' onclick='doEdit(this)' type='button' class='plbtn uk-button'>修改</button></article></li><hr style='border-top: 1px solid #8a7777;'/>";
 						});
 						$('#mine').html(booklis);
+						userLoginTip();
 					}else{
 						location.href = "/";
 					}
@@ -275,6 +276,8 @@ p{ word-wrap:break-word; word-break:normal;}
 			show()
 		});
 	</script>
+	<script
+		src="/ts/assets/js/bzcom.js"></script>
 	<script
 		src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
 	<script type="text/javascript">
@@ -318,8 +321,6 @@ p{ word-wrap:break-word; word-break:normal;}
 				$("img.lazy1").trigger("sporty");
 			});
 		});
-	</script>
-	<script type="text/javascript">
 	(function () {
 	    // 获取 wangEditor 构造函数和 jquery
 	    var E = window.wangEditor;
