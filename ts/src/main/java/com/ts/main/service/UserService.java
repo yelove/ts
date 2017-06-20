@@ -1,8 +1,6 @@
 package com.ts.main.service;
 
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -68,24 +66,18 @@ public class UserService {
 		userRedisService.hSet(RedisService.USER_KEY, String.valueOf(user.getId()), user);
 	}
 
-	public User getUserBiIdWithCache(final Long uid) {
-		try {
-			return userCache.get(String.valueOf(uid), new Callable<User>() {
-
-				@Override
-				public User call() throws Exception {
-					User user = userRedisService.hGet(RedisService.USER_KEY, String.valueOf(uid));
-					if (null == user) {
-						user = userMapper.selectByPrimaryKey(uid);
-					}
-					return user;
-				}
-
-			});
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-			return null;
+	public User getUserBiIdWithCache(Long uid) {
+		String uidstr = String.valueOf(uid);
+		User user = userCache.getIfPresent(uidstr);
+		if(null==user){
+			user = userRedisService.hGet(RedisService.USER_KEY, uidstr);
+			if (null == user) {
+				user = userMapper.selectByPrimaryKey(uid);
+			}else{
+				putUser(user);
+			}
 		}
+		return user;
 	}
 
 	public User getUserByName(String name) {

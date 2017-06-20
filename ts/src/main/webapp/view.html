@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token"
 	content="WLiEfeSJaRU4DCNQDumn1Ji5znkHotmL6lTYW18f">
-<title>个人主页-TS.COM</title>
+<title>个人主页-Bz521.com</title>
 <link type="application/opensearchdescription+xml" href="opensearch.xml"
 	title="TS.COM" rel="search" />
 <link media="all" type="text/css" rel="stylesheet"
@@ -27,13 +27,39 @@
 	href="/ts/assets/css/introjs.css">
 <link media="all" type="text/css" rel="stylesheet"
 	href="/ts/assets/css/style.css">
-<link media="all" type="text/css" rel="stylesheet"
-	href="/ts/assets/libs/select2/css/select2.css">
+<style type="text/css">
+.div_d1 {
+	margin-left: 0px;
+	margin-top: 10px;
+	display: none;
+}
+.btn_d1{
+float:right;position:relative;color:#d8a868;
+}
+.fbt_d1{
+font-size: 13px;color: #999;
+}
+.avatar_1{
+    width: 2.7rem;
+    height: 2.7rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: inline-block;
+    background-position: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.p_dd{
+word-wrap:break-word; word-break:normal;color: #fff;
+}
+</style>
 <script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
 <script src="/ts/all/all.js"></script>
 <script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
-<script src='//cdn.bootcss.com/socket.io/1.7.3/socket.io.min.js'></script>
-<link rel="icon" href="/ts/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="http://zsypt.oss-cn-shanghai.aliyuncs.com/bz32.png"
+	type="image/png" />
+<link rel="shortcut icon" href="http://zsypt.oss-cn-shanghai.aliyuncs.com/bz32.png"
+	type="image/png" />
 <!--[if lt IE 9]> <script src="/ts/assets/js/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="/ts/assets/js/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 </head>
 <body>
@@ -41,7 +67,7 @@
 	<div id="h5music" class="jp-jplayer"></div>
 	<div class="background-cover-img img-ucenter"></div>
 	<div class="background-cover"></div>
-	<a href="/ts" title="TS.COM" class="s-logo"><i class="logo"></i></a>
+	<a href="/ts" title="bz521.com" class="s-logo"><i class="logo"></i></a>
 	<div class="header">
 		<div class="h-title">
 			<div class="uk-container uk-container-center">
@@ -72,23 +98,8 @@
 	<div class="go-up">
 		<a href=""><i class="uk-icon-chevron-up"></i></a>
 	</div>
-	<script>
-		$(function() {
-			$('.search-type').on(
-					'click',
-					function() {
-						$(this).addClass('uk-active').siblings().removeClass(
-								'uk-active');
-						$('#search-type').val($(this).text());
-						$('#web-search-content').val('');
-					});
-			$('#website-search-form').on('submit', function() {
-				if ($('#web-search-content').val() == '') {
-					return false;
-				}
-			});
-		});
-	</script>
+	<script
+		src="/ts/assets/js/bzcom.js"></script>
 	<script type="text/javascript">
 		var next_page_url = "/ts/book/getview";
 		var end = 0;
@@ -147,8 +158,19 @@
 								var booklis = "<dl class='uk-description-list-line'>";
 								$.each(bookview, function(n, value) {
 									booklis += "<dt class='uk-text-success'>"
-											+ value.markdate + "</dt>";
+											+ value.interval + "</dt>";
 									booklis += "<dd>" + value.text + "</dd>";
+									booklis +="<div><div class='uk-grid'><div class='uk-width-8-10'>&nbsp;</div><a href='javascript:zanbook("
+										+ value.id
+										+ ");' val='90' class='like uk-width-1-10'><i class='uk-icon-thumbs-o-up' style='margin-top: 8px;'></i> (<span id='bkzan"+value.id+"' class='zan'>"
+										+ value.praisenum
+										+ "</span>)</a> <button onclick='showComment("
+										+ value.id
+										+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>";
+										if(value.commentnum>0){
+											booklis +=value.commentnum+"条";
+										}
+										booklis += "评论</button></div><div id='showcmt"+value.id+"' class='plk_div div_d1'></div></div>";
 								});
 								booklis += "</dl>";
 
@@ -168,7 +190,7 @@
 								UIkit.notify('你访问的用户不存在', {
 									status : 'danger'
 								});
-								setTimeout("gofpage();", 3000);
+								setTimeout("gofpage();", 2000);
 							}
 						}
 					});
@@ -176,62 +198,13 @@
 		$(window).bind('scroll', function() {
 			show()
 		});
-	</script>
-	<script src="/ts/vendor/jquery_lazyload/jquery.lazyload.min.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			$("img.lazy1").lazyload({
-				event : "sporty"
-			});
-			getView(1);
-			$('#i-skin')
-					.on(
-							'click',
-							'.skin-image',
-							function() {
-								var skin_id = $(this).attr('val');
-								if ($(this).hasClass('uk-active')) {
-									$(this).removeClass('uk-active');
-									if (user_id > 0) {
-										updateSkin(0);
-									} else {
-										$.cookie('skin_id', 0);
-									}
-									$('.background-cover-img').css(
-											'background', '').addClass(
-											'img-index');
-								} else {
-									$('#i-skin').find('.skin-image')
-											.removeClass('uk-active');
-									$(this).addClass('uk-active');
-									$('.background-cover-img')
-											.css(
-													'background',
-													'url('
-															+ $(this)
-																	.find('img')
-																	.attr(
-																			'data-src')
-															+ ') no-repeat fixed center top / cover');
-									if (user_id > 0) {
-										updateSkin(skin_id);
-									} else {
-										$.cookie('skin_id', skin_id, {
-											expires : 7
-										});
-									}
-								}
-							});
-			$('.icon-skin').on('click', function() {
-				$("img.lazy1").trigger("sporty");
-			});
-		});
-	</script>
-	<script type="text/javascript">
 		$.ajaxSetup({
 			headers : {
 				'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
 			}
+		});
+		$(function() {
+			getView(1);
 		});
 	</script>
 </body>
