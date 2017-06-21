@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.ts.main.bean.Pager;
 import com.ts.main.bean.model.Mission;
 import com.ts.main.bean.model.UserMission;
 import com.ts.main.mapper.MissionMapper;
@@ -197,6 +198,7 @@ public class MissionService {
 //		}
 		System.out.println(new Date(TimeUtils4book.getTimesmorning()));
 		System.out.println(new Date(TimeUtils4book.getTimesmorning()+24*3600*1000));
+		System.out.println(new Date().getTime());
 	}
 
 
@@ -209,6 +211,17 @@ public class MissionService {
 		um.setCreatetime(System.currentTimeMillis());
 		um.setUpdatetime(System.currentTimeMillis());
 		return umMapper.insert(um);
+	}
+
+
+	public Pager<Mission> queryMissionPage(Integer ctpg, String qstr, String stime, String etime) {
+		Pager<Mission> pg = new Pager<Mission>();
+		Long starttime = null==stime?null:TimeUtils4book.str2date(stime, TimeUtils4book.yMd_).getTime();
+		Long endtime = null==etime?null:TimeUtils4book.str2date(etime, TimeUtils4book.yMd_).getTime()+24*360000L;
+		pg.setCurrentPage(ctpg);
+		pg.setTotalSize(missionMapper.selectTotal(qstr, starttime, endtime));
+		pg.setReList(missionMapper.selectForPage(qstr, starttime, endtime));
+		return pg;
 	}
 
 

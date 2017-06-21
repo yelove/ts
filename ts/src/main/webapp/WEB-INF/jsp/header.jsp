@@ -12,7 +12,7 @@
 <link href="/assets/css/font-awesome.css" rel="stylesheet" />
 <link href="/assets/css/basic.css" rel="stylesheet" />
 <link href="/assets/css/custom.css" rel="stylesheet" />
- 
+<link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 </head>
 <body>
 	<div id="wrapper">

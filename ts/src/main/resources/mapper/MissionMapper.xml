@@ -159,6 +159,36 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from mission
+    from mission where mstatus > -1
+  </select>
+  
+  <select id="selectForPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mission where mstatus > -1
+    <if test="qstr != null" >
+       and  mission like CONCAT('%',#{qstr,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="starttime != null" >
+       and  startdate &gt;=  #{starttime,jdbcType=BIGINT}
+    </if>
+    <if test="endtime != null" >
+       and  enddate &lt;=  #{endtime,jdbcType=BIGINT}
+    </if>
+  </select>
+  
+  <select id="selectTotal" resultType="java.lang.Integer">
+    select 
+     count(1) 
+    from mission where mstatus > -1
+    <if test="qstr != null" >
+       and  mission like CONCAT('%',#{qstr,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="starttime != null" >
+       and  startdate &gt;=  #{starttime,jdbcType=BIGINT}
+    </if>
+    <if test="endtime != null" >
+       and  enddate &lt;=  #{endtime,jdbcType=BIGINT}
+    </if>
   </select>
 </mapper>

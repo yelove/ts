@@ -25,4 +25,5 @@ public interface UserMissionMapper {
     List<UserMission> selectByUserIdAndDate(@Param("userid")Long userid,@Param("date")Long date,@Param("today")Long today);
     
     List<Long> getAllMissionByUserId(@Param("userid")Long userid);
+
 }

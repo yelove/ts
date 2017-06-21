@@ -1,19 +1,15 @@
 function userLoginTip() {
-	$("#userlogin")
-			.html(
+	$("#userlogin").html(
 					" <a href='/user.html'> <i class='iconfont icon-user'></i><span class='i uk-icon-angle-down'></span></a>"
 							+ "<div class='lomenu uk-dropdown uk-dropdown-flip dropdown-arrow-up uk-dropdown-bottom' style='top: 48px; left: 113px;background: #273035;'><ul class='uk-nav uk-nav-dropdown'>"
 							+ "<li><a href='/ts/user.html'><i class='iconfont icon-user'></i> 我的主页</a></li><li><a href='#'><i class='iconfont icon-mail'></i> 我的消息</a></li><li class='uk-nav-divider'></li>"
 							+ "<li><a href='/ts/user/logout'><i class='iconfont icon-iconexit'></i> 退出</a></li></ul></div>");
 };
 function ajaxRead(url, id) {
-	$
-			.ajax({
+	$.ajax({
 				dataType : 'json',
 				url : url,
-				data : {
-					'start' : startnum
-				},
+				data : {'start' : startnum},
 				beforeSend : function() {
 					loading = layer.load(2, {
 						shade : 0
@@ -25,15 +21,12 @@ function ajaxRead(url, id) {
 						if (res.bookhot != null && res.bookhot.length > 0) {
 							var bookhot = eval(res.bookhot);
 							var booklis = "";
-							$
-									.each(
-											bookhot,
-											function(n, value) {
-												booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"
-														+ "<img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsytp.oss-cn-shanghai.aliyuncs.com/"
+							$.each(bookhot,function(n, value) {
+												booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'><a href='/view.html?uid="
+														+ value.userid
+														+ "'><img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsytp.oss-cn-shanghai.aliyuncs.com/"
 														+ value.userImgUrl
-														+ "' width='50' height='50'>"
-														+ "<a href='/view.html?uid="
+														+ "' width='50' height='50'></a><a href='/view.html?uid="
 														+ value.userid
 														+ "'><h4 class='uk-comment-title'>"
 														+ value.tsno
@@ -53,8 +46,7 @@ function ajaxRead(url, id) {
 														+ value.id
 														+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>";
 												if (value.commentnum > 0) {
-													booklis += value.commentnum
-															+ "条";
+													booklis += value.commentnum + "条";
 												}
 												booklis += "评论</button></div><div id='showcmt"
 														+ value.id
@@ -66,11 +58,8 @@ function ajaxRead(url, id) {
 												} else {
 													booklis += "</div>";
 												}
-												$
-														.each(
-																value.nearlist,
-																function(n,
-																		value) {
+												$.each(value.nearlist,
+																function(n,value) {
 																	if (null != value) {
 																		booklis += "<div class='uk-comment-body fbt_d1'> "
 																				+ value.creatdate
@@ -107,17 +96,14 @@ function ajaxRead(url, id) {
 							startnum = startnum + res.bookhot.length;
 						} else {
 							end = 1;
-							$('#' + id)
-									.append(
-											'<p class="uk-text-center" style="color:white;">没有更多了<p>');
+							$('#' + id).append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
 						}
 					}
 				}
 			});
 };
 function getHot(url) {
-	$
-			.ajax({
+	$.ajax({
 				dataType : 'json',
 				url : url,
 				data : {
@@ -127,16 +113,12 @@ function getHot(url) {
 					if (res.status == 1000) {
 						var bookhot = eval(res.bookhot);
 						var booklis = "";
-						$
-								.each(
-										bookhot,
-										function(n, value) {
-											booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'>"
-													+ "<img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsypt.oss-cn-shanghai.aliyuncs.com/"
-													+ (null == value.userImgUrl ? "avatar.jpg"
-															: value.userImgUrl)
-													+ "' width='50' height='50'>"
-													+ "<a href='/view.html?uid="
+						$.each(bookhot,function(n, value) {
+											booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'><a href='/view.html?uid="
+													+ value.userid
+													+ "'><img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsypt.oss-cn-shanghai.aliyuncs.com/"
+													+ (null == value.userImgUrl ? "avatar.jpg" : value.userImgUrl)
+													+ "' width='50' height='50'></a><a href='/view.html?uid="
 													+ value.userid
 													+ "'><h4 class='uk-comment-title'>"
 													+ value.tsno
@@ -156,8 +138,7 @@ function getHot(url) {
 													+ value.id
 													+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>"
 											if (value.commentnum > 0) {
-												booklis += value.commentnum
-														+ "条";
+												booklis += value.commentnum + "条";
 											}
 											booklis += "评论</button></div><div id='showcmt"
 													+ value.id
@@ -169,9 +150,7 @@ function getHot(url) {
 											} else {
 												booklis += "</div>";
 											}
-											$
-													.each(
-															value.nearlist,
+											$.each(value.nearlist,
 															function(n, value) {
 																if (null != value) {
 																	booklis += "<div class='uk-comment-body fbt_d1'> "
@@ -208,9 +187,7 @@ function getHot(url) {
 						startnum = startnum + res.bookhot.length;
 						$('#mine').html(booklis);
 						if (res.bookhot.length < 10) {
-							$('#mine')
-									.append(
-											'<p class="uk-text-center" style="color:white;">没有更多了<p>');
+							$('#mine').append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
 						}
 					}
 				}
@@ -219,9 +196,7 @@ function getHot(url) {
 function submitComment(boid) {
 	var commentstr = $('#bkcmt' + boid).val();
 	if (IsVain(commentstr)) {
-		UIkit.notify('评论的内容不能为空哦', {
-			status : "danger"
-		});
+		UIkit.notify('评论的内容不能为空哦', {status : "danger"});
 		return;
 	}
 	$.ajax({
@@ -237,13 +212,9 @@ function submitComment(boid) {
 				delete showarry[boid.toString()];
 				showComment(boid);
 			} else if (res.status == 1004) {
-				UIkit.notify('登录超时', {
-					status : "danger"
-				});
+				UIkit.notify('登录超时', {status : "danger"});
 			} else {
-				UIkit.notify('评论失败', {
-					status : "danger"
-				});
+				UIkit.notify('评论失败', {status : "danger"});
 			}
 		}
 	})
@@ -253,9 +224,7 @@ function zanbook(boid) {
 		dataType : 'json',
 		type : 'POST',
 		url : '/ts/book/zanbook',
-		data : {
-			'bookid' : boid
-		},
+		data : { 'bookid' : boid},
 		success : function(res) {
 			if (res.status == 1000) {
 				var xz = Number($('#bkzan' + boid).html());
@@ -266,13 +235,9 @@ function zanbook(boid) {
 				}
 				$('#bkzan' + boid).html(xz);
 			} else if (res.status == 1004) {
-				UIkit.notify('登录超时', {
-					status : "danger"
-				});
+				UIkit.notify('登录超时', {status : "danger"});
 			} else {
-				UIkit.notify('服务器异常', {
-					status : "danger"
-				});
+				UIkit.notify('服务器异常', {status : "danger"});
 			}
 		}
 	})
@@ -282,9 +247,7 @@ function zancomment(cmtid) {
 		dataType : 'json',
 		type : 'POST',
 		url : '/ts/book/zancomment',
-		data : {
-			'cmtid' : cmtid
-		},
+		data : {'cmtid' : cmtid},
 		success : function(res) {
 			if (res.status == 1000) {
 				var xz = Number($('#cmtzan' + cmtid).html());
@@ -295,13 +258,9 @@ function zancomment(cmtid) {
 				}
 				$('#cmtzan' + cmtid).html(xz);
 			} else if (res.status == 1004) {
-				UIkit.notify('登录超时', {
-					status : "danger"
-				});
+				UIkit.notify('登录超时', {status : "danger"});
 			} else {
-				UIkit.notify('服务器异常', {
-					status : "danger"
-				});
+				UIkit.notify('服务器异常', {status : "danger"});
 			}
 		}
 	})
@@ -312,14 +271,11 @@ function showComment(boid) {
 		$('#showcmt' + boid).slideUp();
 		delete showarry[boid.toString()];
 	} else {
-		$
-				.ajax({
+		$.ajax({
 					dataType : 'json',
 					type : 'POST',
 					url : '/ts/book/getcomment',
-					data : {
-						'bookid' : boid
-					},
+					data : {'bookid' : boid},
 					success : function(res) {
 						if (res.status == 1000) {
 							var commentHtml = '<div><textarea id="bkcmt'
@@ -331,9 +287,7 @@ function showComment(boid) {
 								commentHtml += '<div class="mt_10">';
 								if (res.bkv.hotList) {
 									commentHtml += '<div><ul>';
-									$
-											.each(
-													res.bkv.hotList,
+									$.each(res.bkv.hotList,
 													function(n, value) {
 														commentHtml += '<li style="display: flex;"><a href="/view.html?uid='
 																+ value.userid
@@ -360,9 +314,7 @@ function showComment(boid) {
 								}
 								if (res.bkv.nomalList) {
 									commentHtml += '<ul>';
-									$
-											.each(
-													res.bkv.nomalList,
+									$.each(res.bkv.nomalList,
 													function(n, value) {
 														commentHtml += '<li style="display: flex;"><a href="/view.html?uid='
 																+ value.userid
@@ -396,9 +348,7 @@ function showComment(boid) {
 							$('#bkcmt' + boid).focus();
 							showarry[boid.toString()] = 1;
 						} else {
-							UIkit.notify('服务器异常', {
-								status : "danger"
-							});
+							UIkit.notify('服务器异常', {status : "danger"});
 						}
 					}
 				})

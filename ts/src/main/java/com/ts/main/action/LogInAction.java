@@ -30,7 +30,6 @@ import com.ts.main.bean.model.Findpw;
 import com.ts.main.bean.model.User;
 import com.ts.main.bean.vo.UserVo;
 import com.ts.main.common.CommonStr;
-import com.ts.main.service.MissionService;
 import com.ts.main.service.UserService;
 import com.ts.main.utils.AliMailUtil;
 import com.ts.main.utils.MD5Tools;
@@ -44,9 +43,6 @@ public class LogInAction {
 
 	@Autowired
 	private UserService uService;
-	
-	@Autowired
-	private MissionService misService;
 
 	@RequestMapping(value = "login", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	public @ResponseBody Map<String, Object> login(User user, HttpServletRequest request) {
@@ -105,7 +101,6 @@ public class LogInAction {
 		User user = (User)obj;
 		mdmap.put("username", user.getEmail());
 		mdmap.put("lastlogintime", user.getUpdatetime());
-		request.setAttribute("mislist", misService.getAllMission());
 		return "main";
 	}
 	

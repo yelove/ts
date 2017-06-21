@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.ts.main.bean.Pager;
 import com.ts.main.bean.model.Book;
 import com.ts.main.bean.model.Mission;
 import com.ts.main.bean.model.User;
@@ -166,8 +167,25 @@ public class MissionAction {
 		return rm;
 	}
 
+	@RequestMapping(value = "query", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> doMission(HttpServletRequest request,@RequestParam(value = "ctpg", required = true)  Integer ctpg,
+			@RequestParam(value = "qstr", required = false)  String qstr,@RequestParam(value = "stime", required = false)  String stime,@RequestParam(value = "etime", required = false)  String etime) {
+		Map<String, Object> rm = new HashMap<String, Object>();
+		if (null==ctpg) {
+			rm.put(CommonStr.STATUS, 1007);
+			return rm;
+		}
+		Pager<Mission> mispag = misService.queryMissionPage(ctpg,qstr,stime,etime);
+		rm.put(CommonStr.STATUS, 1000);
+		rm.put("orderlist", mispag.getReList());
+		rm.put("ctpg", mispag.getCurrentPage());
+		rm.put("maxpg", mispag.getTotalRows());
+		rm.put("maxrow", mispag.getTotalSize());
+		return rm;
+	}
+	
 	@RequestMapping(value = "domission/{mid}/{bid}", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> doMission(HttpServletRequest request, @PathVariable("mid") Long mid,
+	public @ResponseBody Map<String, Object> queryMission(HttpServletRequest request, @PathVariable("mid") Long mid,
 			@PathVariable("bid") Long bid) {
 		Map<String, Object> rm = new HashMap<String, Object>();
 		if (null == mid || mid.longValue() <= 0 || null == bid || bid.longValue() <= 0) {

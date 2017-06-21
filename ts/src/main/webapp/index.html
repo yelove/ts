@@ -348,7 +348,7 @@
 		<div class="uk-modal-dialog uk-grid uk-grid-collapse">
 			<div class="signin animated flipInY" style="position: static;width:100%;">
 			<legend style="padding-bottom: 12px;">
-				<h3>选择一条分享  然后确认完成</h3>
+				<h3>选择一条分享  然后关联话题</h3>
 			</legend>
 			<div class="uk-panel uk-panel-box uk-panel-box-secondary" style="width:100%;padding: 0px;background-color: #fff;">
 				<div class="uk-form-row" style="min-height: 60px">
@@ -357,7 +357,7 @@
 						<td class="uk-width-8-10" style="max-width:480px;">
 						<span class="span_overhidden">12312312321</span>
 						</td>
-						<td class="uk-width-2-10"><a>确认完成</a></td>
+						<td class="uk-width-2-10"><a>关联话题</a></td>
 					</tr>
 					</table>
 				</div>
@@ -516,7 +516,7 @@
 							</div>
 							<p class="doper">
 								 <a href="javascript:;" class="comments" data-res-type="post"
-									data-res-id="88"><i class="uk-icon-comments-o"></i> 去完成</a>
+									data-res-id="88"><i class="uk-icon-comments-o"></i> 去关联</a>
 							</p>
 						</div>
 					</article>
@@ -548,7 +548,6 @@
 		$(function() {
 			var share_id = null;
 			var share_type = 0;
-			
 			var parent_id = 0;
 		});
 		var firstview = 0;
@@ -580,24 +579,26 @@
 									value) {
 								index++;
 								mishtml += '<div class="uk-panel uk-panel-box uk-margin-top">'+
-								'<header class="uk-comment-header"> <h4 class="uk-comment-title">';
+								'<header class="uk-comment-header"> <h4 class="uk-comment-title"><span class="tag-album">';
 								if(index <= res.lit){
 									if(value.mtype=='daily'){
-										mishtml += '<span class="tag-album">日常话题</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+										mishtml += '日常话题';
 									}else if(value.mtype=='week'){
-										mishtml += '<span class="tag-album">周常话题</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+										mishtml += '周常话题';
 									}else if(value.mtype=='holiday'){
-										mishtml += '<span class="tag-album">节日话题</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+										mishtml += '节日话题';
 									}else{
-										mishtml += '<span class="tag-album">特殊话题</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+										mishtml += '特殊话题';
 									}
 								}else{
-									mishtml += '<span class="tag-album">过往话题</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+									mishtml += '过往话题';
 								}
+								mishtml += '</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+								mishtml += '<a href="javascript:doMission('+value.id+');" class="comments" data-res-type="post" data-res-id="88"><i class="uk-icon-comments-o"></i> ';
 								if(value.mstatus==-1){
-									mishtml += '<a class="comments" data-res-type="post" data-res-id="88"><i class="uk-icon-comments-o"></i> 已完成</a></p>';
+									mishtml += '已关联</a></p>';
 								}else{
-									mishtml += '<a href="javascript:doMission('+value.id+');" class="comments" data-res-type="post" data-res-id="88"><i class="uk-icon-comments-o"></i> 去完成</a></p>';
+									mishtml += '去关联</a></p>';
 								}
 							});
 							$("#mislis").html(mishtml);
@@ -710,9 +711,9 @@
 						$.each(res.desc,function(n,value){
 							book4mis_html +='<tr><td class="uk-width-8-10"><span class="span_overhidden span_wh_con">'+value.text;
 							if(value.isdel==9){
-								book4mis_html +='</span></td><td class="uk-width-2-10"><a style="color: black;" >已被完成</a></td></tr>';
+								book4mis_html +='</span></td><td class="uk-width-2-10"><a style="color: black;" >已被关联</a></td></tr>';
 							}else{
-								book4mis_html +='</span></td><td class="uk-width-2-10"><a href="javascript:finishMission('+value.id+','+mid+');">确认完成</a></td></tr>';
+								book4mis_html +='</span></td><td class="uk-width-2-10"><a href="javascript:finishMission('+value.id+','+mid+');">关联话题</a></td></tr>';
 							}
 							
 						});
