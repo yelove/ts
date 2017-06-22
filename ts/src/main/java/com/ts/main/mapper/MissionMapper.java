@@ -25,5 +25,5 @@ public interface MissionMapper {
     
     int selectTotal(@Param("qstr")String qstr,@Param("starttime") Long starttime, @Param("endtime")Long endtime);
 
-	List<Mission> selectForPage(@Param("qstr")String qstr,@Param("starttime") Long starttime, @Param("endtime")Long endtime);
+	List<Mission> selectForPage(@Param("qstr")String qstr,@Param("starttime") Long starttime, @Param("endtime")Long endtime,@Param("start") Integer start, @Param("limit")Integer limit);
 }

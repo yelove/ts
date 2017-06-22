@@ -42,34 +42,43 @@
 </body>
 <script src="assets/js/jquery-2.1.4.min.js"></script>
 <script>
-	function login() {
-		var username = $("#name").val();
-		var password = $("#password").val();
-		if (username == '' || username.length > 64 || password == ''
-				|| password.length > 64) {
-			alert("请输入正确用户名密码");
-		} else {
-			$.ajax({
-				url : "user/adminlogin",
-				type : "POST",
-				data : $("#loginform").serialize(),
-				success : function(rs) {
-					var data = $.parseJSON(rs);
-					if (data.status == 1000) {
-						location.href = 'user/adminmain';
-					} else if (data.status == 1009) {
-						alert("账号不存在");
-					} else if (data.status == 1004) {
-						alert("密码不正确");
-					} else {
-						alert("未知异常!");
-					}
-				},
-				error : function(error) {
+$(document).ready(
+	function() {
+		$('#password').bind('keyup', function(event) {
+			if (event.keyCode == "13") {
+				login();
+			}
+		});
+	}
+)
+function login() {
+	var username = $("#name").val();
+	var password = $("#password").val();
+	if (username == '' || username.length > 64 || password == ''
+			|| password.length > 64) {
+		alert("请输入正确用户名密码");
+	} else {
+		$.ajax({
+			url : "user/adminlogin",
+			type : "POST",
+			data : $("#loginform").serialize(),
+			success : function(rs) {
+				var data = $.parseJSON(rs);
+				if (data.status == 1000) {
+					location.href = 'user/adminmain';
+				} else if (data.status == 1009) {
+					alert("账号不存在");
+				} else if (data.status == 1004) {
+					alert("密码不正确");
+				} else {
 					alert("未知异常!");
 				}
-			});
-		}
+			},
+			error : function(error) {
+				alert("未知异常!");
+			}
+		});
 	}
+}
 </script>
 </html>

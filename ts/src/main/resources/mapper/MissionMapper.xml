@@ -175,6 +175,7 @@
     <if test="endtime != null" >
        and  enddate &lt;=  #{endtime,jdbcType=BIGINT}
     </if>
+    order by startdate desc limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   </select>
   
   <select id="selectTotal" resultType="java.lang.Integer">

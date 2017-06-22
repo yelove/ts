@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +29,7 @@ import com.ts.main.bean.model.UserMission;
 import com.ts.main.common.CommonStr;
 import com.ts.main.service.BookService;
 import com.ts.main.service.MissionService;
+import com.ts.main.utils.TimeUtils4book;
 
 /**
  * @author zsy
@@ -52,22 +54,22 @@ public class MissionAction {
 			rm.put(CommonStr.STATUS, 1000);
 			rmlis.addAll(mislis);
 			Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
-			if(null != obj){
+			if (null != obj) {
 				Long userid = ((User) obj).getId();
 				List<UserMission> umlis = misService.getUserTodayMission(userid);
-				if(!CollectionUtils.isEmpty(umlis)){
-					Map<Long,Object> mp = Maps.newHashMap();
-					for(UserMission um : umlis){
+				if (!CollectionUtils.isEmpty(umlis)) {
+					Map<Long, Object> mp = Maps.newHashMap();
+					for (UserMission um : umlis) {
 						mp.put(um.getMid(), null);
-					}	
-					for(Mission mi : mislis){
-						if(mp.containsKey(mi.getId())){
+					}
+					for (Mission mi : mislis) {
+						if (mp.containsKey(mi.getId())) {
 							mi.setMstatus(-1);
 						}
 					}
 				}
 				List<Mission> mislisod = misService.getOldeMissonByCache(userid);
-				if(!CollectionUtils.isEmpty(mislisod)){
+				if (!CollectionUtils.isEmpty(mislisod)) {
 					rmlis.addAll(mislisod);
 				}
 			}
@@ -78,11 +80,12 @@ public class MissionAction {
 		}
 		return rm;
 	}
-	
+
 	@RequestMapping(value = "finish/{mid}/{bid}", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> finishMission(HttpServletRequest request, @PathVariable("mid") Long mid, @PathVariable("bid") Long bid) {
+	public @ResponseBody Map<String, Object> finishMission(HttpServletRequest request, @PathVariable("mid") Long mid,
+			@PathVariable("bid") Long bid) {
 		Map<String, Object> rm = new HashMap<String, Object>();
-		if (null == bid || bid.longValue() <= 0||null == mid || mid.longValue() <= 0) {
+		if (null == bid || bid.longValue() <= 0 || null == mid || mid.longValue() <= 0) {
 			rm.put(CommonStr.STATUS, 1011);
 			return rm;
 		}
@@ -94,17 +97,17 @@ public class MissionAction {
 			List<Book> bl = bookService.getMineTodayBooks(userid);
 			if (null != bl && bl.size() > 0) {
 				for (Book bk : bl) {
-					if (bid.longValue()==bk.getId().longValue()) {
+					if (bid.longValue() == bk.getId().longValue()) {
 						flag = false;
 					}
 				}
 			}
-			if(!flag){
-				int i = misService.doMission(mid,bid,userid);
-				if(i<1){
+			if (!flag) {
+				int i = misService.doMission(mid, bid, userid);
+				if (i < 1) {
 					rm.put(CommonStr.STATUS, 1007);
 				}
-			}else{
+			} else {
 				rm.put(CommonStr.STATUS, 1002);
 			}
 		} else {
@@ -150,9 +153,10 @@ public class MissionAction {
 						bk.setIsdel(9);
 						xd--;
 					}
-				}if(xd==0){
+				}
+				if (xd == 0) {
 					rm.put(CommonStr.STATUS, 1002);
-				}else{
+				} else {
 					rm.put(CommonStr.DESC, bl);
 				}
 			} else {
@@ -168,14 +172,17 @@ public class MissionAction {
 	}
 
 	@RequestMapping(value = "query", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> doMission(HttpServletRequest request,@RequestParam(value = "ctpg", required = true)  Integer ctpg,
-			@RequestParam(value = "qstr", required = false)  String qstr,@RequestParam(value = "stime", required = false)  String stime,@RequestParam(value = "etime", required = false)  String etime) {
+	public @ResponseBody Map<String, Object> doMission(HttpServletRequest request,
+			@RequestParam(value = "ctpg", required = true) Integer ctpg,
+			@RequestParam(value = "qstr", required = false) String qstr,
+			@RequestParam(value = "stime", required = false) String stime,
+			@RequestParam(value = "etime", required = false) String etime) {
 		Map<String, Object> rm = new HashMap<String, Object>();
-		if (null==ctpg) {
+		if (null == ctpg) {
 			rm.put(CommonStr.STATUS, 1007);
 			return rm;
 		}
-		Pager<Mission> mispag = misService.queryMissionPage(ctpg,qstr,stime,etime);
+		Pager<Mission> mispag = misService.queryMissionPage(ctpg, qstr, stime, etime);
 		rm.put(CommonStr.STATUS, 1000);
 		rm.put("orderlist", mispag.getReList());
 		rm.put("ctpg", mispag.getCurrentPage());
@@ -183,7 +190,7 @@ public class MissionAction {
 		rm.put("maxrow", mispag.getTotalSize());
 		return rm;
 	}
-	
+
 	@RequestMapping(value = "domission/{mid}/{bid}", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> queryMission(HttpServletRequest request, @PathVariable("mid") Long mid,
 			@PathVariable("bid") Long bid) {
@@ -196,6 +203,35 @@ public class MissionAction {
 		if (null != obj) {
 			Long userid = ((User) obj).getId();
 			int i = misService.doMission(mid, bid, userid);
+			if (i > 0) {
+				rm.put(CommonStr.STATUS, 1000);
+			} else {
+				rm.put(CommonStr.STATUS, 1007);
+			}
+		} else {
+			rm.put(CommonStr.STATUS, 1009);
+		}
+		return rm;
+	}
+
+	@RequestMapping(value = "add", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> addMission(HttpServletRequest request,
+			@RequestParam(value = "mgs", required = true) String mgs,
+			@RequestParam(value = "stime", required = true) String stime,
+			@RequestParam(value = "etime", required = false) String etime,
+			@RequestParam(value = "mtype", required = false) String mtype) {
+		Map<String, Object> rm = new HashMap<String, Object>();
+		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
+		if (null != obj) {
+			User user = (User) obj;
+			Mission mis = new Mission();
+			mis.setCreator(user.getEmail());
+			mis.setEnddate(TimeUtils4book.str2date(StringUtils.isEmpty(etime)?stime:etime, TimeUtils4book.yMd_).getTime()+24*3600000l-1);
+			mis.setStartdate(TimeUtils4book.str2date(stime, TimeUtils4book.yMd_).getTime());
+			mis.setMission(mgs);
+			mis.setMtype(mtype);
+			mis.setRank(1);
+			int i = misService.saveMission(mis);
 			if (i > 0) {
 				rm.put(CommonStr.STATUS, 1000);
 			} else {

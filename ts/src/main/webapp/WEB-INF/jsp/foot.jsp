@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%-- js 引用  --%>
-<div id="footer-sec">Copyright &copy; 2016.台卡网络科技有限公司 All rights
+<div id="footer-sec">Copyright &copy; 2017.台卡网络科技有限公司 All rights
 	reserved.</div>
 <div id="dm-notif"></div>
 <script src="/ts/assets/js/jquery-2.1.4.min.js"></script>

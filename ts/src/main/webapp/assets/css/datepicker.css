@@ -121,3 +121,118 @@ a.uk-datepicker-table-muted {
   background: #00a8e6;
   color: #ffffff;
 }
+.height_ct_1 {min-height:100px;max-height:112px;white-space: normal;} 
+.span_overhidden{word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;}
+.span_wh_con{max-width:480px;max-height: 30px;}
+ input[type="radio"] {
+     opacity: 0;
+ }
+ .myradio {
+     display: inline-block;
+     vertical-align: middle;
+     margin: 0;
+     padding: 0;
+     width: 80px;
+     height: 30px;
+     border-radius: 20px;
+     position: relative;
+     overflow: hidden;
+ }
+ .myradio2 {
+     display: inline-block;
+     vertical-align: middle;
+     margin: 0;
+     padding: 0;
+     width: 80px;
+     height: 30px;
+     border-radius: 20px;
+     position: relative;
+     overflow: hidden;
+ }
+ .mrclose {
+     background-color: rgba(232, 232, 232, 0.4);
+ }
+ .mropen {
+     background-color: #607D8B;
+ }
+ .myradio .open, .myradio .close {
+     width: 28px;
+     height: 28px;
+     font-size: 14px;
+     border-radius: 50%;
+     background: #fff;
+     color: #fff;
+     position: absolute;
+     top: 0;
+     left: 0;
+     border: 1px solid #e8e8e8;
+ }
+  .myradio2 .open, .myradio2 .close {
+     width: 28px;
+     height: 28px;
+     font-size: 14px;
+     border-radius: 50%;
+     background: #fff;
+     color: #fff;
+     position: absolute;
+     top: 0;
+     left: 0;
+     border: 1px solid #e8e8e8;
+ }
+ .myradio .open {
+     color: #fff;
+     background-color: #fff;
+ }
+  .myradio2 .open {
+     color: #fff;
+     background-color: #fff;
+ }
+ .hidden { display: none }
+ .disabled {
+     pointer-events: none;
+     cursor: default;
+ }
+ .myradio .close {
+     left: auto;
+     right: 0;
+ }
+  .myradio2 .close {
+     left: auto;
+     right: 0;
+ }
+ .myradio .open:after {
+     content: '过往';
+     position: absolute;
+     top: 0;
+     left: 38px;
+     width: 50px;
+     height: 30px;
+     line-height: 28px;
+ }
+  .myradio2 .open:after {
+     content: '保留';
+     position: absolute;
+     top: 0;
+     left: 38px;
+     width: 50px;
+     height: 30px;
+     line-height: 28px;
+ }
+ .myradio .close:before {
+     content: '当前';
+     position: absolute;
+     top: 0;
+     left: -38px;
+     width: 50px;
+     height: 30px;
+     line-height: 28px;
+ }
+  .myradio2 .close:before {
+     content: '公开';
+     position: absolute;
+     top: 0;
+     left: -38px;
+     width: 50px;
+     height: 30px;
+     line-height: 28px;
+ }

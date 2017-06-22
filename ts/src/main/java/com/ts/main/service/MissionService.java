@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
@@ -19,6 +20,7 @@ import com.google.common.collect.Maps;
 import com.ts.main.bean.Pager;
 import com.ts.main.bean.model.Mission;
 import com.ts.main.bean.model.UserMission;
+import com.ts.main.common.CommonStr;
 import com.ts.main.mapper.MissionMapper;
 import com.ts.main.mapper.UserMissionMapper;
 import com.ts.main.utils.TimeUtils4book;
@@ -83,6 +85,7 @@ public class MissionService {
 		Long nowdt = System.currentTimeMillis();
 		mis.setCreatetime(nowdt);
 		mis.setUpdatetime(nowdt);
+		mis.setMstatus(0);
 		return missionMapper.insert(mis);
 	}
 	
@@ -216,11 +219,11 @@ public class MissionService {
 
 	public Pager<Mission> queryMissionPage(Integer ctpg, String qstr, String stime, String etime) {
 		Pager<Mission> pg = new Pager<Mission>();
-		Long starttime = null==stime?null:TimeUtils4book.str2date(stime, TimeUtils4book.yMd_).getTime();
-		Long endtime = null==etime?null:TimeUtils4book.str2date(etime, TimeUtils4book.yMd_).getTime()+24*360000L;
+		Long starttime = StringUtils.isEmpty(stime)?null:TimeUtils4book.str2date(stime, TimeUtils4book.yMd_).getTime();
+		Long endtime = StringUtils.isEmpty(etime)?null:TimeUtils4book.str2date(etime, TimeUtils4book.yMd_).getTime()+24*360000L;
 		pg.setCurrentPage(ctpg);
 		pg.setTotalSize(missionMapper.selectTotal(qstr, starttime, endtime));
-		pg.setReList(missionMapper.selectForPage(qstr, starttime, endtime));
+		pg.setReList(missionMapper.selectForPage(qstr, starttime, endtime,(ctpg-1)*CommonStr.PAGESIZE,CommonStr.PAGESIZE));
 		return pg;
 	}
 

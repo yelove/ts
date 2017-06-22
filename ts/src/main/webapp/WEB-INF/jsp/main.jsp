@@ -118,11 +118,13 @@
 		if(rsod&&rsod.length>0){
 			$("#noval").hide();
 			var html = "";
+			var xid = 1;
 			for(var i=0;i<rsod.length;i++ ){
-				html +="<tr><td>"+rsod[i].id+"</td><td>"+rsod[i].mission+
-				"</td><td>"+coventType(rsod[i].mtype)+"</td><td>"+coventdate(rsod[i].startdate)+"</td><td>"+coventdate(rsod[i].startdate)+
+				html +="<tr><td>"+xid+"</td><td>"+rsod[i].mission+
+				"</td><td>"+coventType(rsod[i].mtype)+"</td><td>"+getLcTime(rsod[i].startdate)+"</td><td>"+getLcTime(rsod[i].enddate)+
 				"</td><td><button class='btn btn-inverse' onclick='javascript:;'>"+
 				"<i class='glyphicon glyphicon-plus'></i>下架</button></td><tr>";
+				xid++;
 			}
 			$("#orderrs").html(html);
 		}else{
@@ -178,26 +180,28 @@
 			return '特殊话题';
 		}
 	}
-	function coventdate(mtype){
-		return new Date(parseInt(mtype)).toLocaleString().replace(/:\d{1,2}$/,' '); 
+	function coventdate(date){
+		return new Date(date).toLocaleString().replace(/:\d{1,2}$/,' ');  
 	}
 
 	function subOrder() {
 		var mgs = $("#mgs").val();
 		var sdate1 = $("#sdate1").val();
-		var edate1 = $("#edate1").val();
-		if (desc == '' || amount == '' || wwid == '') {
+		if (mgs == '' || sdate1 == '') {
 			alert("请输入完整的话题信息");
 		} else {
 			$.ajax({
-				url : "addorder",
+				url : "/ts/mission/add",
 				type : "POST",
-				data :{'mgs':mgs,'sdate1':sdate1,'edate1':edate1},
+				data :{'mgs':mgs,'stime':sdate1,'etime':$("#edate1").val(),'mtype':$("#mtype").val()},
 				success : function(rs) {
 					var data = $.parseJSON(rs);
 					if (data.status == 1000) {
 						showflag = false;
+						document.getElementById("orderform").reset();
+						$("#addorderbtn").html('创建话题');
 						$("#addorder").hide();
+						queryOrder();
 						alert("添加话题成功");
 					} else if (data.status == 1009) {
 						alert("登录超时");
