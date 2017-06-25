@@ -86,7 +86,11 @@ public class MissionService {
 		mis.setCreatetime(nowdt);
 		mis.setUpdatetime(nowdt);
 		mis.setMstatus(0);
-		return missionMapper.insert(mis);
+		int x = missionMapper.insert(mis);
+		if(x>0){
+			AllMission.add(mis);
+		}
+		return x;
 	}
 	
 	public List<UserMission> getUserMission(Long userid){
@@ -94,7 +98,7 @@ public class MissionService {
 	}
 	
 	public List<UserMission> getUserTodayMission(Long userid){
-		return umMapper.selectByUserIdAndDate(userid, System.currentTimeMillis(),TimeUtils4book.getTimesmorning());
+		return umMapper.selectByUserIdAndDate(userid, System.currentTimeMillis(),TimeUtils4book.getTimesMonthBefore());
 	}
 //	private static Cache<String, List<Long>> USERMISSIONID = CacheBuilder.newBuilder()
 //			.expireAfterAccess(30, TimeUnit.MINUTES).softValues().initialCapacity(128).maximumSize(32768).build();
@@ -120,6 +124,25 @@ public class MissionService {
 		}
 		return AllMission;
 	}
+	
+	public List<Mission> getMissionListByPage(Integer page){
+		List<Mission> pagemislis = Lists.newArrayList();
+		List<Mission> lm = getAllMission();
+		int size = lm.size();
+		int xstart = (page-1)*CommonStr.BIGPAGESIZE;
+		if(xstart>size-1){
+			return pagemislis;
+		}
+		int xmax = xstart+CommonStr.BIGPAGESIZE;
+		if(size<=xmax){
+			xmax = size;
+		}
+		for(int i = size-xstart-1;i>=size-xmax;i--){
+			pagemislis.add(lm.get(i));
+		}
+		return pagemislis;
+	}
+	
 	
 //	private static Cache<String, List<Mission>> USERMISSION_OLD = CacheBuilder.newBuilder()
 //			.expireAfterAccess(30, TimeUnit.MINUTES).softValues().initialCapacity(128).maximumSize(32768).build(); 
@@ -225,6 +248,11 @@ public class MissionService {
 		pg.setTotalSize(missionMapper.selectTotal(qstr, starttime, endtime));
 		pg.setReList(missionMapper.selectForPage(qstr, starttime, endtime,(ctpg-1)*CommonStr.PAGESIZE,CommonStr.PAGESIZE));
 		return pg;
+	}
+
+
+	public Mission getAllMissionById(Long id) {
+		return missionMapper.selectByPrimaryKey(id);
 	}
 
 

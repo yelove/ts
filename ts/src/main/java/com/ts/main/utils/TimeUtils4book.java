@@ -83,6 +83,17 @@ public class TimeUtils4book {
 		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTimeInMillis();
 	}
+	
+	public static Long getTimesMonthBefore() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MONTH, -1);
+		cal.add(Calendar.DATE, 0);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		return cal.getTimeInMillis();
+	}
 
 	/**
 	 * @return 本周零点

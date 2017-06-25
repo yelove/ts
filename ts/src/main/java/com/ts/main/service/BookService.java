@@ -25,6 +25,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.ts.main.bean.Pager;
 import com.ts.main.bean.model.Book;
 import com.ts.main.bean.model.BookZan;
 import com.ts.main.bean.model.BookZanKey;
@@ -32,6 +33,7 @@ import com.ts.main.bean.model.User;
 import com.ts.main.bean.vo.BookVo;
 import com.ts.main.bean.vo.ID123;
 import com.ts.main.bean.vo.Page;
+import com.ts.main.common.CommonStr;
 import com.ts.main.mapper.BookMapper;
 import com.ts.main.mapper.BookZanMapper;
 import com.ts.main.utils.TimeUtils4book;
@@ -69,7 +71,7 @@ public class BookService {
 
 	@Autowired
 	UserService userService;
-
+	
 	@Autowired
 	RedisService<ID123> redisService;
 
@@ -370,7 +372,7 @@ public class BookService {
 		}
 		page.setTotalRows(new Long(viewBookidlis.size()));
 		List<Long> pageidlis = viewBookidlis.subList(start - 1,
-				start + PAGE_SIZE > viewBookidlis.size() ? viewBookidlis.size() - 1 : start + PAGE_SIZE - 1);
+				start + PAGE_SIZE > viewBookidlis.size() ? viewBookidlis.size(): start + PAGE_SIZE);
 		List<BookVo> bvolis = Lists.newArrayList();
 		for (final Long id : pageidlis) {
 			Book bk = getBook(id);
@@ -576,6 +578,43 @@ public class BookService {
 		bzk.setCreatetime(System.currentTimeMillis());
 		bookZanMapper.insert(bzk);
 		return 1;
+	}
+	
+	private static Cache<Long, List<Long>> booklistformid = CacheBuilder.newBuilder().softValues()
+			.expireAfterWrite(5, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
+
+	public Pager<BookVo> getBookByMid(Long id,Integer page) {
+		List<Long> bkidlis = booklistformid.getIfPresent(id);
+		if(null==bkidlis){
+			bkidlis = bookMapper.getBookIdListByMid(id);
+			if(CollectionUtils.isEmpty(bkidlis)){
+				//无数据
+				return null;
+			}else{
+				booklistformid.put(id, bkidlis);
+			}
+		}
+		int size = bkidlis.size();
+		int xstart = (page-1)*CommonStr.BIGPAGESIZE;
+		if(xstart>size-1){
+			//分页无数据
+			return null;
+		}
+		Pager<BookVo> bkpage  = new Pager<BookVo>();
+		bkpage.setCurrentPage(page);
+		bkpage.setPageSize(CommonStr.BIGPAGESIZE);
+		int xmax = xstart+CommonStr.BIGPAGESIZE;
+		if(size<=xmax){
+			xmax = size;
+		}
+		List<BookVo> bklis = Lists.newArrayList();
+		for(int i = xstart;i<xmax;i++){
+			Book bk = getBook(bkidlis.get(i));
+			bklis.add(covent(bk));
+		}
+		bkpage.setReList(bklis);
+		bkpage.setTotalSize(bkidlis.size());
+		return bkpage;
 	}
 
 }

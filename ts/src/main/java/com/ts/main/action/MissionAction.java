@@ -3,6 +3,10 @@
  */
 package com.ts.main.action;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,7 @@ import com.ts.main.bean.model.Book;
 import com.ts.main.bean.model.Mission;
 import com.ts.main.bean.model.User;
 import com.ts.main.bean.model.UserMission;
+import com.ts.main.bean.vo.BookVo;
 import com.ts.main.common.CommonStr;
 import com.ts.main.service.BookService;
 import com.ts.main.service.MissionService;
@@ -116,6 +121,71 @@ public class MissionAction {
 		return rm;
 	}
 
+
+	@RequestMapping(value = "submitfinish", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> submitfinishMission(HttpServletRequest request,BookVo bkv,@RequestParam(value = "mid", required = false,defaultValue = "-1")Long mid) {
+		Map<String, Object> rm = new HashMap<String, Object>();
+		if (StringUtils.isEmpty(bkv.getText())|| null == mid || mid <= 0) {
+			rm.put(CommonStr.STATUS, 1011);
+			return rm;
+		}
+		Object obj = request.getSession(true).getAttribute(CommonStr.TKUSER);
+		if (null != obj) {
+			boolean flag = true;
+			Long userid = ((User) obj).getId();
+			List<Mission> mislis = misService.dogetTodayMission();
+			for(Mission misd : mislis){
+				if(mid.equals(misd.getId())){
+					flag = false;
+					break;
+				}
+			}
+			if(flag){
+				mislis= misService.getOldeMissonByCache(userid);
+				for(Mission misd : mislis){
+					if(mid.equals(misd.getId())){
+						flag = false;
+						break;
+					}
+				}
+			}
+			if(flag){
+				rm.put(CommonStr.STATUS, 1007);
+				return rm;
+			}
+			Book bk = new Book();
+			bk.setIsopen(0 == bkv.getIsopen() ? 0 : -1);
+			bk.setUserid(userid);
+			bk.setText(bkv.getText());
+			if (StringUtils.isEmpty(bkv.getMarkdate())) {
+				bk.setMarktime(new Date().getTime());
+			} else {
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				Date markdate = null;
+				try {
+					markdate = df.parse(bkv.getMarkdate());
+				} catch (ParseException e) {
+					e.printStackTrace();
+					rm.put(CommonStr.STATUS, 1011);
+					return rm;
+				}
+				bk.setMarktime(markdate.getTime());
+			}
+			Long bid = bookService.saveBook(bk);
+			if(bid<1){
+				rm.put(CommonStr.STATUS, 1020);
+				return rm;
+			}
+			int i = misService.doMission(mid, bid, userid);
+			if (i < 1) {
+				rm.put(CommonStr.STATUS, 1020);
+			}
+			rm.put(CommonStr.STATUS, 1000);
+		} else {
+			rm.put(CommonStr.STATUS, 1009);
+		}
+		return rm;
+	}
 	@RequestMapping(value = "check/{id}", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> checkMission(HttpServletRequest request, @PathVariable("id") Long id,
 			@RequestParam(value = "tp", required = false) Integer tp) {
@@ -210,6 +280,39 @@ public class MissionAction {
 			}
 		} else {
 			rm.put(CommonStr.STATUS, 1009);
+		}
+		return rm;
+	}
+	
+	@RequestMapping(value = "getall", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> queryAllMission(
+			@RequestParam(value = "page", required = false,defaultValue = "1") Integer page) {
+		Map<String, Object> rm = new HashMap<String, Object>();
+		List<Mission> mx = misService.getMissionListByPage(page);
+		rm.put(CommonStr.TOTALSIZE, misService.getAllMission().size());
+		rm.put(CommonStr.RESULT, mx);
+		rm.put(CommonStr.STATUS, 1000);
+		return rm;
+	}
+	
+	@RequestMapping(value = "getone", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> queryOneMission(
+			@RequestParam(value = "id", required = false,defaultValue = "0") Long id,
+			@RequestParam(value = "page", required = false,defaultValue = "1") Integer page) {
+		Map<String, Object> rm = new HashMap<String, Object>();
+		Mission mis = misService.getAllMissionById(id);
+		if(null==mis){
+			rm.put(CommonStr.STATUS, 1004);
+			return rm;
+		}
+		rm.put(CommonStr.DESC, mis);
+		Pager<BookVo> mx = bookService.getBookByMid(id,page);
+		if(null==mx){
+			rm.put(CommonStr.STATUS, 1002);
+		}else{
+			rm.put(CommonStr.TOTALSIZE, mx.getTotalSize());
+			rm.put(CommonStr.RESULT, mx.getReList());
+			rm.put(CommonStr.STATUS, 1000);
 		}
 		return rm;
 	}

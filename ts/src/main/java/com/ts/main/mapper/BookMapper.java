@@ -60,4 +60,11 @@ public interface BookMapper {
 	 */
 	int delBookCommentSize(Long id);
 
+	/**
+	 * 关联任务 userMission查询 book id list 
+	 * @param id missionId
+	 * @return 排序后的list
+	 */
+	List<Long> getBookIdListByMid(@Param("mid")Long mid);
+
 }

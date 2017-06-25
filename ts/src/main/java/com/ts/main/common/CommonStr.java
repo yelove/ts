@@ -24,6 +24,10 @@ public final class CommonStr {
 	
 	public static final String LIT = "lit";
 	
+	public static final String TOTALSIZE = "totalsize";
+	
 	public static final int PAGESIZE = 20;
+	
+	public static final int BIGPAGESIZE = 40;
 
 }

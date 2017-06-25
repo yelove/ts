@@ -187,6 +187,7 @@ function getHot(url) {
 						startnum = startnum + res.bookhot.length;
 						$('#mine').html(booklis);
 						if (res.bookhot.length < 10) {
+							end = 1;
 							$('#mine').append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
 						}
 					}
@@ -344,7 +345,7 @@ function showComment(boid) {
 								commentHtml += '<p class="uk-text-center" style="color:white;"> 暂时还没有评论<p>';
 							}
 							$('#showcmt' + boid).html(commentHtml);
-							$('#showcmt' + boid).slideDown();
+							$('#showcmt' + boid).slideDown("slow");
 							$('#bkcmt' + boid).focus();
 							showarry[boid.toString()] = 1;
 						} else {
@@ -354,10 +355,40 @@ function showComment(boid) {
 				})
 	}
 };
+/**
+ * js空判断
+ * @param s
+ * @returns {Boolean}
+ */
 function IsVain(s) {
 	if ($.trim(s) == '') {
 		return true;
 	} else {
 		return false;
+	}
+}
+
+/**
+ * js获取url中查询参数
+ * @param name
+ * @returns
+ */
+function GetQueryString(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if (r != null)
+		return unescape(r[2]);
+	return null;
+}
+
+function missionTypeCovent(mtype){
+	if(mtype=='daily'){
+		return '日常话题';
+	}else if(mtype=='week'){
+		return '周常话题';
+	}else if(mtype=='holiday'){
+		return '节日话题';
+	}else{
+		return '特殊话题';
 	}
 }

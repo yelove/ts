@@ -4,8 +4,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="csrf-token"
-	content="aHdDJsiiJgikdT80ZKkQ5K4X7ot8ypRBoqgWHrqM">
 <title>碑子网-Bz521.com</title>
 <meta name="description"
 	content="故事需要铭记 人生需要回忆!">
@@ -79,9 +77,9 @@
 					id="jp-play"><i></i> <i></i> <i></i> <i></i></a></li>
 				<!-- <li><a href="javascript:;" data-uk-toggle="{target:'#i-skin'}"><i
 						class="iconfont icon-skin"></i></a></li> -->
-				<li><a href="#i-search"
-					data-uk-modal="{center:true,bgclose:false}"><i
-						class="iconfont icon-search"></i></a></li>
+				<li><a href="javascript:;"
+					data-uk-toggle="{target:'.dynamic-sidebar'}"><i
+						class="iconfont icon-skin"></i></a></li>
 				<li id="userlogin" data-uk-dropdown>
 							<a href="/ts/signin.html"><i class="iconfont icon-user"></i>登录</a>
 						</li>
@@ -143,7 +141,7 @@
 					                <input type="radio" value="close" checked="checked">
 					            </label>
 					        </p>
-	                    	<input type="" name="markdate" data-uk-datepicker="{maxDate:1,format:'DD.MM.YYYY'} id="form-s-it" class="dateinput" style="border:0px;background-color:transparent;margin-left: 20px;" placeholder="选个时间">
+	                    	<input type="" name="markdate" data-uk-datepicker="{maxDate:1,format:'YYYY-MM-DD'}" id="form-s-it" class="dateinput" style="border:0px;background-color:transparent;margin-left: 20px;" placeholder="选个时间">
 	                    </div>
 					</div>
 					<div class="uk-form-row" style="    margin-top: 10px;" >
@@ -228,30 +226,24 @@
 		</div>
 	</div>
 	<div id="missionwapper" class="uk-modal">
-		<div class="uk-modal-dialog uk-grid uk-grid-collapse" style="background: #ddd;">
+		<div class="uk-modal-dialog uk-grid uk-grid-collapse" style="background: #eee;top:120px;">
 			<div class="signin animated flipInY" style="position: static;width:100%;">
 			<legend style="padding-bottom:0px;">
 				<h3>选择一条分享  然后关联话题</h3>
 			</legend>
 			<div class="uk-panel uk-panel-box uk-panel-box-secondary" style="width:100%;padding: 0px;background-color: #fff;">
-				<div class="uk-form-row" style="min-height: 60px">
+				<div class="uk-form-row" style="min-height: 60px;max-height:130px;OVERFLOW-Y: auto; OVERFLOW-X:hidden;">
 					<table id="book4mistb"  class="uk-table uk-table-hover" style="width:560px;">
-					<tr>
-						<td class="uk-width-8-10" style="max-width:480px;">
-						<span class="span_overhidden">12312312321</span>
-						</td>
-						<td class="uk-width-2-10"><a>关联话题</a></td>
-					</tr>
 					</table>
 				</div>
 			</div>
 			<hr style="margin: 0 0; "/>
 			<div class="uk-panel uk-panel-box uk-panel-box-secondary" style="width:100%;padding: 0px;background-color: #fff;">
-				<button  class="uk-button" style="float:right;margin-right: 30px;display:block;">添加新分享</button>
+				<button id="min_mi_submit_btn" onclick="javascript:minmiSubmit()"  class="uk-button" style="float:right;margin-right: 30px;display:block;">添加新分享</button>
 			</div>
-			<div class="features uk-width-large-10-10 uk-block uk-block-secondary" style="background-color:#202020;;padding-top: 0px;padding-bottom: 0px;">
+			<div id="min_mi_submit_div" class="features uk-width-large-10-10 uk-block uk-block-secondary" style="background-color:#202020;;padding-top: 0px;padding-bottom: 0px;">
 				<div class="uk-container">
-				<form id="addbook" class="uk-form uc-form uk-form-horizontal">
+				<form id="min_addbook" class="uk-form uc-form uk-form-horizontal">
 					<div class="uk-form-row " >
 						<label class="uk-form-label uk-form-controls-text" style="width: 90px;color: #fff;" for="form-s-it">时间点</label>
 						<div class="uk-form-controls uk-form-controls-text " style="margin-left: 5px; " id="date_input">
@@ -263,7 +255,7 @@
 					                <input type="radio" value="close" checked="checked">
 					            </label>
 					        </p>
-	                    	<input type="" name="markdate" data-uk-datepicker="{maxDate:1,format:'DD.MM.YYYY'} id="form-s-it" class="dateinput" style="border:0px;background-color:transparent;margin-left: 20px;border: 1px solid rgb(255, 235, 59);" placeholder="选个时间">
+	                    	<input type="" name="markdate" data-uk-datepicker="{maxDate:1,format:'YYYY-MM-DD'}" id="form-s-it_i" class="dateinput" style="border:0px;background-color:transparent;margin-left: 20px;border: 1px solid rgb(255, 235, 59);" placeholder="选个时间">
 	                    </div>
 					</div>
 					<hr style="margin: 0 0; color: #fff;"/>
@@ -278,13 +270,14 @@
 					                <input type="radio" name="kisopen" value="0" checked="checked">
 					            </label>
 					        </p>
-					        <input type="hidden" id="is_open" name="isopen" value="0" checked="checked">
+					        <input type="hidden" id="is_open_i" name="isopen" value="0" checked="checked">
+					        <input type="hidden" id="mission_id" name="mid" value="-1">
 	                    </div>
 					</div>
 					<hr style="margin: 0 0; color: #fff;"/>
 					<div class="uk-form-row" >
 						<div class="uk-form-controls" style= "margin-left: 0px;margin-bottom: 10px;">
-                             <textarea id="textarea_editor_r" name="text" cols="90" rows="5" placeholder="写点什么..."></textarea>
+                             <textarea id="textarea_editor_r" name="text" cols="90" rows="6" placeholder="写点什么..."></textarea>
                         </div>
 					</div>
 				</form>
@@ -434,18 +427,6 @@
 					<article class="uk-comment" id="post88">
 						话题列表
 						<div id = "mislis" class="uk-comment-body" style="margin-left: 0px">
-							<div class="uk-panel uk-panel-box uk-margin-top">
-								<header class="uk-comment-header">
-									<h4 class="uk-comment-title">
-										<span class="tag-album">日常话题</span><a>汪汪快乐颂 bark, bark, song of
-											happiness</a>
-									</h4>
-								</header>
-							</div>
-							<p class="doper">
-								 <a href="javascript:;" class="comments" data-res-type="post"
-									data-res-id="88"><i class="uk-icon-comments-o"></i> 去关联</a>
-							</p>
 						</div>
 					</article>
 				</div>
@@ -521,7 +502,7 @@
 								}else{
 									mishtml += '过往话题';
 								}
-								mishtml += '</span><a>'+value.mission+'</a></h4></header></div><p class="doper">';
+								mishtml += '</span><a href="/mission.html?mid='+value.id+'">'+value.mission+'</a></h4></header></div><p class="doper">';
 								mishtml += '<a href="javascript:doMission('+value.id+');" class="comments" data-res-type="post" data-res-id="88"><i class="uk-icon-comments-o"></i> ';
 								if(value.mstatus==-1){
 									mishtml += '已关联</a></p>';
@@ -559,7 +540,11 @@
 		                    iopen.css('left',0);
 		                    $(".myradio label").removeClass('disabled');
 		                 },300);
-		                $(".dateinput").hide();
+		                if(typeof($("#missionwapper").attr("aria-hidden"))=="undefined"||$("#missionwapper").attr("aria-hidden")=="true"){
+		                	$("#form-s-it").hide();
+		                }else{
+		                	$("#form-s-it_i").hide();
+		                }
 		            }
 		            function close(){
 		                iclose.animate({left:"0px"},100);
@@ -569,7 +554,11 @@
 		                    iclose.css('left','50px');
 		                    $(".myradio label").removeClass('disabled');
 		                 },300);
-		                $(".dateinput").show();
+		                if(typeof($("#missionwapper").attr("aria-hidden"))=="undefined"||$("#missionwapper").attr("aria-hidden")=="true"){
+		                	$("#form-s-it").show();
+		                }else{
+		                	$("#form-s-it_i").show();
+		                }
 		            }
 		        });
 		        $(".myradio2 input").click(function(e){
@@ -595,7 +584,11 @@
 		                    iopen.css('left',0);
 		                    $(".myradio2 label").removeClass('disabled');
 		                 },300);
-		                $("#is_open").val(0);
+		                if(typeof($("#missionwapper").attr("aria-hidden"))=="undefined"||$("#missionwapper").attr("aria-hidden")=="true"){
+		                	$("#is_open").val(0);
+		                }else{
+		                	$("#is_open_i").val(0);
+		                }
 		            }
 		            function close(){
 		                iclose.animate({left:"0px"},100);
@@ -605,7 +598,11 @@
 		                    iclose.css('left','50px');
 		                    $(".myradio2 label").removeClass('disabled');
 		                 },300);
-		                $("#is_open").val(-1);
+		                if(typeof($("#missionwapper").attr("aria-hidden"))=="undefined"||$("#missionwapper").attr("aria-hidden")=="true"){
+		                	$("#is_open").val(-1);
+		                }else{
+		                	$("#is_open_i").val(-1);
+		                }
 		            }
 		        })
 		});
@@ -635,22 +632,32 @@
 				type : 'GET',
 				dataType : 'json',
 				success : function(res) {
-					if (res.status == 1000) {
+					if (res.status == 1000||res.status == 1002) {
 						var book4mis_html = '';
-						$.each(res.desc,function(n,value){
-							book4mis_html +='<tr><td class="uk-width-8-10"><span class="span_overhidden span_wh_con">'+value.text;
-							if(value.isdel==9){
-								book4mis_html +='</span></td><td class="uk-width-2-10"><a style="color: black;" >已被关联</a></td></tr>';
-							}else{
-								book4mis_html +='</span></td><td class="uk-width-2-10"><a href="javascript:finishMission('+value.id+','+mid+');">关联话题</a></td></tr>';
-							}
-							
-						});
+						if(null==editor2){
+							editor2 = new wangEditor('textarea_editor_r');
+							editor2.config.menus = ['img' ,'emotion'];
+					    	editor2.create();
+						}
+						if(res.status == 1000){
+							$.each(res.desc,function(n,value){
+								book4mis_html +='<tr><td class="uk-width-8-10"><span class="span_overhidden span_wh_con">'+value.text;
+								if(value.isdel==9){
+									book4mis_html +='</span></td><td class="uk-width-2-10"><a style="color: black;" >已被关联</a></td></tr>';
+								}else{
+									book4mis_html +='</span></td><td class="uk-width-2-10"><a href="javascript:finishMission('+value.id+','+mid+');">关联话题</a></td></tr>';
+								}
+							});
+							$("#min_mi_submit_div").hide();
+						};
+						if(res.status == 1002){
+							$("#min_mi_submit_btn").html("提交你的分享");
+						}else{
+							$("#min_mi_submit_btn").html("添加新分享");
+						}
+						$("#mission_id").val(mid);
 						$("#book4mistb").html(book4mis_html);
 						UIkit.modal('#missionwapper', {center : true}).show();
-						editor2 = new wangEditor('textarea_editor_r');
-						editor2.config.menus = ['img' ,'emotion'];
-				    	editor2.create();
 						return false;
 					}else if(res.status == 1009){
 						UIkit.notify('您没有登录,或登录超时',{status : "danger"});
@@ -688,6 +695,36 @@
 						UIkit.notify('参数错误哟',{status : "danger"});
 					}else if(res.status == 1007){
 						UIkit.notify('不能提交以前的话题哟',{status : "warning"});
+					}else {
+						UIkit.notify('未知错误,可能是服务器异常哟',{status : "danger"});
+					}
+				}
+    		})
+    	}
+    	function minmiSubmit(){
+    		var btntext = $("#min_mi_submit_btn").html();
+    		if(btntext!="提交你的分享"){
+    			$("#min_mi_submit_div").show();
+    			$("#min_mi_submit_btn").html("提交你的分享");
+    			return;
+    		}
+    		var formdt = $("#min_addbook").serializeJson();
+    		$.ajax('/ts/mission/submitfinish',{
+    			type : 'POST',
+    			data : formdt,
+				dataType : 'json',
+				success : function(res) {
+					if (res.status == 1000) {
+						UIkit.notify('恭喜您成功完成话题！',{status : "success"});
+						$("#min_mi_submit_div").hide();
+		    			$("#min_mi_submit_btn").html("添加新分享");
+						UIkit.modal('#missionwapper', {center : true}).hide();
+					}else if(res.status == 1009){
+						UIkit.notify('登录超时了哟',{status : "danger"});
+					}else if(res.status == 1011||res.status == 1002){
+						UIkit.notify('参数错误哟',{status : "danger"});
+					}else if(res.status == 1007){
+						UIkit.notify('这不在今天话题范围内',{status : "warning"});
 					}else {
 						UIkit.notify('未知错误,可能是服务器异常哟',{status : "danger"});
 					}

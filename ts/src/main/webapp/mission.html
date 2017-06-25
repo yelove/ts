@@ -4,9 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="csrf-token"
-	content="WLiEfeSJaRU4DCNQDumn1Ji5znkHotmL6lTYW18f">
-<title>热评列表-Bz521.com</title>
+<title>任务列表-Bz521.com</title>
 <link type="application/opensearchdescription+xml" href="opensearch.xml"
 	title="Bz521.com" rel="search" />
 <link media="all" type="text/css" rel="stylesheet"
@@ -42,12 +40,10 @@
 .uk-comment-header {
 	filter: alpha(Opacity = 70);
 	-moz-opacity: 0.7;
-	opacity: 0.7;
+	opacity: 1;
 	margin-bottom: 15px;
 	padding: 10px;
-	border: 1px solid #e5e5e5;
 	border-radius: 4px;
-	background: #fafafa;
 }
 .uk-comment-headert {
 	filter: alpha(Opacity = 80);
@@ -107,6 +103,13 @@ font-size: 13px;color: #999;
 .p_dd{
 word-wrap:break-word; word-break:normal; 
 }
+.tag_albumd{
+	border: 1px #edd7b9 solid;
+    color: #edd7b9;
+    font-size: 12px;
+    padding: 1px 3px;
+    margin-right: 10px;
+}
 </style>
 <script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
 <script src="/ts/all/all.js"></script>
@@ -127,11 +130,12 @@ word-wrap:break-word; word-break:normal;
 		<div class="h-title">
 			<div class="uk-container uk-container-center">
 				<ul class="uk-tab">
-					<li class="uk-active"><a href="#">最新日记</a></li>
+					<li><a href="/newest.html">最新日记</a></li>
 					<li><a href="/hottoday.html">24小时最热</a></li>
 					<li><a href="/hotweek.html">本周热评</a></li>
 					<li><a href="/hotmonth.html">本月热评</a></li>
 					<li><a href="/hotyear.html">年度热评</a></li>
+					<li class="uk-active"><a id="mission_list_page" href="#">话题列表</a></li>
 					<li class="uk-disabled"><a href="/">返回主页</a></li>
 				</ul>
 			</div>
@@ -139,18 +143,23 @@ word-wrap:break-word; word-break:normal;
 	</div>
 	<div class="home-layer">
 		<div class="uk-container uk-container-center">
+			<div id="mission_show" class="uk-panel uk-panel-box uk-margin-top" style="display:none;padding:0px">
+				<header class="uk-comment-header"> 
+					<h4 class="uk-comment-title">
+						<span id="mission_type" class="tag-album tag_albumd">周常话题</span><a id="mission_mis" style="color: #fff;font-size: 18px;word-wrap:break-word; word-break:normal; width:100%;">测试话题1</a>
+					</h4>
+				</header>
+			</div>
 			<div class="uk-panel uk-panel-box home-dynamic"
 				data-uk-scrollspy="{cls:'animated', target:'.uk-comment', delay:550}"
 				id="posts-list">
 				<ul id="mine" class="uk-comment-list">
 					<article class="uk-comment">
-						<p style="color: white;">暂无动态</p>
 					</article>
 				</ul>
 			</div>
 		</div>
 	</div>
-
 	<div class="go-up">
 		<a href=""><i class="uk-icon-chevron-up"></i></a>
 	</div>
@@ -167,8 +176,104 @@ word-wrap:break-word; word-break:normal;
 			});
 			$('.uk-nav-sub li.uk-active').parents('.uk-parent').addClass(
 					'uk-active');
-			getHot(next_page_url);
-		});
+			var mid = GetQueryString('mid');
+			if(null!=mid){
+				$('#mission_list_page').attr('href','/ts/mission.html');
+				$.ajax({
+					dataType : 'json',
+					type : 'GET',
+					url : '/ts/mission/getone',
+					data : {'page' : page,'id':mid},
+					success : function(res) {
+						if (res.status == 1000) {
+							$('#mission_type').html(missionTypeCovent(res.desc.mtype));
+							$('#mission_mis').html(res.desc.mission);
+							$('#mission_show').show();
+							var book_formis = eval(res.result);
+							var booklis = "";
+							$.each(book_formis,function(n, value) {
+								booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'><a href='/view.html?uid="
+										+ value.userid
+										+ "'><img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsypt.oss-cn-shanghai.aliyuncs.com/"
+										+ (null == value.userImgUrl ? "avatar.jpg" : value.userImgUrl)
+										+ "' width='50' height='50'></a><a href='/view.html?uid="
+										+ value.userid
+										+ "'><h4 class='uk-comment-title'>"
+										+ value.tsno
+										+ "</h4></a><div class='uk-comment-meta'>"
+										+ value.creatdate
+										+ " | "
+										+ value.interval
+										+ " | #</div></header><div class='uk-comment-body'><p>"
+										+ value.text
+										+ "</p><div><div class='uk-grid'><div class='uk-width-8-10'>&nbsp;</div><a href='javascript:zanbook("
+										+ value.id
+										+ ");' val='90' class='like uk-width-1-10'><i class='uk-icon-thumbs-o-up' style='margin-top: 8px;'></i> (<span id='bkzan"
+										+ value.id
+										+ "' class='zan'>"
+										+ value.praisenum
+										+ "</span>)</a> <button onclick='showComment("
+										+ value.id
+										+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>"
+								if (value.commentnum > 0) {
+									booklis += value.commentnum + "条";
+								}
+								booklis += "评论</button></div><div id='showcmt"
+										+ value.id
+										+ "' class='plk_div div_d1'></div></div>"
+								booklis += "</article></li><hr class='hr_2'/>";
+							});
+							page++;
+							$('#mine').html(booklis);
+							if (res.result.length < 20) {
+								end = 1;
+								$('#mine').append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
+							}
+						}else if(res.status == 1002){
+							$('#mission_type').html(missionTypeCovent(res.desc.mtype));
+							$('#mission_mis').html(res.desc.mission);
+							$('#mine').append(
+									'<article class="uk-comment"><p class="uk-text-center" '+
+									' style="color: white;">还没有人提交该话题的分享哦！赶快提交你的分享,占个沙发吧！</p></article>');
+						}else if(res.status == 1004){
+							UIkit.notify('话题不存在,即将跳转首页...',{status : "danger"});
+							setTimeout(function(){
+								location.href = '/';
+			                 },2500);
+						}else{
+							UIkit.notify('服务器异常', {status : "danger"});
+						}
+					}
+					})
+			}else{
+				$.ajax({
+					dataType : 'json',
+					type : 'GET',
+					url : '/ts/mission/getall',
+					data : {'page' : page},
+					success : function(res) {
+						if (res.status == 1000) {
+							var mis_list = eval(res.result);
+							var mislis = '';
+							$.each(mis_list,function(n, value) {
+								mislis +='<div  class="uk-panel uk-panel-box uk-margin-top" style="padding:0px">'+
+								'<header class="uk-comment-header"><h4 class="uk-comment-title">'+
+								'<span class="tag-album tag_albumd">'+missionTypeCovent(value.mtype)+
+								'</span><a href="/ts/mission.html?mid='+value.id+'" style="color: #fff;font-size: 18px;word-wrap:break-word; word-break:normal; width:100%;">'+
+								value.mission+'</a></h4></header></div>'
+							})
+							page++;
+							$('#mine').html(mislis);
+							if (res.result.length < 20) {
+								end = 1;
+								$('#mine').append('<p class="uk-text-center" style="color:white;">没有更多了<p>');
+							}
+						}else{
+							UIkit.notify('服务器异常', {status : "danger"});
+						}
+					}
+			})
+		}});
 		$.ajaxSetup({
 			headers : {
 				'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
@@ -177,7 +282,7 @@ word-wrap:break-word; word-break:normal;
 		var next_page_url = "/ts/book/newest";
 		var end = 0;
 		var loading = null;
-		var startnum = 1;
+		var page = 1;
 		function show() {
 			if ($(window).scrollTop() + $(window).height() >= $(document)
 					.height()) {

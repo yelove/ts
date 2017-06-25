@@ -77,5 +77,6 @@
 		<property name="queueCapacity" value="500" />
 	</bean>
 	
-	<task:annotation-driven/> 
+	<task:annotation-driven scheduler="myScheduler"/>
+	<task:scheduler id="myScheduler" pool-size="5"/>  
 </beans>

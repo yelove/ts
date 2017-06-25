@@ -229,7 +229,7 @@
 
 	<select id="getMineBookId" parameterType="java.lang.Long"
 		resultType="java.lang.Long">
-		select id from book where isdel=0 and isopen = 0 and userid
+		select id from book where isdel=0 and userid
 		= #{userid,jdbcType=BIGINT} order by createtime desc
 	</select>
 
@@ -253,4 +253,9 @@
 	<update id="delBookCommentSize" parameterType="java.lang.Long">
 		update book set  commentnum = commentnum-1 where id = #{id,jdbcType=BIGINT}
 	</update>
+	
+	<select id="getBookIdListByMid" parameterType="java.lang.Long" resultType="java.lang.Long">
+		select id from book where isdel=0 and isopen=0 and id in (select bkid from usermission where mid = #{mid,jdbcType=BIGINT})
+		order by praisenum desc,createtime desc
+	</select>
 </mapper>
