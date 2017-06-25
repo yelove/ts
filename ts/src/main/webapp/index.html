@@ -48,7 +48,7 @@
 	<div class="background-cover"></div>
 	<aside id="sidebar" class=" uk-width-medium-2-6  uk-hidden-small">
 		<nav class="nav-top">
-			<a href="/" title="TinaS"><i class="logo"></i></a>
+			<a href="/" title="Beizi"><i class="logo"></i></a>
 			<a href="javascript:;" class="nav-leftbar-open animated tada" style="width: 40px;"
 				data-uk-toggle="{target:'.dynamic-sidebar'}"><p style="margin-bottom: 5px;">话题</p><span></span> <span></span>
 				<span></span>
@@ -77,9 +77,9 @@
 					id="jp-play"><i></i> <i></i> <i></i> <i></i></a></li>
 				<!-- <li><a href="javascript:;" data-uk-toggle="{target:'#i-skin'}"><i
 						class="iconfont icon-skin"></i></a></li> -->
-				<li><a href="javascript:;"
+				<li id="mission_bdq"><a href="javascript:;"
 					data-uk-toggle="{target:'.dynamic-sidebar'}"><i
-						class="iconfont icon-skin"></i></a></li>
+						class="iconfont icon-smile" style="-webkit-text-stroke-width: 0px;">话题</i></a></li>
 				<li id="userlogin" data-uk-dropdown>
 							<a href="/ts/signin.html"><i class="iconfont icon-user"></i>登录</a>
 						</li>
@@ -462,6 +462,9 @@
 		var firstview = 0;
 		$(document).ready(
 		function() {
+			if(!browserRedirect()){
+				$("#mission_bdq").hide();
+			}
 			$("#h5music").jPlayer(
 							{ready : function(event) {
 									$(this).jPlayer("setMedia",
@@ -793,6 +796,23 @@
 					}
 				}
 			});
+		};
+		
+		function browserRedirect() { 
+			var sUserAgent= navigator.userAgent.toLowerCase(); 
+			var bIsIpad= sUserAgent.match(/ipad/i) == "ipad"; 
+			var bIsIphoneOs= sUserAgent.match(/iphone os/i) == "iphone os"; 
+			var bIsMidp= sUserAgent.match(/midp/i) == "midp"; 
+			var bIsUc7= sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4"; 
+			var bIsUc= sUserAgent.match(/ucweb/i) == "ucweb"; 
+			var bIsAndroid= sUserAgent.match(/android/i) == "android"; 
+			var bIsCE= sUserAgent.match(/windows ce/i) == "windows ce"; 
+			var bIsWM= sUserAgent.match(/windows mobile/i) == "windows mobile"; 
+			if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) { 
+				return true;
+			} else { 
+				return false; 
+			} 
 		};
 		$.ajaxSetup({
 			headers : {
