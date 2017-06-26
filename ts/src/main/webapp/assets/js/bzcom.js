@@ -24,7 +24,7 @@ function ajaxRead(url, id) {
 							$.each(bookhot,function(n, value) {
 												booklis += "<li><article class='uk-comment uk-comment-primary'><header class='uk-comment-header'><a href='/view.html?uid="
 														+ value.userid
-														+ "'><img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsytp.oss-cn-shanghai.aliyuncs.com/"
+														+ "'><img class='uk-comment-avatar' style='border-radius:0%;' src='http://zsypt.oss-cn-shanghai.aliyuncs.com/"
 														+ value.userImgUrl
 														+ "' width='50' height='50'></a><a href='/view.html?uid="
 														+ value.userid
@@ -237,6 +237,10 @@ function zanbook(boid) {
 				$('#bkzan' + boid).html(xz);
 			} else if (res.status == 1004) {
 				UIkit.notify('登录超时', {status : "danger"});
+			} else if (res.status == 1006) {
+				UIkit.notify('参数异常', {status : "danger"});
+			} else if (res.status == 1008) {
+				UIkit.notify('不可以赞自己哦', {status : "warning"});
 			} else {
 				UIkit.notify('服务器异常', {status : "danger"});
 			}
@@ -260,6 +264,10 @@ function zancomment(cmtid) {
 				$('#cmtzan' + cmtid).html(xz);
 			} else if (res.status == 1004) {
 				UIkit.notify('登录超时', {status : "danger"});
+			} else if (res.status == 1006) {
+				UIkit.notify('参数异常', {status : "danger"});
+			} else if (res.status == 1008) {
+				UIkit.notify('不可以赞自己哦', {status : "warning"});
 			} else {
 				UIkit.notify('服务器异常', {status : "danger"});
 			}
@@ -301,9 +309,9 @@ function showComment(boid) {
 																		+ value.username
 																		+ '</a></div><div><p class="p_dd">'
 																		+ value.comment
-																		+ '</p></div><div><h4 style="float:left;color:white;">'
+																		+ '</p></div><div><h5 style="float:left;color:white;">'
 																		+ value.createTimeStr
-																		+ '</h4><div style="padding-left:20px;float:left;margin-top:-4px"><a onclick="zancomment('
+																		+ '</h5><div style="padding-left:20px;float:left;margin-top:-4px"><a onclick="zancomment('
 																		+ value.id
 																		+ ')"><i class="uk-icon-thumbs-o-up" ></i> (<span id="cmtzan'
 																		+ value.id
@@ -328,9 +336,9 @@ function showComment(boid) {
 																+ value.username
 																+ '</a></div><div><p class="p_dd">'
 																+ value.comment
-																+ '</p></div><div><h4 style="float:left;color:white;">'
+																+ '</p></div><div><h5 style="float:left;color:white;">'
 																+ value.createTimeStr
-																+ '</h4><div style="padding-left:20px;float:left;margin-top:-4px"><a onclick="zancomment('
+																+ '</h5><div style="padding-left:20px;float:left;margin-top:-4px"><a onclick="zancomment('
 																+ value.id
 																+ ')"><i class="uk-icon-thumbs-o-up" ></i> (<span id="cmtzan'
 																+ value.id

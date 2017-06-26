@@ -56,24 +56,28 @@ public class MissionService {
 	
 	public List<Mission> dogetTodayMission(){
 		if(null==toDayMission||toDayMission.isEmpty()){
-			toDayMission = missionMapper.selectMissionByDate(System.currentTimeMillis());
-			if(null==toDayMission||toDayMission.isEmpty()){
-				Random random = new Random();
-				Mission mis = new Mission();
-				mis.setMission(missionTmp.get(random.nextInt(5)));
-				mis.setMstatus(0);
-				mis.setMtype(DAILY);
-				mis.setCreator("system");
-				mis.setRank(1);
-				Long dayfirts = TimeUtils4book.getTimesmorning();
-				mis.setStartdate(dayfirts);
-				mis.setEnddate(dayfirts+(24*3600000)-1);
-				saveMission(mis);
-				toDayMission = missionMapper.selectMissionByDate(System.currentTimeMillis());
-				AllMission = missionMapper.selectAll();
-			}
+			doresetTodayMission();
 		}
 		return jsonClone(toDayMission);
+	}
+	
+	public void doresetTodayMission(){
+		toDayMission = missionMapper.selectMissionByDate(System.currentTimeMillis());
+		if(null==toDayMission||toDayMission.isEmpty()){
+			Random random = new Random();
+			Mission mis = new Mission();
+			mis.setMission(missionTmp.get(random.nextInt(5)));
+			mis.setMstatus(0);
+			mis.setMtype(DAILY);
+			mis.setCreator("system");
+			mis.setRank(1);
+			Long dayfirts = TimeUtils4book.getTimesmorning();
+			mis.setStartdate(dayfirts);
+			mis.setEnddate(dayfirts+(24*3600000)-1);
+			saveMission(mis);
+			toDayMission = missionMapper.selectMissionByDate(System.currentTimeMillis());
+		}
+		AllMission = missionMapper.selectAll();
 	}
 	
 	

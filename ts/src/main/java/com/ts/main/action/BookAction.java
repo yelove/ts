@@ -337,11 +337,22 @@ public class BookAction {
 			rm.put(CommonStr.STATUS, 1004);
 			return rm;
 		}
+		User user = (User) obj;
 		if (null == bookid || bookid < 1) {
 			rm.put(CommonStr.STATUS, 1006);
 			return rm;
+		}else{
+			Book bk = bookService.getBook(bookid);
+			if(null==bk){
+				rm.put(CommonStr.STATUS, 1006);
+				return rm;
+			}else{
+				if(user.getId().equals(bk.getUserid())){
+					rm.put(CommonStr.STATUS, 1008);
+					return rm;
+				}
+			}
 		}
-		User user = (User) obj;
 		rm.put(CommonStr.STATUS, 1000);
 		rm.put(CommonStr.CODE, bookService.bookZan(user.getId(), bookid));
 		return rm;
@@ -356,11 +367,22 @@ public class BookAction {
 			rm.put(CommonStr.STATUS, 1004);
 			return rm;
 		}
+		User user = (User) obj;
 		if (null == cmtid || cmtid < 1) {
 			rm.put(CommonStr.STATUS, 1006);
 			return rm;
+		}else{
+			Comment cmt = commentService.getByid(cmtid);
+			if(null==cmt){
+				rm.put(CommonStr.STATUS, 1006);
+				return rm;
+			}else{
+				if(user.getId().equals(cmt.getUserid())){
+					rm.put(CommonStr.STATUS, 1008);
+					return rm;
+				}
+			}
 		}
-		User user = (User) obj;
 		int ix = commentService.commentZan(user.getId(), cmtid);
 		if (ix==-2) {
 			rm.put(CommonStr.STATUS, 1002);

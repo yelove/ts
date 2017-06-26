@@ -63,6 +63,7 @@
 						<li class="uk-active"><a href="/hottoday.html">今日最热</a></li>
 						<li class="uk-active"><a href="/hotweek.html">本周最热</a></li>
 						<li class="uk-active"><a href="/hotmonth.html">月度最热</a></li>
+						<li class="uk-active"><a href="/mission.html">话题列表</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -72,9 +73,6 @@
 		class="content  uk-push-2-6 uk-width-medium-2-3  ">
 		<nav class="nav-header">
 			<ul class="quick-menu">
-				<li><a href="#" class="jp-play equaliser"><i></i> <i></i>
-						<i></i> <i></i></a> <a href="#" class="jp-pause equaliser active"
-					id="jp-play"><i></i> <i></i> <i></i> <i></i></a></li>
 				<!-- <li><a href="javascript:;" data-uk-toggle="{target:'#i-skin'}"><i
 						class="iconfont icon-skin"></i></a></li> -->
 				<li id="mission_bdq"><a href="javascript:;"
@@ -220,6 +218,7 @@
 						<li class="uk-active"><a href="/hottoday.html">今日最热</a></li>
 						<li class="uk-active"><a href="/hotweek.html">本周最热</a></li>
 						<li class="uk-active"><a href="/hotmonth.html">月度最热</a></li>
+						<li class="uk-active"><a href="/mission.html">话题列表</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -465,21 +464,6 @@
 			if(!browserRedirect()){
 				$("#mission_bdq").hide();
 			}
-			$("#h5music").jPlayer(
-							{ready : function(event) {
-									$(this).jPlayer("setMedia",
-													{
-														title : "Against the World",
-														mp3 : "//mfile.bandari.net/mc-UyDtwDSe/EmotiveDrama/06Against.mp3"
-													}).jPlayer("play");},
-								ended : function() {
-									$(this).jPlayer("play");},
-								swfPath : "/assets/libs/jPlayer/dist/jplayer",
-								supplied : "mp3",
-								cssSelectorAncestor : '#mplaying',
-								wmode : "window",
-								keyEnabled : true
-							});
 				$.ajax('/ts/mission/getmission',{
 					type : 'GET',
 					dataType : 'json',
@@ -624,6 +608,16 @@
 		var user_id = -1;
 		var editor = new wangEditor('textarea_editor');
 		editor.config.menus = ['img' ,'emotion'];
+		editor.config.emotions = {
+				 'weibo': {
+					 title: '微博表情', 
+					 data: '/ts/assets/emotions.json?source=1362404091'
+				 },
+				 'weibo2': {
+					 title: '微博表情2', 
+					 data: '/ts/assets/emotions/emotions.json?source=1362404091'
+				 }
+		};
     	editor.create();
     	var editor2;
     	function doMission(mid){

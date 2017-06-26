@@ -16,6 +16,9 @@ public class TaskSevice {
 
 	@Autowired
 	BookService bookService;
+	
+	@Autowired
+	MissionService missionService;
 
 	/**
 	 * 从数据库拉取最新日记ID列表
@@ -44,6 +47,11 @@ public class TaskSevice {
 	@Scheduled(cron = "7 7 */12 * * ?")
 	public void hotBookAll() {
 		bookService.initHotBook(0);
+	}
+	
+	@Scheduled(cron = "2 1 0 * * ?")
+	public void todayMissionList() {
+		missionService.doresetTodayMission();
 	}
 
 }
