@@ -18,12 +18,14 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.ts.main.bean.Pager;
 import com.ts.main.bean.model.Book;
@@ -31,7 +33,6 @@ import com.ts.main.bean.model.BookZan;
 import com.ts.main.bean.model.BookZanKey;
 import com.ts.main.bean.model.User;
 import com.ts.main.bean.vo.BookVo;
-import com.ts.main.bean.vo.ID123;
 import com.ts.main.bean.vo.Page;
 import com.ts.main.common.CommonStr;
 import com.ts.main.mapper.BookMapper;
@@ -73,138 +74,80 @@ public class BookService {
 	UserService userService;
 	
 	@Autowired
-	RedisService<ID123> redisService;
-
-	@Autowired
 	RedisService<Book> bookredisService;
 
 	@Autowired
 	RedisService<Long> longredisService;
 
-	private static Cache<String, List<ID123>> BOOKLISTCACHE = CacheBuilder.newBuilder().softValues()
-			.expireAfterWrite(3, TimeUnit.MINUTES).initialCapacity(2).build();
+//	private static Cache<String, List<ID123>> BOOKLISTCACHE = CacheBuilder.newBuilder().softValues()
+//			.expireAfterWrite(3, TimeUnit.MINUTES).initialCapacity(2).build();
+//
+//	private static Cache<String, List<ID123>> HOTBOOKLIST = CacheBuilder.newBuilder()
+//			.expireAfterWrite(30, TimeUnit.MINUTES).softValues().initialCapacity(8).build();
+	
+	private static Cache<String,List<Long>> booklist = CacheBuilder.newBuilder()
+			.expireAfterWrite(2, TimeUnit.HOURS).softValues().initialCapacity(8).build();
 
-	private static Cache<String, List<ID123>> HOTBOOKLIST = CacheBuilder.newBuilder()
-			.expireAfterWrite(30, TimeUnit.MINUTES).softValues().initialCapacity(8).build();
-
-	private static Cache<String, Book> book4096 = CacheBuilder.newBuilder().softValues()
+	private static Cache<Long, Book> book4096 = CacheBuilder.newBuilder().softValues()
 			.expireAfterWrite(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
 	private static Cache<String, ConcurrentHashMap<String, Object>> bookzan4096 = CacheBuilder.newBuilder().softValues()
 			.expireAfterWrite(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
 
 	public void intiNewestBook() {
-		if (redisService.setNx("Task_newestBook", 10)) {
-			List<Book> booklis = null;
+		if (longredisService.setNx("Task_newestBook", 3)) {
+			List<Long> booklis = null;
 			boolean flag = false;
-			ID123 id123 = null;
-			if (redisService.exist(NewestBook_List)) {
-				// redis中存在缓存则 已最后一个ID 为起始值查询
-				id123 = redisService.getListFirst(NewestBook_List, ID123.class);
-				booklis = bookMapper.getNewestBook(id123.getBkid());
+			Long bigid;
+			if (longredisService.exist(NewestBook_List)) {
+				// redis中存在缓存则 已最后一个ID 为起始值查询 即 lrange get0
+				bigid = longredisService.getListFirst(NewestBook_List, Long.class);
+				//以缓存中的最大id为基准id从数据库中查询比
+				booklis = bookMapper.getNewestBook(bigid);
 			} else {
 				// 初始化 最新 列表
 				booklis = bookMapper.getAllBookIdAndUserId();
 				flag = true;
 			}
 			if (null == booklis || booklis.size() == 0) {
+				if(!flag){
+					booklist.put(NewestBook_List, longredisService.getLisetinner(NewestBook_List, 0l, 200l, Long.class));
+				}
 				return;
 			}
-			List<ID123> id123Lis = new ArrayList<ID123>(booklis.size());
-			// 过滤map1 主要从用户ID维度去过滤 相当于三条一展视
-			Map<Long, Integer> filtermap = new HashMap<Long, Integer>(booklis.size());
-			// 过滤map2 针对以被缓存的值过滤 记录次新条 然后再从缓存中删除 会损失第四条的展示机会
-			Map<Long, Integer> filtermap2 = new HashMap<Long, Integer>(booklis.size());
-			for (Book book : booklis) {
-				Long userid = book.getUserid();
-				if (filtermap.containsKey(userid)) {
-					if (filtermap.get(userid) % 3 == 0) {
-						filtermap.put(userid, filtermap.get(userid) + 1);
-					} else {
-						filtermap.put(userid, filtermap.get(userid) + 1);
-						continue;
-					}
-				} else {
-					filtermap.put(userid, 1);
-				}
-				List<Long> minebooklis = getMineBookIds(userid);
-				int i = minebooklis.indexOf(book.getId());
-				Long id2 = -1l;
-				Long id3 = -1l;
-				if (minebooklis.size() > i + 1) {
-					id2 = minebooklis.get(i + 1);
-					filtermap2.put(id2, null);
-					if (minebooklis.size() > i + 2) {
-						id3 = minebooklis.get(i + 2);
-					}
-				}
-				id123Lis.add(new ID123(book.getId(), id2, id3));
-			}
 			if (flag) {
-				redisService.addAll2List(NewestBook_List, id123Lis);
+				//全量的id输入需要 rightpush 即 id从大到小 从右边依次添加入list保证 lrange get0是最大值
+				longredisService.addAll2List(NewestBook_List, booklis);
 			} else {
-				if (filtermap2.size() > 0 && null != id123) {
-					if (filtermap2.containsKey(id123.getBkid())) {
-						id123 = redisService.leftPop(NewestBook_List);
-						filtermap2.remove(id123.getBkid());
-					}
-					if (filtermap2.size() > 0) {
-						List<ID123> rediscacheid123Lis = redisService.getListRage(NewestBook_List, 200l, ID123.class);
-						for (ID123 cachedID123 : rediscacheid123Lis) {
-							if (filtermap2.containsKey(cachedID123.getBkid())) {
-								redisService.listRemoveValue(NewestBook_List, 1, cachedID123);
-								filtermap2.remove(cachedID123.getBkid());
-							}
-							if (filtermap2.size() == 0) {
-								break;
-							}
-						}
-					}
-				}
-				redisService.addAll2ListLeft(NewestBook_List, id123Lis);
-				id123Lis = redisService.getListRage(NewestBook_List, 200l, ID123.class);
+				//部分追加 则需要从大到小
+				longredisService.addAll2ListLeft(NewestBook_List, booklis);
 			}
+			booklist.put(NewestBook_List, longredisService.getLisetinner(NewestBook_List, 0l, 200l, Long.class));
 		}
 	}
 
 	public void initHotBook(int day) {
-		if (redisService.setNx("Task_hotBook_" + day, 10)) {
-			List<Book> booklis = bookMapper
+			List<Long> booklis = bookMapper
 					.getHotBook(day == 0 ? 0l : TimeUtils4book.getBefore(new Long(day), TimeUnit.DAYS));
 			if (null == booklis || booklis.size() == 0) {
 				return;
 			}
-			List<ID123> id123Lis = new ArrayList<ID123>(booklis.size());
-			for (Book book : booklis) {
-				List<Long> minebooklis = getMineBookIds(book.getUserid());
-				int i = minebooklis.indexOf(book.getId());
-				Long id2 = -1l;
-				Long id3 = -1l;
-				if (minebooklis.size() > i + 1) {
-					id2 = minebooklis.get(i + 1);
-					if (minebooklis.size() > i + 2) {
-						id3 = minebooklis.get(i + 2);
-					}
-				}
-				id123Lis.add(new ID123(book.getId(), id2, id3));
-			}
 			switch (day) {
 			case 1:
-				HOTBOOKLIST.put(HotBook24H, id123Lis);
+				booklist.put(HotBook24H, booklis);
 				break;
 			case 7:
-				HOTBOOKLIST.put(HotBook7D, id123Lis);
+				booklist.put(HotBook7D, booklis);
 				break;
 			case 30:
-				HOTBOOKLIST.put(HotBook30D, id123Lis);
+				booklist.put(HotBook30D, booklis);
 				break;
 			case 365:
-				HOTBOOKLIST.put(HotBook1Y, id123Lis);
+				booklist.put(HotBook1Y, booklis);
 				break;
 			case 0:
-				HOTBOOKLIST.put(HotBookAll, id123Lis);
+				booklist.put(HotBookAll, booklis);
 				break;
 			}
-		}
 	}
 
 	/**
@@ -231,16 +174,16 @@ public class BookService {
 			fkey = HotBookAll;
 			break;
 		}
-		List<ID123> list = HOTBOOKLIST.getIfPresent(fkey);
+		List<Long> list = booklist.getIfPresent(fkey);
 		if (null == list) {
 			initHotBook(day);
-			list = HOTBOOKLIST.getIfPresent(fkey);
+			list = booklist.getIfPresent(fkey);
 			if (null == list) {
 				return null;
 			}
 		}
 		int size = list.size();
-		List<ID123> rebooklist = Lists.newArrayList();
+		List<Long> rebooklist = Lists.newArrayList();
 		if (1 >= start) {
 			if (size <= PAGE_SIZE) {
 				rebooklist = list;
@@ -258,18 +201,21 @@ public class BookService {
 	 * @return 最新列表是正序查询 不断追加到redis中list的尾部
 	 */
 	public List<BookVo> queryNewest(Integer start) {
-		List<ID123> list = BOOKLISTCACHE.getIfPresent(NewestBook_List);
+		List<Long> list = booklist.getIfPresent(NewestBook_List);
 		if (CollectionUtils.isEmpty(list)) {
-			list = redisService.getListRage(NewestBook_List, 200l, ID123.class);
+			list = longredisService.getListRage(NewestBook_List, 200l, Long.class);
 			if (CollectionUtils.isEmpty(list)) {
 				intiNewestBook();
-				return null;
+				list = booklist.getIfPresent(NewestBook_List);
+				if(CollectionUtils.isEmpty(list)){
+					return null;
+				}
 			} else {
-				BOOKLISTCACHE.put(NewestBook_List, list);
+				booklist.put(NewestBook_List, list);
 			}
 		}
 		int size = list.size();
-		List<ID123> rebooklist = Lists.newArrayList();
+		List<Long> rebooklist = Lists.newArrayList();
 		if (1 >= start) {
 			if (size <= PAGE_SIZE) {
 				rebooklist = list;
@@ -278,8 +224,8 @@ public class BookService {
 			}
 		} else {
 			if (start > size) {
-				rebooklist = redisService.getListRageFreedom(NewestBook_List, start.longValue() - 1,
-						start.longValue() + PAGE_SIZE, ID123.class);
+				rebooklist = longredisService.getListRageFreedom(NewestBook_List, start.longValue() - 1,
+						start.longValue() + PAGE_SIZE, Long.class);
 			} else {
 				rebooklist = list.subList(start - 1, (start + PAGE_SIZE) >= size ? size - 1 : start + PAGE_SIZE - 1);
 			}
@@ -287,24 +233,12 @@ public class BookService {
 		return getBookVoList(rebooklist);
 	}
 
-	private List<BookVo> getBookVoList(List<ID123> rebooklist) {
+	private List<BookVo> getBookVoList(List<Long> rebooklist) {
 		List<BookVo> relist = new ArrayList<BookVo>(rebooklist.size());
-		for (final ID123 id123 : rebooklist) {
-			Book bk = getBook(id123.getBkid());
+		Map<Long,Book> bookmap = getBookBatch(rebooklist);
+		for (Long id : rebooklist) {
+			Book bk = bookmap.get(id);
 			BookVo bkv = covent(bk);
-			Book bk1 = null;
-			Book bk2 = null;
-			if (-1 != id123.getId23()[0]) {
-				bk1 = getBook(id123.getId23()[0]);
-			}
-			if (-1 != id123.getId23()[1]) {
-				bk2 = getBook(id123.getId23()[1]);
-			}
-			if (null != bk1 && null != bk2) {
-				bkv.setNearlist(Lists.newArrayList(covent(bk1), covent(bk2)));
-			} else {
-				bkv.setNearlist(Lists.newArrayList(covent(bk1)));
-			}
 			relist.add(bkv);
 		}
 		return relist;
@@ -330,8 +264,7 @@ public class BookService {
 		int i = bookMapper.insertSelective(book);
 		if (i > 0) {
 			bookredisService.hSet(RedisService.BOOK_KEY, book.getId().toString(), book);
-			// longredisService.add2List(UserBook_List_ALL + book.getUserid(),
-			// book.getId());
+			book4096.put(book.getId(), book);
 			if (book.getIsopen() == 0) {
 				longredisService.add2ListLeft(UserBook_List + book.getUserid(), book.getId());
 			}
@@ -398,7 +331,7 @@ public class BookService {
 	public List<Long> getMineBookIds(Long userid) {
 		List<Long> minebooklis = new ArrayList<Long>();
 		String key = UserBook_List + userid;
-		if (redisService.exist(key)) {
+		if (longredisService.exist(key)) {
 			minebooklis = longredisService.getList(key, Long.class);
 		} else {
 			minebooklis = bookMapper.getMineBookId(userid);
@@ -463,24 +396,9 @@ public class BookService {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private Set<String> foreachGetId(List<ID123> id123list) {
-		Set<String> ls = Sets.newHashSet();
-		for (ID123 id123 : id123list) {
-			ls.add(id123.getBkid().toString());
-			if (-1 != id123.getId23()[0]) {
-				ls.add(id123.getId23()[0].toString());
-			}
-			if (-1 != id123.getId23()[1]) {
-				ls.add(id123.getId23()[1].toString());
-			}
-		}
-		return ls;
-	}
-
 	public Book getBook(final Long id) {
 		try {
-			return book4096.get(id.toString(), new Callable<Book>() {
+			return book4096.get(id, new Callable<Book>() {
 				@Override
 				public Book call() throws Exception {
 					return getBookById(id);
@@ -491,12 +409,48 @@ public class BookService {
 			return null;
 		}
 	}
+	
+	public Map<Long,Book> getBookBatch(List<Long> ids){
+		Map<Long,Book> hdbookmap = Maps.newHashMap();
+		Set<String> idset = Sets.newHashSet();
+		for(Long id:ids){
+			Book bk = book4096.getIfPresent(id);
+			if(null == bk){
+				idset.add(String.valueOf(id));
+			}else{
+				hdbookmap.put(id, bk);
+			}
+		}
+		if(!idset.isEmpty()){
+			List<Object> olis = bookredisService.hGetList(RedisService.BOOK_KEY, idset);
+			if(!CollectionUtils.isEmpty(olis)){
+				for(Object obj : olis){
+					if(null!=obj){
+						Book bk = (Book)obj;
+						hdbookmap.put(bk.getId(), bk);
+						book4096.put(bk.getId(), bk);
+						idset.remove(String.valueOf(bk.getId()));
+					}
+				}
+			}
+			if(!idset.isEmpty()){
+				Map<String,Object> map = Maps.newHashMap();
+				map.put("ids", Lists.newArrayList(idset));
+				List<Book> bklis = bookMapper.getBookList(map);
+				for(Book bk : bklis){
+					hdbookmap.put(bk.getId(), bk);
+					book4096.put(bk.getId(), bk);
+				}
+			}
+		}
+		return hdbookmap;
+	}
 
 	public int update(Book bknew) {
 		int i = bookMapper.updateByPrimaryKeySelective(bknew);
 		if (i > 0) {
 			bookredisService.hSet(RedisService.BOOK_KEY, bknew.getId().toString(), bknew);
-			book4096.put(bknew.getId().toString(), bknew);
+			book4096.put(bknew.getId(), bknew);
 		}
 		return i;
 	}
@@ -514,7 +468,7 @@ public class BookService {
 		Book bk = bookMapper.selectByPrimaryKey(bookid);
 		if (null != bk) {
 			bookredisService.hSet(RedisService.BOOK_KEY, bookid.toString(), bk);
-			book4096.put(bookid.toString(), bk);
+			book4096.put(bookid, bk);
 		}
 	}
 
@@ -543,7 +497,6 @@ public class BookService {
 					}
 					return rcm;
 				}
-
 			});
 		} catch (ExecutionException e) {
 			e.printStackTrace();
@@ -559,8 +512,6 @@ public class BookService {
 		}
 		if (bkzanMap.size() == 0) {
 			bkzanMap.put(String.valueOf(userId), 01);
-			bookzan4096.put(String.valueOf(bookId), bkzanMap);
-		} else {
 			if (bkzanMap.containsKey(String.valueOf(userId))) {
 				bkzanMap.remove(String.valueOf(userId));
 				BookZanKey bzk = new BookZanKey();
@@ -572,12 +523,31 @@ public class BookService {
 				bkzanMap.put(String.valueOf(userId), 01);
 			}
 		}
+		bookzan4096.put(String.valueOf(bookId), bkzanMap);
 		BookZan bzk = new BookZan();
 		bzk.setBookid(bookId);
 		bzk.setUserid(userId);
 		bzk.setCreatetime(System.currentTimeMillis());
 		bookZanMapper.insert(bzk);
 		return 1;
+	}
+	
+	/**??? 还没 更新book中的数量
+	 * @param bookId
+	 * @param userId
+	 * @param flag
+	 */
+	@Transactional
+	public void updateBookZan(Long bookId,Long userId,boolean flag){
+		BookZan bzk = new BookZan();
+		bzk.setBookid(bookId);
+		bzk.setUserid(userId);
+		if(flag){
+			bzk.setCreatetime(System.currentTimeMillis());
+			bookZanMapper.insert(bzk);
+		}else{
+			bookZanMapper.deleteByPrimaryKey(bzk);
+		}
 	}
 	
 	private static Cache<Long, List<Long>> booklistformid = CacheBuilder.newBuilder().softValues()

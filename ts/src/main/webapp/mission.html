@@ -27,6 +27,12 @@
 	href="/ts/assets/css/style.css">
 <link media="all" type="text/css" rel="stylesheet"
 	href="/ts/assets/css/bzcom.css">
+<style type="text/css">
+.uk-comment-header-1 {
+    padding: 10px;
+    border-radius: 4px;
+}
+</style>
 <script src="/ts/assets/js/jquery-2.1.4.min.js"></script>
 <script src="/ts/all/all.js"></script>
 <script src="/ts/vendor/Parsley/dist/parsley.min.js"></script>
@@ -173,7 +179,7 @@
 							var mislis = '';
 							$.each(mis_list,function(n, value) {
 								mislis +='<div  class="uk-panel uk-panel-box uk-margin-top" style="padding:0px">'+
-								'<header class="uk-comment-header"><h4 class="uk-comment-title">'+
+								'<header class="uk-comment-header-1" style=""><h4 class="uk-comment-title">'+
 								'<span class="tag-album tag_albumd">'+missionTypeCovent(value.mtype)+
 								'</span><a href="/ts/mission.html?mid='+value.id+'" style="color: #fff;font-size: 18px;word-wrap:break-word; word-break:normal; width:100%;">'+
 								value.mission+'</a></h4></header></div>'

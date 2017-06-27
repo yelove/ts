@@ -51,45 +51,6 @@ function ajaxRead(url, id) {
 												booklis += "评论</button></div><div id='showcmt"
 														+ value.id
 														+ "' class='plk_div div_d1'></div></div>";
-												var nearlistsizt = value.nearlist.length;
-												if (value.nearlist
-														&& null != value.nearlist[0]) {
-													booklis += "<hr class='hr_1'/></div>";
-												} else {
-													booklis += "</div>";
-												}
-												$.each(value.nearlist,
-																function(n,value) {
-																	if (null != value) {
-																		booklis += "<div class='uk-comment-body fbt_d1'> "
-																				+ value.creatdate
-																				+ "| "
-																				+ value.interval
-																				+ " |  #</div><div class='uk-comment-body'><p>"
-																				+ value.text
-																				+ "</p><div><div class='uk-grid'><div class='uk-width-8-10'>&nbsp;</div><a href='javascript:zanbook("
-																				+ value.id
-																				+ ");' val='90' class='like uk-width-1-10'><i class='uk-icon-thumbs-o-up' style='margin-top: 8px;'></i> (<span id='bkzan"
-																				+ value.id
-																				+ "' class='zan'>"
-																				+ value.praisenum
-																				+ "</span>)</a> <button onclick='showComment("
-																				+ value.id
-																				+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>"
-																		if (value.commentnum > 0) {
-																			booklis += value.commentnum
-																					+ "条";
-																		}
-																		booklis += "评论</button></div><div id='showcmt"
-																				+ value.id
-																				+ "' class='plk_div div_d1'></div>";
-																		if (n < nearlistsizt - 1) {
-																			booklis += "<hr class='hr_1'/></div></div>";
-																		} else {
-																			booklis += "</div></div>";
-																		}
-																	}
-																});
 												booklis += "</article></li><hr class='hr_2'/>";
 											});
 							$('#' + id).append(booklis);
@@ -143,45 +104,7 @@ function getHot(url) {
 											booklis += "评论</button></div><div id='showcmt"
 													+ value.id
 													+ "' class='plk_div div_d1'></div></div>"
-											var nearlistsizt = value.nearlist.length;
-											if (value.nearlist
-													&& null != value.nearlist[0]) {
-												booklis += "<hr class='hr_1'/></div>";
-											} else {
-												booklis += "</div>";
-											}
-											$.each(value.nearlist,
-															function(n, value) {
-																if (null != value) {
-																	booklis += "<div class='uk-comment-body fbt_d1'> "
-																			+ value.creatdate
-																			+ "| "
-																			+ value.interval
-																			+ " |  #</div><div class='uk-comment-body'><p>"
-																			+ value.text
-																			+ "</p><div><div class='uk-grid'><div class='uk-width-8-10'>&nbsp;</div><a href='javascript:zanbook("
-																			+ value.id
-																			+ ");' val='90' class='like uk-width-1-10'><i class='uk-icon-thumbs-o-up' style='margin-top: 8px;'></i> (<span id='bkzan"
-																			+ value.id
-																			+ "' class='zan'>"
-																			+ value.praisenum
-																			+ "</span>)</a> <button onclick='showComment("
-																			+ value.id
-																			+ ")' class='uk-button uk-button-link uk-width-1-10' style='float:right;position:relative;color:#d8a868;'>"
-																	if (value.commentnum > 0) {
-																		booklis += value.commentnum
-																				+ "条";
-																	}
-																	booklis += "评论</button></div><div id='showcmt"
-																			+ value.id
-																			+ "' class='plk_div div_d1'></div>";
-																	if (n < nearlistsizt - 1) {
-																		booklis += "<hr class='hr_1'/></div></div>";
-																	} else {
-																		booklis += "</div></div>";
-																	}
-																}
-															});
+											
 											booklis += "</article></li><hr class='hr_2'/>";
 										});
 						startnum = startnum + res.bookhot.length;

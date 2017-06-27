@@ -196,6 +196,12 @@
 		select
 		<include refid="Base_Column_List" />
 		from book where isdel=0
+		<if test="ids != null">
+			and id in  
+			<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+ 				#{item}  
+ 			</foreach>  
+		</if>
 		<if test="userid != null">
 			and userid = #{userid,jdbcType=BIGINT}
 		</if>
@@ -222,8 +228,8 @@
 		#{userid,jdbcType=BIGINT}
 	</select>
 
-	<select id="getAllBookIdAndUserId" resultMap="BaseResultMap">
-		select id,userid
+	<select id="getAllBookIdAndUserId" resultType="java.lang.Long">
+		select id
 		from book where isdel=0 and isopen = 0 order by createtime desc
 	</select>
 
@@ -234,14 +240,14 @@
 	</select>
 
 	<select id="getNewestBook" parameterType="java.lang.Long"
-		resultMap="BaseResultMap">
-		select id,userid from book where isdel=0 and isopen=0 and id
-		&gt; #{bigid,jdbcType=BIGINT}  order by createtime desc
+		resultType="java.lang.Long">
+		select id from book where isdel=0 and isopen=0 and id
+		&gt; #{bigid,jdbcType=BIGINT}  order by createtime
 	</select>
 
 	<select id="getHotBook" parameterType="java.lang.Long"
-		resultMap="BaseResultMap">
-		select id,userid from book where isdel=0 and isopen=0 and
+		resultType="java.lang.Long">
+		select id from book where isdel=0 and isopen=0 and
 		createtime &gt; #{before,jdbcType=BIGINT} order by praisenum+commentnum
 		desc,createtime desc limit 200
 	</select>

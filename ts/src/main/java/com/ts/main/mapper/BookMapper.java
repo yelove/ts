@@ -27,7 +27,7 @@ public interface BookMapper {
 	/**
 	 * @return 初始化数据时使用 获取所有的日记 id 和对应的用户id
 	 */
-	List<Book> getAllBookIdAndUserId();
+	List<Long> getAllBookIdAndUserId();
 
 	/**
 	 * @param userid
@@ -40,13 +40,13 @@ public interface BookMapper {
 	 * @param id123
 	 * @return 根据id获取最新的日记
 	 */
-	List<Book> getNewestBook(@Param("bigid")Long bigid);
+	List<Long> getNewestBook(@Param("bigid")Long bigid);
 
 	/**
 	 * @param before
 	 * @return 根据不同时间获取 最热
 	 */
-	List<Book> getHotBook(@Param("before")Long before);
+	List<Long> getHotBook(@Param("before")Long before);
 	
 	/**
 	 * @param bookid

@@ -42,9 +42,9 @@ public class UserService {
 
 	@PostConstruct
 	public void initTsNo() throws Exception {
-		long maxtsno = userMapper.getMaxNoUser();
+		Long maxtsno = userMapper.getMaxNoUser();
 		if (maxtsno < 1) {
-			maxtsno = 10000;
+			maxtsno = 10000l;
 		}
 		Long noid = idRedisService.initIncrement(TSNO,maxtsno);
 		noid = idRedisService.getIncrement(TSNO);
