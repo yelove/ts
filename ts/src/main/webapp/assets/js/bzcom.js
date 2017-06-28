@@ -51,7 +51,7 @@ function ajaxRead(url, id) {
 												booklis += "评论</button></div><div id='showcmt"
 														+ value.id
 														+ "' class='plk_div div_d1'></div></div>";
-												booklis += "</article></li><hr class='hr_2'/>";
+												booklis += "</article></li>";
 											});
 							$('#' + id).append(booklis);
 							startnum = startnum + res.bookhot.length;
@@ -105,7 +105,7 @@ function getHot(url) {
 													+ value.id
 													+ "' class='plk_div div_d1'></div></div>"
 											
-											booklis += "</article></li><hr class='hr_2'/>";
+											booklis += "</article></li>";
 										});
 						startnum = startnum + res.bookhot.length;
 						$('#mine').html(booklis);

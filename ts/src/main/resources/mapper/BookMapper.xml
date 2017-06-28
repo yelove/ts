@@ -260,6 +260,10 @@
 		update book set  commentnum = commentnum-1 where id = #{id,jdbcType=BIGINT}
 	</update>
 	
+	<update id="updateBookZan">
+		update book set  praisenum = praisenum + #{num,jdbcType=INTEGER} where id = #{id,jdbcType=BIGINT}
+	</update>
+	
 	<select id="getBookIdListByMid" parameterType="java.lang.Long" resultType="java.lang.Long">
 		select id from book where isdel=0 and isopen=0 and id in (select bkid from usermission where mid = #{mid,jdbcType=BIGINT})
 		order by praisenum desc,createtime desc

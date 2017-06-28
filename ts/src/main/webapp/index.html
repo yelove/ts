@@ -634,6 +634,16 @@
 						if(null==editor2){
 							editor2 = new wangEditor('textarea_editor_r');
 							editor2.config.menus = ['img' ,'emotion'];
+							editor2.config.emotions = {
+									 'weibo': {
+										 title: '微博表情', 
+										 data: '/ts/assets/emotions.json?source=1362404091'
+									 },
+									 'weibo2': {
+										 title: '微博表情2', 
+										 data: '/ts/assets/emotions/emotions.json?source=1362404091'
+									 }
+							};
 					    	editor2.create();
 						}
 						if(res.status == 1000){

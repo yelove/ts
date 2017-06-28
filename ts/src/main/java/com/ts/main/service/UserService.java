@@ -36,7 +36,7 @@ public class UserService {
 	private RedisService<User> userRedisService;
 
 	private static Cache<String, User> userCache = CacheBuilder.newBuilder().softValues()
-			.expireAfterWrite(2, TimeUnit.HOURS).initialCapacity(512).maximumSize(32768).build();
+			.expireAfterWrite(1, TimeUnit.HOURS).initialCapacity(512).maximumSize(32768).build();
 
 	private static final String TSNO = "inc_tsno";
 

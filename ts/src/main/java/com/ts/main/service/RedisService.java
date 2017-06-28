@@ -6,6 +6,7 @@ package com.ts.main.service;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -239,8 +240,17 @@ public class RedisService<T> {
 	 * @param key
 	 * @return 获取mapsize
 	 */
-	public long hSzie(String key) {
+	public Long hSzie(String key) {
 		return redisTemplate.opsForHash().size(key);
+	}
+	
+	/**hash中是否包含这个key
+	 * @param key
+	 * @param hashKey
+	 * @return
+	 */
+	public Boolean hHashKey(String key,String hashKey) {
+		return redisTemplate.opsForHash().hasKey(key, hashKey);
 	}
 
 	/**
@@ -257,7 +267,15 @@ public class RedisService<T> {
 	public List<Object> hGetList(String key, @SuppressWarnings("rawtypes") Set hashKey) {
 		return redisTemplate.opsForHash().multiGet(key, hashKey);
 	}
-
+	
+	/**批量PUT
+	 * @param key
+	 * @param map
+	 */
+	public void hSetAll(String key,Map<String,T> map){
+		redisTemplate.opsForHash().putAll(key, map);
+	}
+	
 	/**
 	 * @param key
 	 * @param hashKey

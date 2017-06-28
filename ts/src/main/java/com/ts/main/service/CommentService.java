@@ -2,22 +2,15 @@ package com.ts.main.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.ts.main.bean.model.Comment;
 import com.ts.main.bean.model.CommentZan;
-import com.ts.main.bean.model.CommentZanKey;
 import com.ts.main.bean.model.User;
 import com.ts.main.bean.vo.CommentDto;
 import com.ts.main.bean.vo.CommentVo;
@@ -47,16 +40,12 @@ public class CommentService {
 	@Autowired
 	RedisService<Comment> commentService;
 	
-	private static Cache<String, ConcurrentHashMap<String, Object>> cmtzan4096 = CacheBuilder.newBuilder().softValues()
-			.expireAfterAccess(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
 
 	/**
 	 * 个人日记前缀
 	 */
 	public static final String BookComment_List = "BkCmt_List_";
 
-	private static Cache<String, Comment> comment4096 = CacheBuilder.newBuilder().softValues()
-			.expireAfterAccess(30, TimeUnit.MINUTES).initialCapacity(512).maximumSize(32768).build();
 
 	public CommentVo getCommentByBookId(Long bookid) {
 		List<Long> lis = commentIdsService.getList(BookComment_List + bookid, Long.class);
@@ -86,7 +75,6 @@ public class CommentService {
 				}
 				rm.put(id, cmt);
 				lis.add(cmt.getId());
-				comment4096.put(String.valueOf(id), cmt);
 				commentService.hSet(RedisService.COMMENT_KEY, String.valueOf(id), cmt);
 			}
 			commentIdsService.addAll2ListLeft(BookComment_List + bookid, lis);
@@ -136,24 +124,14 @@ public class CommentService {
 
 	public Comment getByid(final Long id) {
 		final String key = String.valueOf(id);
-		try {
-			return comment4096.get(key, new Callable<Comment>() {
-				@Override
-				public Comment call() throws Exception {
-					Comment cmt = commentService.hGet(RedisService.COMMENT_KEY, key);
-					if (null == cmt) {
-						cmt = commentMapper.selectByPrimaryKey(id);
-						if (null != cmt) {
-							commentService.hSet(RedisService.COMMENT_KEY, key, cmt);
-						}
-					}
-					return cmt;
-				}
-			});
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-			return null;
+		Comment cmt = commentService.hGet(RedisService.COMMENT_KEY, key);
+		if (null == cmt) {
+			cmt = commentMapper.selectByPrimaryKey(id);
+			if (null != cmt) {
+				commentService.hSet(RedisService.COMMENT_KEY, key, cmt);
+			}
 		}
+		return cmt;
 	}
 
 	public int saveComment(Comment cmt) {
@@ -165,7 +143,6 @@ public class CommentService {
 		bookService.updateBookCommentSize(cmt.getBookid(), true);
 		if (i > 0) {
 			commentService.hSet(RedisService.COMMENT_KEY, String.valueOf(cmt.getId()), cmt);
-			comment4096.put(String.valueOf(cmt.getId()), cmt);
 			commentIdsService.add2ListLeft(BookComment_List + cmt.getBookid(), cmt.getId());
 		}
 		return i;
@@ -177,73 +154,46 @@ public class CommentService {
 		cmt.setIsdel(status.getValue());
 		int i = commentMapper.updateByPrimaryKeySelective(cmt);
 		if (i > 0 && status.getValue() < 0) {
-			comment4096.invalidate(String.valueOf(cmtId));
 			cmt = commentMapper.selectByPrimaryKey(cmtId);
 			commentIdsService.listRemoveValue(BookComment_List + cmt.getBookid(), 1, cmtId);
 		}
 		return i;
 	}
 	
-	private int getCommentZanSize(Long bookId) {
-		ConcurrentHashMap<String, Object> bkzanMap = getCommentZan(bookId);
-		if (null == bkzanMap) {
-			return 0;
-		} else {
-			return bkzanMap.size();
-		}
-	}
-
-	private ConcurrentHashMap<String, Object> getCommentZan(final Long bookId) {
-		ConcurrentHashMap<String, Object> bkzanMap = null;
-		try {
-			bkzanMap = cmtzan4096.get(String.valueOf(bookId), new Callable<ConcurrentHashMap<String, Object>>() {
-				@Override
-				public ConcurrentHashMap<String, Object> call() throws Exception {
-					ConcurrentHashMap<String, Object> rcm = new ConcurrentHashMap<String, Object>();
-					List<Long> lis = commentZanMapper.selectByCommentId(bookId);
-					if (null == lis || lis.size() == 0) {
-						return rcm;
-					}
-					for (Long id : lis) {
-						rcm.put(String.valueOf(id), 1);
-					}
-					return rcm;
-				}
-
-			});
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-			return null;
-		}
-		return bkzanMap;
-	}
+	private static final String CMTZAN = "cmt_zan_";
 	
+	private Long getCommentZanSize(Long cmtid) {
+		Long size =  commentIdsService.hSzie(CMTZAN+cmtid);
+		return size;
+	}
+
 	public int commentZan(Long userId, Long cmtId){
-		ConcurrentHashMap<String, Object> bkzanMap = getCommentZan(cmtId);
-		if (null == bkzanMap) {
-			return -2;
-		}
-		if (bkzanMap.size() == 0) {
-			bkzanMap.put(String.valueOf(userId), 1);
-			cmtzan4096.put(String.valueOf(cmtId), bkzanMap);
-		} else {
-			if (bkzanMap.containsKey(String.valueOf(userId))) {
-				bkzanMap.remove(String.valueOf(userId));
-				CommentZanKey bzk = new CommentZanKey();
-				bzk.setCmtid(cmtId);
-				bzk.setUserid(userId);
-				commentZanMapper.deleteByPrimaryKey(bzk);
-				return -1;
-			} else {
-				bkzanMap.put(String.valueOf(userId), 1);
-			}
-		}
+		String key = CMTZAN+cmtId;
 		CommentZan bzk = new CommentZan();
 		bzk.setCmtid(cmtId);
 		bzk.setUserid(userId);
-		bzk.setCreatetime(System.currentTimeMillis());
-		commentZanMapper.insert(bzk);
-		return 1;
+		if(commentIdsService.hHashKey(key, String.valueOf(userId))){
+			commentIdsService.hDel(key, String.valueOf(userId));
+			commentZanMapper.deleteByPrimaryKey(bzk);
+			return -1;
+		}else{
+			CommentZan cz = commentZanMapper.selectByPrimaryKey(bzk);
+			if(null==cz){
+				bzk.setCreatetime(System.currentTimeMillis());
+				commentZanMapper.insert(bzk);
+				return 1;
+			}else{
+				commentZanMapper.deleteByPrimaryKey(bzk);
+				//初始化
+				List<Long> userid = commentZanMapper.selectByCommentId(bzk.getCmtid());
+				Map<String,Long> map = Maps.newHashMap();
+				for(Long id : userid){
+					map.put(String.valueOf(id), 1l);
+				}
+				commentIdsService.hSetAll(key, map);
+				return -1;
+			}
+		}
 	}
 
 }

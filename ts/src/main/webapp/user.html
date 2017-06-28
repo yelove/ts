@@ -424,6 +424,16 @@ p{ word-wrap:break-word; word-break:normal;}
 		if(0==ccnt){
 			editor = new wangEditor(div);
 			editor.config.menus = ['img' ,'emotion','|','quxiao','|','tijiao'];
+			editor.config.emotions = {
+					 'weibo': {
+						 title: '微博表情', 
+						 data: '/ts/assets/emotions.json?source=1362404091'
+					 },
+					 'weibo2': {
+						 title: '微博表情2', 
+						 data: '/ts/assets/emotions/emotions.json?source=1362404091'
+					 }
+			};
 	    	editor.create();
 	    	editor.$txt.html($('#cnt'+bid).html());
 	    	$(element).hide();

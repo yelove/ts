@@ -107,7 +107,7 @@ public class BookAction {
 			rm.put(CommonStr.STATUS, 1004);
 			return rm;
 		}
-		Book bk = bookService.getBook(id);
+		Book bk = bookService.getBookById(id);
 		if (null == bk || bk.getUserid().longValue() != ((User) obj).getId().longValue()) {
 			rm.put(CommonStr.STATUS, 1006);
 			return rm;
@@ -342,7 +342,7 @@ public class BookAction {
 			rm.put(CommonStr.STATUS, 1006);
 			return rm;
 		}else{
-			Book bk = bookService.getBook(bookid);
+			Book bk = bookService.getBookById(bookid);
 			if(null==bk){
 				rm.put(CommonStr.STATUS, 1006);
 				return rm;

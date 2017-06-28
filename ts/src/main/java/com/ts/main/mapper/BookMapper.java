@@ -66,5 +66,13 @@ public interface BookMapper {
 	 * @return 排序后的list
 	 */
 	List<Long> getBookIdListByMid(@Param("mid")Long mid);
+	
+	/**
+	 *增减 点赞数量
+	 * @param id
+	 * @param num
+	 * @return
+	 */
+	int updateBookZan(@Param("id")Long id,@Param("num")Integer num);
 
 }
