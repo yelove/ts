@@ -2,6 +2,7 @@ package com.ts.main.action;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -350,5 +351,28 @@ public class LogInAction {
 		rm.put(CommonStr.STATUS, 1000);
 		rm.put(CommonStr.DESC, finename);
 		return rm;
+	}
+	
+	@RequestMapping(value = "commonupload", method = RequestMethod.POST)
+	public void uploadfile(
+			@RequestParam(value = "myfile", required = false) MultipartFile file,HttpServletResponse response) throws IOException {
+		String res = "";
+		String finename = "_cmt_" + System.currentTimeMillis() + ".jpg";
+		OSSClient ossClient = new OSSClient(endpoint, AliMailUtil.accessKeyId, AliMailUtil.accessKeySecret);
+		InputStream inputStream;
+		try {
+			inputStream = file.getInputStream();
+			ossClient.putObject("zsypt", finename, inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+			res = "error|服务器上传文件失败";	
+		}
+		res = finename;
+		ossClient.shutdown();
+		response.setContentType("text/text;charset=utf-8");
+        PrintWriter out = response.getWriter();
+        out.print("http://zsypt.oss-cn-shanghai.aliyuncs.com/"+res);  //返回url地址
+        out.flush();
+        out.close();
 	}
 }

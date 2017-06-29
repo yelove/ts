@@ -65,6 +65,7 @@ public class MissionService {
 	}
 
 	public void doresetTodayMission() {
+		if (longredisService.setNx("doresetTodayMission", 3)) {
 		toDayMission = missionMapper.selectMissionByDate(System.currentTimeMillis());
 		if (null == toDayMission || toDayMission.isEmpty()) {
 			Random random = new Random();
@@ -81,6 +82,7 @@ public class MissionService {
 			toDayMission = missionMapper.selectMissionByDate(System.currentTimeMillis());
 		}
 		AllMission = missionMapper.selectAll();
+		}
 	}
 
 	private List<Mission> jsonClone(List<Mission> jso) {

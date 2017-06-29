@@ -464,43 +464,7 @@
 			if(!browserRedirect()){
 				$("#mission_bdq").hide();
 			}
-				$.ajax('/ts/mission/getmission',{
-					type : 'GET',
-					dataType : 'json',
-					success : function(res) {
-						if (res.status == 1000) {
-							var mishtml = "";
-							var index = 0;
-							$.each(res.desc, function(n,
-									value) {
-								index++;
-								mishtml += '<div class="uk-panel uk-panel-box uk-margin-top">'+
-								'<header class="uk-comment-header"> <h4 class="uk-comment-title"><span class="tag-album">';
-								if(index <= res.lit){
-									if(value.mtype=='daily'){
-										mishtml += '日常话题';
-									}else if(value.mtype=='week'){
-										mishtml += '周常话题';
-									}else if(value.mtype=='holiday'){
-										mishtml += '节日话题';
-									}else{
-										mishtml += '特殊话题';
-									}
-								}else{
-									mishtml += '过往话题';
-								}
-								mishtml += '</span><a href="/mission.html?mid='+value.id+'">'+value.mission+'</a></h4></header></div><p class="doper">';
-								mishtml += '<a href="javascript:doMission('+value.id+');" class="comments" data-res-type="post" data-res-id="88"><i class="uk-icon-comments-o"></i> ';
-								if(value.mstatus==-1){
-									mishtml += '已关联</a></p>';
-								}else{
-									mishtml += '去关联</a></p>';
-								}
-							});
-							$("#mislis").html(mishtml);
-						}
-					}
-				});
+			initMission();
 				$(".dateinput").hide();
 				checklogin();
 				getBook123();
@@ -608,6 +572,8 @@
 		var user_id = -1;
 		var editor = new wangEditor('textarea_editor');
 		editor.config.menus = ['img' ,'emotion'];
+		editor.config.uploadImgUrl = '/user/commonupload';
+		editor.config.uploadImgFileName = 'myfile';
 		editor.config.emotions = {
 				 'weibo': {
 					 title: '微博表情', 
@@ -620,6 +586,45 @@
 		};
     	editor.create();
     	var editor2;
+    	function initMission(){
+    		$.ajax('/ts/mission/getmission',{
+				type : 'GET',
+				dataType : 'json',
+				success : function(res) {
+					if (res.status == 1000) {
+						var mishtml = "";
+						var index = 0;
+						$.each(res.desc, function(n,
+								value) {
+							index++;
+							mishtml += '<div class="uk-panel uk-panel-box uk-margin-top">'+
+							'<header class="uk-comment-header"> <h4 class="uk-comment-title"><span class="tag-album">';
+							if(index <= res.lit){
+								if(value.mtype=='daily'){
+									mishtml += '日常话题';
+								}else if(value.mtype=='week'){
+									mishtml += '周常话题';
+								}else if(value.mtype=='holiday'){
+									mishtml += '节日话题';
+								}else{
+									mishtml += '特殊话题';
+								}
+							}else{
+								mishtml += '过往话题';
+							}
+							mishtml += '</span><a href="/mission.html?mid='+value.id+'">'+value.mission+'</a></h4></header></div><p class="doper">';
+							mishtml += '<a href="javascript:doMission('+value.id+');" class="comments" data-res-type="post" data-res-id="88"><i class="uk-icon-comments-o"></i> ';
+							if(value.mstatus==-1){
+								mishtml += '已关联</a></p>';
+							}else{
+								mishtml += '去关联</a></p>';
+							}
+						});
+						$("#mislis").html(mishtml);
+					}
+				}
+			});
+    	}
     	function doMission(mid){
     		if (user_id <= 0) {
 				UIkit.modal('#loginwapper', {center : true}).show();
@@ -634,6 +639,8 @@
 						if(null==editor2){
 							editor2 = new wangEditor('textarea_editor_r');
 							editor2.config.menus = ['img' ,'emotion'];
+							editor2.config.uploadImgUrl = '/user/commonupload';
+							editor2.config.uploadImgFileName = 'myfile';
 							editor2.config.emotions = {
 									 'weibo': {
 										 title: '微博表情', 
@@ -695,6 +702,7 @@
 				success : function(res) {
 					if (res.status == 1000) {
 						UIkit.notify('恭喜您成功完成话题！',{status : "success"});
+						initMission();
 						UIkit.modal('#missionwapper', {center : true}).hide();
 					}else if(res.status == 1009){
 						UIkit.notify('您没有登录,或登录超时',{status : "danger"});
@@ -723,6 +731,7 @@
 				success : function(res) {
 					if (res.status == 1000) {
 						UIkit.notify('恭喜您成功完成话题！',{status : "success"});
+						initMission();
 						$("#min_mi_submit_div").hide();
 		    			$("#min_mi_submit_btn").html("添加新分享");
 						UIkit.modal('#missionwapper', {center : true}).hide();

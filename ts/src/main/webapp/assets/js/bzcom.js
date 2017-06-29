@@ -212,7 +212,7 @@ function showComment(boid) {
 						if (res.status == 1000) {
 							var commentHtml = '<div><textarea id="bkcmt'
 									+ boid
-									+ '" class="uk-button uk-width-4-5" style="text-align: left;" placeholder="吐个槽吧..."></textarea><button class="uk-button uk-button-primary uk-width-1-5" style="height:60px" onclick="submitComment('
+									+ '" class="uk-button uk-width-4-5" style="text-align: left;cursor:auto;" placeholder="吐个槽吧..."></textarea><button class="uk-button uk-button-primary uk-width-1-5" style="height:60px;" onclick="submitComment('
 									+ boid
 									+ ')" type="button">发表</button></div>';
 							if (null != res.bkv) {
@@ -323,3 +323,20 @@ function missionTypeCovent(mtype){
 		return '特殊话题';
 	}
 }
+
+function browserRedirect() { 
+	var sUserAgent= navigator.userAgent.toLowerCase(); 
+	var bIsIpad= sUserAgent.match(/ipad/i) == "ipad"; 
+	var bIsIphoneOs= sUserAgent.match(/iphone os/i) == "iphone os"; 
+	var bIsMidp= sUserAgent.match(/midp/i) == "midp"; 
+	var bIsUc7= sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4"; 
+	var bIsUc= sUserAgent.match(/ucweb/i) == "ucweb"; 
+	var bIsAndroid= sUserAgent.match(/android/i) == "android"; 
+	var bIsCE= sUserAgent.match(/windows ce/i) == "windows ce"; 
+	var bIsWM= sUserAgent.match(/windows mobile/i) == "windows mobile"; 
+	if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) { 
+		return true;
+	} else { 
+		return false; 
+	} 
+};
